@@ -1,0 +1,52 @@
+﻿<Window x:Class="LogAnalyser.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LogAnalyser" 
+        xmlns:oxy="http://oxyplot.org/wpf"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="600" Width="1000">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10px" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="10px" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Column="0" Grid.Row="1" Margin="10,5,5,5">
+            <Button Height="40px" Margin="0,0,0,5" Content="Data Set 1" Command="{Binding DataSet1FileCommand}"/>
+            <Button Height="40px" Margin="0,0,0,5" Content="Data Set 2" Command="{Binding DataSet2FileCommand}"/>
+            <Button Height="40px" Margin="0,0,0,5" Content="Data Set 3" Command="{Binding DataSet3FileCommand}"/>
+            <Button Height="40px" Margin="0,0,0,5" Content="Analyse" Command="{Binding AnalyseCommand}"/>
+        </StackPanel>
+
+        <oxy:Plot  Grid.Column="1" Grid.Row="1" x:Uid="oxyGraph" x:Name="oxyPlot" Title="{Binding Title}">
+            <oxy:Plot.Axes>
+                <oxy:LinearAxis Position="Bottom" StartPosition="1" EndPosition="0"/>
+                <oxy:LinearAxis StartPosition="1" EndPosition="0"/>
+            </oxy:Plot.Axes>
+            <oxy:Plot.Series>
+                <oxy:LineSeries x:Name="set1" ItemsSource="{Binding DataSet1}" LineStyle="None"  MarkerType="Circle" MarkerSize="3" MarkerFill="Aqua"/>
+                <oxy:LineSeries x:Name="set2" ItemsSource="{Binding DataSet2}" LineStyle="None"  MarkerType="Circle" MarkerSize="3" MarkerFill="Crimson"/>
+                <oxy:LineSeries x:Name="set3" ItemsSource="{Binding DataSet3}" LineStyle="None"  MarkerType="Circle" MarkerSize="3" MarkerFill="Orchid"/>
+            </oxy:Plot.Series>
+        </oxy:Plot>
+
+        <oxy:Plot  Grid.Column="1" Grid.Row="2" x:Uid="oxyGraph1" x:Name="oxyPlot1" Title="{Binding Title}">
+            <oxy:Plot.Axes>
+                <oxy:CategoryAxis ItemsSource="{Binding HistoSet}" LabelField="X"/>
+                <oxy:LinearAxis Position="Bottom" MinimumPadding="0" AbsoluteMinimum="0"/>
+            </oxy:Plot.Axes>
+            <oxy:Plot.Series>
+                <oxy:ColumnSeries  x:Name="histo" ItemsSource="{Binding HistoSet}"  ValueField="Y"/>
+            </oxy:Plot.Series>
+        </oxy:Plot>
+    </Grid>
+</Window>
