@@ -23,14 +23,14 @@ namespace LogAnalyser.ViewModels
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
+
         public ICommand DataSet1FileCommand { get; set; }
         public ICommand DataSet2FileCommand { get; set; }
         public ICommand DataSet3FileCommand { get; set; }
         public ICommand AnalyseCommand { get; set; }
-
         public IJsonFile JsonFile { get; set; } = new JsonFile();
-
         public IHistogram Histogram { get; set; } = new Histogram();
+        public int BinValue { get; set; }
 
         public MainWindowViewModel()
         {
@@ -38,6 +38,7 @@ namespace LogAnalyser.ViewModels
             this.DataSet2FileCommand = new BaseCommand(true, DataSet2FileHandler);
             this.DataSet3FileCommand = new BaseCommand(true, DataSet3FileHandler);
             this.AnalyseCommand = new BaseCommand(true, AnalyseHandler);
+            BinValue = 20;
 
         }
 
@@ -50,7 +51,7 @@ namespace LogAnalyser.ViewModels
                 var p2 = new Point { X = this.DataSet2[i].X, Y = this.DataSet2[i].Y };
                 deltaList.Add((p1 - p2).Length);
             }
-            var histo = Histogram.Create(deltaList, 20);
+            var histo = Histogram.Create(deltaList, BinValue);
             this.HistoSet = Histogram.Points.ToObservableCollection();
             this.OnPropertyChanged(nameof(this.HistoSet));
         }
