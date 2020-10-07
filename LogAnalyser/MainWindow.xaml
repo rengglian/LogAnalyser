@@ -24,7 +24,8 @@
             <Button Height="40px" Margin="0,0,0,5" Content="Data Set 1" Command="{Binding DataSet1FileCommand}"/>
             <Button Height="40px" Margin="0,0,0,5" Content="Data Set 2" Command="{Binding DataSet2FileCommand}"/>
             <Button Height="40px" Margin="0,0,0,5" Content="Data Set 3" Command="{Binding DataSet3FileCommand}"/>
-            <Button Height="40px" Margin="0,0,0,5" Content="Analyse" Command="{Binding AnalyseCommand}"/>
+            <Button Height="40px" Margin="0,0,0,5" Content="Analyse 1 and 2" Command="{Binding Analyse12Command}"/>
+            <Button Height="40px" Margin="0,0,0,5" Content="Analyse 2 and 3" Command="{Binding Analyse23Command}"/>
             <DockPanel Margin="0,0,0,5">
                 <Label HorizontalAlignment="Right" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="18">μm / bins:</Label>
                 <TextBox VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="18" Text="{Binding BinValue, StringFormat=D}"></TextBox>
@@ -38,13 +39,13 @@
                 <oxy:LinearAxis StartPosition="1" EndPosition="0"/>
             </oxy:Plot.Axes>
             <oxy:Plot.Series>
-                <oxy:LineSeries x:Name="set1" ItemsSource="{Binding DataSet1}" LineStyle="None"  MarkerType="Circle" MarkerSize="3" MarkerFill="Aqua"/>
-                <oxy:LineSeries x:Name="set2" ItemsSource="{Binding DataSet2}" LineStyle="None"  MarkerType="Circle" MarkerSize="3" MarkerFill="Crimson"/>
-                <oxy:LineSeries x:Name="set3" ItemsSource="{Binding DataSet3}" LineStyle="None"  MarkerType="Circle" MarkerSize="3" MarkerFill="Orchid"/>
+                <oxy:LineSeries x:Name="set1" ItemsSource="{Binding Pattern1.Points}" LineStyle="None"  MarkerType="Circle" MarkerSize="3" MarkerFill="Aqua"/>
+                <oxy:LineSeries x:Name="set2" ItemsSource="{Binding Pattern2.Points}" LineStyle="None"  MarkerType="Circle" MarkerSize="3" MarkerFill="Crimson"/>
+                <oxy:LineSeries x:Name="set3" ItemsSource="{Binding Pattern3.Points}" LineStyle="None"  MarkerType="Circle" MarkerSize="3" MarkerFill="Orchid"/>
             </oxy:Plot.Series>
         </oxy:Plot>
 
-        <oxy:Plot  Grid.Column="1" Grid.Row="2" x:Uid="oxyGraph1" x:Name="oxyPlot1" Title="{Binding Title}">
+        <oxy:Plot Grid.Column="1" Grid.Row="2" x:Uid="oxyGraph1" x:Name="oxyPlot1" Title="{Binding Title}">
             <oxy:Plot.Axes>
                 <oxy:CategoryAxis Angle="-90" ItemsSource="{Binding HistoSet}" LabelField="X"/>
             </oxy:Plot.Axes>
@@ -65,6 +66,13 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+
+        <StackPanel Grid.Column="2" Grid.Row="1" >
+            <Label Content="{Binding Pattern1.CheckSum}"></Label>
+            <Label Content="{Binding Pattern2.CheckSum}"></Label>
+            <Label Content="{Binding Pattern3.CheckSum}"></Label>
+        </StackPanel>
+        
 
     </Grid>
 </Window>

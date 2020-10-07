@@ -3,7 +3,7 @@ using OxyPlot;
 using System;
 using System.Collections.Generic;
 
-namespace PatternAnalyser
+namespace LogAnalyser.Helper
 {
     class Histogram : IHistogram
     {
