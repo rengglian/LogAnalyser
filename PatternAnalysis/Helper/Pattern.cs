@@ -1,4 +1,4 @@
-﻿using LogAnalyser.IO;
+﻿using PatternAnalysis.IO;
 using OxyPlot;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Windows;
 
-namespace LogAnalyser.Helper
+namespace PatternAnalysis.Helper
 {
     public class Pattern : IPattern
     {

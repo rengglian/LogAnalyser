@@ -6,7 +6,7 @@ using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Text.Json;
 
-namespace LogAnalyser.IO
+namespace PatternAnalysis.IO
 {
     class JsonReader
     { 

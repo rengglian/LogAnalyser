@@ -1,7 +1,4 @@
-﻿using LogAnalyser.ViewModels;
-using LogAnalyser.Views;
-using Prism.Ioc;
-using Prism.Regions;
+﻿using PatternAnalysis.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,18 +14,17 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace LogAnalyser.Views
+namespace PatternAnalysis.Views
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class PatternAnalysisView : UserControl
     {
-
-
-        public MainWindow()
+        public PatternAnalysisView()
         {
             InitializeComponent();
+            this.DataContext = new PatternAnalysisViewModel();
         }
     }
 }

@@ -7,8 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="OxyPlot.Wpf" Version="2.0.0" />
     <PackageReference Include="Prism.Unity" Version="8.0.0.1850-pre" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ImageAnalysis\ImageAnalysis.csproj" />
+    <ProjectReference Include="..\PatternAnalysis\PatternAnalysis.csproj" />
   </ItemGroup>
 
 </Project>

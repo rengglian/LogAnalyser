@@ -9,6 +9,7 @@
         Title="Shell" Height="600" Width="1000">
     <Grid>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="10px" />
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="8*" />
             <ColumnDefinition Width="10px" />
@@ -19,10 +20,11 @@
             <RowDefinition Height="10px" />
         </Grid.RowDefinitions>
 
-        <StackPanel Grid.Row="1" Grid.Column="0">
-            <Button Height="40px" Margin="0,0,0,5" Content="Pattern"  Click="Pattern_Clicked"/>
+        <StackPanel Grid.Row="1" Grid.Column="1">
+            <Button Command="{Binding NavigateCommand}" CommandParameter="PatternAnalysisMainView" Margin="5">Pattern Analysis</Button>
+            <Button Command="{Binding NavigateCommand}" CommandParameter="ImageAnalysisMainView" Margin="5">Image Analysis</Button>
         </StackPanel>
-        <ContentControl Grid.Row="1" Grid.Column="1" prism:RegionManager.RegionName="ContentRegion" HorizontalAlignment="Left" VerticalAlignment="Top" />
+        <ContentControl Grid.Row="1" Grid.Column="2" prism:RegionManager.RegionName="ContentRegion" HorizontalAlignment="Left" VerticalAlignment="Top" />
 
     </Grid>
 </Window>

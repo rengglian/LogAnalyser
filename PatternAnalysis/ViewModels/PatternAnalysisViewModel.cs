@@ -1,7 +1,7 @@
-﻿using LogAnalyser.Extension;
-using LogAnalyser.Helper;
-using LogAnalyser.Interfaces;
-using LogAnalyser.IO;
+﻿using PatternAnalysis.Extension;
+using PatternAnalysis.Helper;
+using PatternAnalysis.Interfaces;
+using PatternAnalysis.IO;
 using Microsoft.Win32;
 using OxyPlot;
 using System;
@@ -13,7 +13,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Input;
 
-namespace LogAnalyser.ViewModels
+namespace PatternAnalysis.ViewModels
 {
     public class PatternAnalysisViewModel : INotifyPropertyChanged
     {
@@ -113,8 +113,6 @@ namespace LogAnalyser.ViewModels
                 this.OnPropertyChanged(nameof(this.Pattern3));
             }
         }
-
-
 
     }
 }

@@ -1,4 +1,3 @@
-﻿using LogAnalyser.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,17 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace LogAnalyser.Views
+namespace ImageAnalysis.Views
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for UserControl1.xaml
     /// </summary>
-    public partial class PatternAnalysisView : UserControl
+    public partial class ImageAnalysisMainView : UserControl
     {
-        public PatternAnalysisView()
+        public ImageAnalysisMainView()
         {
             InitializeComponent();
-            this.DataContext = new PatternAnalysisViewModel();
         }
     }
 }

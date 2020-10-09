@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.30517.126
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LogAnalyser", "LogAnalyser\LogAnalyser.csproj", "{019250EF-FDD3-43B2-9A30-EEC9EF9623EB}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2A8EB0F0-2946-4415-99F3-9228A8370EA2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageAnalysis", "ImageAnalysis\ImageAnalysis.csproj", "{F3DF302A-E8C3-4E34-B021-34B9A5A498B8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatternAnalysis", "PatternAnalysis\PatternAnalysis.csproj", "{6F12BE96-384D-461E-B7E4-47EFEA3C6794}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,6 +19,14 @@ Global
 		{019250EF-FDD3-43B2-9A30-EEC9EF9623EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{019250EF-FDD3-43B2-9A30-EEC9EF9623EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{019250EF-FDD3-43B2-9A30-EEC9EF9623EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3DF302A-E8C3-4E34-B021-34B9A5A498B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3DF302A-E8C3-4E34-B021-34B9A5A498B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3DF302A-E8C3-4E34-B021-34B9A5A498B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3DF302A-E8C3-4E34-B021-34B9A5A498B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F12BE96-384D-461E-B7E4-47EFEA3C6794}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F12BE96-384D-461E-B7E4-47EFEA3C6794}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F12BE96-384D-461E-B7E4-47EFEA3C6794}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F12BE96-384D-461E-B7E4-47EFEA3C6794}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

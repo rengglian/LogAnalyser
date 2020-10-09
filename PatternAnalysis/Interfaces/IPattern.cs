@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Windows;
 
-namespace LogAnalyser.Helper
+namespace PatternAnalysis.Helper
 {
     public interface IPattern
     {
