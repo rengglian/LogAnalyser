@@ -49,7 +49,7 @@ namespace PatternAnalysis.ViewModels
 
         }
 
-        public void Analyse12Handler()
+        private void Analyse12Handler()
         {
             List<double> deltaList = new List<double>();
             for (int i = 0; i < this.Pattern2.Points.Count; i++)
@@ -63,7 +63,7 @@ namespace PatternAnalysis.ViewModels
             this.OnPropertyChanged(nameof(this.HistoSet));
         }
 
-        public void Analyse23Handler()
+        private void Analyse23Handler()
         {
             List<double> deltaList = new List<double>();
             for (int i = 0; i < this.Pattern2.Points.Count; i++)
@@ -77,7 +77,7 @@ namespace PatternAnalysis.ViewModels
             this.OnPropertyChanged(nameof(this.HistoSet));
         }
 
-        public void DataSet1FileHandler()
+        private void DataSet1FileHandler()
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             if (openFileDialog.ShowDialog() == true)
@@ -94,7 +94,7 @@ namespace PatternAnalysis.ViewModels
             }
         }
 
-        public void DataSet2FileHandler()
+        private void DataSet2FileHandler()
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             if (openFileDialog.ShowDialog() == true)
@@ -104,7 +104,7 @@ namespace PatternAnalysis.ViewModels
             }
         }
 
-        public void DataSet3FileHandler()
+        private void DataSet3FileHandler()
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             if (openFileDialog.ShowDialog() == true)

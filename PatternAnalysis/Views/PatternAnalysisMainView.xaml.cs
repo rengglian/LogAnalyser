@@ -47,11 +47,5 @@ namespace PatternAnalysis.Views
 
             _region.Add(_patternAnalysisView);
         }
-
-        private void Pattern_Clicked(object sender, RoutedEventArgs e)
-        {
-            //activate view a
-            _region.Activate(_patternAnalysisView);
-        }
     }
 }

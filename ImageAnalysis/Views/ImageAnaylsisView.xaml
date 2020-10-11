@@ -1,0 +1,35 @@
+﻿<UserControl x:Class="ImageAnalysis.Views.ImageAnaylsisView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ImageAnalysis.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="4*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Column="0" Grid.Row="0" Margin="10,5,5,5">
+            <Button Height="40px" Margin="0,0,0,5" Content="Open Image" Command="{Binding OpenImageCommand}"/>
+        </StackPanel>
+
+        <ListView Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Margin="5,5,5,5" Name="histoTable" BorderThickness="0" ItemsSource="{Binding ImgList}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <WrapPanel>
+                        <Image x:Name="srcImg" Source="{Binding ImageData}"/>
+                        <Label x:Name="srcImgLabel" Content="{Binding Title}"/>
+                    </WrapPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+    </Grid>
+</UserControl>

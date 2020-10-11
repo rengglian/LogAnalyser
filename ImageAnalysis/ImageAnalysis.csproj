@@ -6,10 +6,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="ViewModels\" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <PackageReference Include="OpenCvSharp4" Version="4.4.0.20200915" />
+    <PackageReference Include="OpenCvSharp4.runtime.win" Version="4.4.0.20200915" />
+    <PackageReference Include="OpenCvSharp4.WpfExtensions" Version="4.4.0.20200915" />
     <PackageReference Include="Prism.Wpf" Version="8.0.0.1850-pre" />
   </ItemGroup>
 
