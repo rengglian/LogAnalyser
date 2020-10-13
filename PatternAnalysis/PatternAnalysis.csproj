@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="OpenCvSharp4" Version="4.4.0.20200915" />
     <PackageReference Include="OxyPlot.Wpf" Version="2.0.0" />
     <PackageReference Include="Prism.Wpf" Version="8.0.0.1850-pre" />
   </ItemGroup>

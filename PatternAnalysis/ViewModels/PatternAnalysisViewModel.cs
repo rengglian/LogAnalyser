@@ -4,6 +4,7 @@ using PatternAnalysis.Interfaces;
 using PatternAnalysis.IO;
 using Microsoft.Win32;
 using OxyPlot;
+using OpenCvSharp;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -12,6 +13,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows;
 using System.Windows.Input;
+using System.Diagnostics;
 
 namespace PatternAnalysis.ViewModels
 {
@@ -51,16 +53,28 @@ namespace PatternAnalysis.ViewModels
 
         private void Analyse12Handler()
         {
-            List<double> deltaList = new List<double>();
-            for (int i = 0; i < this.Pattern2.Points.Count; i++)
+            Point2f[] from = new Point2f[this.Pattern3.Points.Count];
+            Point2f[] to = new Point2f[this.Pattern2.Points.Count];
+            
+            int i = 0;
+            this.Pattern3.Points.ForEach(pt =>
             {
-                var p1 = new Point { X = this.Pattern2.Points[i].X, Y = this.Pattern2.Points[i].Y };
-                var p2 = new Point { X = this.Pattern3.Points[i].X, Y = this.Pattern3.Points[i].Y };
-                deltaList.Add((p1 - p2).Length);
-            }
-            var histo = Histogram.Create(deltaList, BinValue);
-            this.HistoSet = Histogram.Points.ToObservableCollection();
-            this.OnPropertyChanged(nameof(this.HistoSet));
+                from[i++] = new Point2f((float)pt.X, (float)pt.Y);
+            });
+
+            i = 0;
+
+            this.Pattern2.Points.ForEach(pt =>
+            {
+                to[i++] = new Point2f((float)pt.X, (float)pt.Y);
+            });
+
+            Mat affineMatrix = Cv2.EstimateAffine2D(InputArray.Create(from), InputArray.Create(to));
+
+            var test = AffineMatrix.TransformToDict(affineMatrix);
+            var test1 = AffineMatrix.TransformToDict(affineMatrix, this.Pattern3.Center);
+
+            Console.Write(test);
         }
 
         private void Analyse23Handler()
@@ -68,8 +82,8 @@ namespace PatternAnalysis.ViewModels
             List<double> deltaList = new List<double>();
             for (int i = 0; i < this.Pattern2.Points.Count; i++)
             {
-                var p1 = new Point { X = this.Pattern2.Points[i].X, Y = this.Pattern2.Points[i].Y };
-                var p2 = new Point { X = this.Pattern3.Points[i].X, Y = this.Pattern3.Points[i].Y };
+                var p1 = new System.Windows.Point { X = this.Pattern2.Points[i].X, Y = this.Pattern2.Points[i].Y };
+                var p2 = new System.Windows.Point { X = this.Pattern3.Points[i].X, Y = this.Pattern3.Points[i].Y };
                 deltaList.Add((p1 - p2).Length);
             }
             var histo = Histogram.Create(deltaList, BinValue);
