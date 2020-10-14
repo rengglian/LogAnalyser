@@ -47,8 +47,8 @@ namespace PatternAnalysis.ViewModels
             this.DataSet3FileCommand = new BaseCommand(true, DataSet3FileHandler);
             this.Analyse12Command = new BaseCommand(true, Analyse12Handler);
             this.Analyse23Command = new BaseCommand(true, Analyse23Handler);
-            BinValue = 20;
-            Title = "Test";
+            this.BinValue = 20;
+            this.Title = "Test";
 
         }
 
