@@ -30,6 +30,7 @@ namespace LogAnalyser
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
         {
             moduleCatalog.AddModule<PatternAnalysis.PatternAnalysisModule>();
+            moduleCatalog.AddModule<PatternGenerator.PatternGeneratorModule>();
             moduleCatalog.AddModule<ImageAnalysis.ImageAnalysisModule>();
         }
     }

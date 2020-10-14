@@ -38,6 +38,7 @@ namespace PatternAnalysis.ViewModels
         public ObservableCollection<DataPoint> HistoSet { get; private set; } = new ObservableCollection<DataPoint>();
         public int BinValue { get; set; }
         public string Title { get; set; }
+        public Dictionary<string, double> CalibMatrix { get; set; } = new Dictionary<string, double>();
 
         public PatternAnalysisViewModel()
         {
@@ -71,10 +72,8 @@ namespace PatternAnalysis.ViewModels
 
             Mat affineMatrix = Cv2.EstimateAffine2D(InputArray.Create(from), InputArray.Create(to));
 
-            var test = AffineMatrix.TransformToDict(affineMatrix);
-            var test1 = AffineMatrix.TransformToDict(affineMatrix, this.Pattern3.Center);
-
-            Console.Write(test);
+            this.CalibMatrix = AffineMatrix.TransformToDict(affineMatrix, this.Pattern3.Center);
+            this.OnPropertyChanged(nameof(this.CalibMatrix));
         }
 
         private void Analyse23Handler()
