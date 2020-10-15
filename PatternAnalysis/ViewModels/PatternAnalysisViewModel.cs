@@ -31,7 +31,6 @@ namespace PatternAnalysis.ViewModels
         public ICommand DataSet3FileCommand { get; set; }
         public ICommand Analyse12Command { get; set; }
         public ICommand Analyse23Command { get; set; }
-        public IHistogram Histogram { get; set; } = new Histogram();
         public IPattern Pattern1 { get; set; }
         public IPattern Pattern2 { get; set; }
         public IPattern Pattern3 { get; set; }
@@ -54,39 +53,14 @@ namespace PatternAnalysis.ViewModels
 
         private void Analyse12Handler()
         {
-            Point2f[] from = new Point2f[this.Pattern3.Points.Count];
-            Point2f[] to = new Point2f[this.Pattern2.Points.Count];
-            
-            int i = 0;
-            this.Pattern3.Points.ForEach(pt =>
-            {
-                from[i++] = new Point2f((float)pt.X, (float)pt.Y);
-            });
 
-            i = 0;
-
-            this.Pattern2.Points.ForEach(pt =>
-            {
-                to[i++] = new Point2f((float)pt.X, (float)pt.Y);
-            });
-
-            Mat affineMatrix = Cv2.EstimateAffine2D(InputArray.Create(from), InputArray.Create(to));
-
-            this.CalibMatrix = AffineMatrix.TransformToDict(affineMatrix, this.Pattern3.Center);
+            this.CalibMatrix = AffineMatrix.CalculateMatrix(this.Pattern3, this.Pattern2, true);
             this.OnPropertyChanged(nameof(this.CalibMatrix));
         }
 
         private void Analyse23Handler()
         {
-            List<double> deltaList = new List<double>();
-            for (int i = 0; i < this.Pattern2.Points.Count; i++)
-            {
-                var p1 = new System.Windows.Point { X = this.Pattern2.Points[i].X, Y = this.Pattern2.Points[i].Y };
-                var p2 = new System.Windows.Point { X = this.Pattern3.Points[i].X, Y = this.Pattern3.Points[i].Y };
-                deltaList.Add((p1 - p2).Length);
-            }
-            var histo = Histogram.Create(deltaList, BinValue);
-            this.HistoSet = Histogram.Points.ToObservableCollection();
+            this.HistoSet = Histogram.Create(this.Pattern2, this.Pattern3, BinValue).ToObservableCollection();
             this.OnPropertyChanged(nameof(this.HistoSet));
         }
 
@@ -98,12 +72,6 @@ namespace PatternAnalysis.ViewModels
   
                 this.Pattern1 = new Pattern(openFileDialog.FileName);
                 this.OnPropertyChanged(nameof(this.Pattern1));
-
-
-                /*{
-                    this.FileName = string.Empty;
-                    MessageBox.Show("Invalid file!");
-                }*/
             }
         }
 

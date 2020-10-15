@@ -1,4 +1,6 @@
-﻿//using OpenCvSharp;
+﻿using OpenCvSharp;
+using OxyPlot;
+using PatternAnalysis.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,7 +10,29 @@ namespace PatternAnalysis.Helper
 {
     public class AffineMatrix
     {
-        public static Dictionary<string, double> TransformToDict(OpenCvSharp.Mat cvMat)
+        public static Dictionary<string, double> CalculateMatrix(IPattern from, IPattern to, bool centerCorrection)
+        {
+            Point2f[] from_ = new Point2f[from.Points.Count];
+            Point2f[] to_ = new Point2f[to.Points.Count];
+
+            int i = 0;
+            from.Points.ForEach(pt =>
+            {
+                from_[i++] = new Point2f((float)pt.X, (float)pt.Y);
+            });
+
+            i = 0;
+
+            to.Points.ForEach(pt =>
+            {
+                to_[i++] = new Point2f((float)pt.X, (float)pt.Y);
+            });
+            Mat affineMatrix = Cv2.EstimateAffine2D(InputArray.Create(from_), InputArray.Create(to_));
+
+            if (centerCorrection) return TransformToDict(affineMatrix, from.Center);
+            else return TransformToDict(affineMatrix);
+        }
+        private static Dictionary<string, double> TransformToDict(OpenCvSharp.Mat cvMat)
         {
             var dict = new Dictionary<string, double>();
             dict.Add("m11", cvMat.At<double>(0, 0));
@@ -21,7 +45,7 @@ namespace PatternAnalysis.Helper
             return dict;
         }
 
-        public static Dictionary<string, double> TransformToDict(OpenCvSharp.Mat cvMat, Point center)
+        private static Dictionary<string, double> TransformToDict(OpenCvSharp.Mat cvMat, System.Windows.Point center)
         {
             var dict = TransformToDict(cvMat);
             dict.Add("a13", Math.Round(dict["m11"] * center.X + dict["m12"] * center.Y, 0));
