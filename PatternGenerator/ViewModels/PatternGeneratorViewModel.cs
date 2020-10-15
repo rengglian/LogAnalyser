@@ -14,22 +14,21 @@ namespace PatternGenerator.ViewModels
 {
     public class PatternGeneratorViewModel : INotifyPropertyChanged
     {
-
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string name = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
-        public IList<IShape> ShapeList { get; private set; }
-
         public ICommand CreatePatternCommand { get; set; }
         public ICommand SaveFileCommand { get; set; }
+
         public int RepeatValue { get; set; }
         public bool RandomizePattern { get; set; }
         public string Title { get; set; } = "Pattern Generator";
 
         public IShape Shape { get; set; }
+        public IList<IShape> ShapeList { get; private set; }
         public IShape SelectedShape
         {
             get { return this.Shape; }

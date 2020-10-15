@@ -8,7 +8,7 @@ namespace PatternGenerator.Interfaces
     {
         string Description { get; set; }
         List<DataPoint> Points { get; set; }
-        public Dictionary<string, int> Options { get; set; }
+        public Dictionary<string, ShapeOptions> Options { get; set; }
         public void Generate();
     }
 }

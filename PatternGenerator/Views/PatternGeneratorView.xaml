@@ -29,9 +29,9 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <WrapPanel Margin="0,0,0,5">
-                            <TextBlock FontWeight="Bold" Text="{Binding Key}" />
+                            <TextBlock FontWeight="Bold" Text="{Binding Key}" ToolTip="{Binding Value.Description}" />
                             <TextBlock FontWeight="Bold" Text=": "/>
-                            <TextBlock Text="{Binding Value , StringFormat=0}" />
+                            <TextBox Text="{Binding Value.Value , StringFormat=0}" />
                         </WrapPanel>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
