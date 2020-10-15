@@ -6,6 +6,7 @@ using PatternGenerator.IO;
 using PatternGenerator.Shapes;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
@@ -20,7 +21,7 @@ namespace PatternGenerator.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
-        public ICommand CreatePatternCommand { get; set; }
+        public ICommand UpdatePatternCommand { get; set; }
         public ICommand SaveFileCommand { get; set; }
 
         public int RepeatValue { get; set; }
@@ -35,6 +36,7 @@ namespace PatternGenerator.ViewModels
             set
             {
                 this.Shape = value;
+                this.Shape.Generate();
                 this.OnPropertyChanged(nameof(this.Shape));
             }
         }
@@ -45,15 +47,19 @@ namespace PatternGenerator.ViewModels
             ShapeList = new List<IShape>();
             ShapeList.Add(new Circle());
             ShapeList.Add(new Spiral());
+            ShapeList.Add(new DotMatrix());
+
+            Shape = ShapeList.First();
+            UpdatePatternHandler();
 
             this.RepeatValue = 10;
             this.RandomizePattern = true;
 
-            this.CreatePatternCommand = new BaseCommand(true, CreatePatternHandler);
+            this.UpdatePatternCommand = new BaseCommand(true, UpdatePatternHandler);
             this.SaveFileCommand = new BaseCommand(true, SaveFileHandler);
         }
 
-        private void CreatePatternHandler()
+        private void UpdatePatternHandler()
         {
             this.Shape.Generate();
             this.OnPropertyChanged(nameof(this.Shape));
@@ -61,7 +67,7 @@ namespace PatternGenerator.ViewModels
 
         private void SaveFileHandler()
         {
-            JsonWrite.ExportPattern(this.Shape.Points, this.Shape.ToString(), RepeatValue, RandomizePattern);
+            JsonWrite.ExportPattern(this.Shape.Points.ToList<DataPoint>(), this.Shape.ToString(), RepeatValue, RandomizePattern);
         }
 
     }

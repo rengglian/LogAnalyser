@@ -20,11 +20,6 @@
 
         <StackPanel Grid.Column="0" Grid.Row="0" Margin="5,5,5,5">
             <ComboBox Grid.Row="2" Grid.Column="1"  Margin="0,0,0,5" ItemsSource="{Binding ShapeList}" SelectedItem="{Binding SelectedShape}" />
-            
-        </StackPanel>
-
-        <StackPanel Grid.Column="0" Grid.Row="1" Margin="5,5,5,5">
-
             <ItemsControl  Margin="0,0,0,5" Name="calibTable" BorderThickness="0" ItemsSource="{Binding Shape.Options}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
@@ -36,7 +31,17 @@
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
-            <Button Height="40px" Margin="0,0,0,5" Content="Create Pattern" Command="{Binding CreatePatternCommand}"/>
+            <Button Height="40px" Margin="0,0,0,5" Content="Update Pattern" Command="{Binding UpdatePatternCommand}"/>
+        </StackPanel>
+
+        <StackPanel Grid.Column="0" Grid.Row="1" Margin="5,5,5,5">
+
+ 
+            <WrapPanel Margin="0,0,0,5">
+                <TextBlock FontWeight="Bold" Text="Count : "/>
+                <TextBlock Text="{Binding Shape.Points.Count , StringFormat=0}" />
+            </WrapPanel>
+            
             <Button Height="40px" Margin="0,0,0,5" Content="Save File" Command="{Binding SaveFileCommand}"/>
             <DockPanel Margin="0,0,0,5">
                 <Label HorizontalAlignment="Right" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="18">Repeat:</Label>
@@ -46,10 +51,11 @@
             
         </StackPanel>
 
-        <oxy:Plot  Grid.Column="1" Grid.Row="0" x:Uid="oxyGraph" x:Name="oxyPlot" Width="400" Height="260" Title="{Binding Title}">
+        <oxy:Plot  Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="2" x:Uid="oxyGraph" x:Name="oxyPlot" Width="430" Height="430" Title="{Binding Title}">
             <oxy:Plot.Axes>
-                <oxy:LinearAxis Position="Bottom" StartPosition="1" EndPosition="0"/>
-                <oxy:LinearAxis StartPosition="1" EndPosition="0"/>
+                <oxy:LinearAxis Position="Bottom" StartPosition="1" EndPosition="0" MajorGridlineStyle="Solid"/>
+                <oxy:LinearAxis StartPosition="1" EndPosition="0" MajorGridlineStyle="Solid"/>
+                
             </oxy:Plot.Axes>
             <oxy:Plot.Series>
                 <oxy:LineSeries x:Name="set1" ItemsSource="{Binding Shape.Points}" LineStyle="None"  MarkerType="Circle" MarkerSize="3" MarkerFill="Aqua"/>

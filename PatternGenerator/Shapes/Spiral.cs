@@ -3,39 +3,47 @@ using PatternGenerator.Helper;
 using PatternGenerator.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace PatternGenerator.Shapes
 {
     class Spiral : IShape
     {
-        public List<DataPoint> Points { get; set; } = new List<DataPoint>();
+        public ObservableCollection<DataPoint> Points { get; set; } = new ObservableCollection<DataPoint>();
         public string Description { get; set; } = "";
         public Dictionary<string, ShapeOptions> Options { get; set; } = new Dictionary<string, ShapeOptions>();
 
         public Spiral()
         {
-            Options.Add("R1", new ShapeOptions(3000, "Outer most radius of spiral"));
-            Options.Add("Revolutions", new ShapeOptions(3, "Number of revolutions"));
-            Options.Add("Steps", new ShapeOptions(200, "Number of datapoints"));
+            Options.Add("Radius", new ShapeOptions(5000, "Outer most radius of spiral"));
+            Options.Add("Revolutions", new ShapeOptions(5, "Number of revolutions"));
+            Options.Add("Steps Size", new ShapeOptions(400, "Distance between points"));
         }
 
         public void Generate()
         {
-            double min = 0;
-            double max = (2 * Math.PI * this.Options["Revolutions"].Value);
-            List<double> stepList = Enumerable.Range(0, this.Options["Steps"].Value)
-                 .Select(i => min + (max - min) * ((double)i / (this.Options["Steps"].Value - 1))).ToList();
-
             Points.Clear();
 
-            stepList.ForEach(stp =>
+            double step_size = this.Options["Steps Size"].Value;
+            double revolutions = this.Options["Revolutions"].Value;
+            double radius = this.Options["Radius"].Value;
+            double rotation = Math.PI / 2;
+            double maxTheta = revolutions * 2 * Math.PI;
+            double delta_r = radius / maxTheta;
+            double theta = step_size / delta_r;
+
+            while (theta <= maxTheta)
             {
-                var x = this.Options["R1"].Value / this.Options["Revolutions"].Value * (stp / (2 * Math.PI)) * Math.Cos(stp);
-                var y = this.Options["R1"].Value / this.Options["Revolutions"].Value * (stp / (2 * Math.PI)) * Math.Sin(stp);
-                this.Points.Add(new DataPoint(Math.Round(x, 0), Math.Round(y, 0)));
-            });
+
+                double next_dist = delta_r * theta;
+                double new_theta = theta + rotation;
+ 
+                this.Points.Add(new DataPoint(Math.Round(Math.Cos(new_theta) * next_dist, 0), Math.Round(Math.Sin(new_theta) * next_dist, 0)));
+                theta += step_size / next_dist;
+            }
         }
         public override string ToString()
         {
