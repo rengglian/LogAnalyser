@@ -1,19 +1,12 @@
 ﻿using PatternAnalysis.Extension;
 using PatternAnalysis.Helper;
 using PatternAnalysis.Interfaces;
-using PatternAnalysis.IO;
 using Microsoft.Win32;
 using OxyPlot;
-using OpenCvSharp;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Windows;
-using System.Windows.Input;
-using System.Diagnostics;
 using Prism.Commands;
 
 namespace PatternAnalysis.ViewModels

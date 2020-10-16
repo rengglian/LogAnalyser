@@ -1,17 +1,11 @@
-﻿using Microsoft.Win32;
-using OxyPlot;
-using PatternGenerator.Helper;
+﻿using OxyPlot;
 using PatternGenerator.Interfaces;
 using PatternGenerator.IO;
 using PatternGenerator.Shapes;
 using Prism.Commands;
 using Prism.Mvvm;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Windows;
-using System.Windows.Input;
 
 namespace PatternGenerator.ViewModels
 {
