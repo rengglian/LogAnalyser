@@ -4,6 +4,8 @@ using PatternGenerator.Helper;
 using PatternGenerator.Interfaces;
 using PatternGenerator.IO;
 using PatternGenerator.Shapes;
+using Prism.Commands;
+using Prism.Mvvm;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -13,22 +15,22 @@ using System.Windows.Input;
 
 namespace PatternGenerator.ViewModels
 {
-    public class PatternGeneratorViewModel : INotifyPropertyChanged
+    public class PatternGeneratorViewModel : BindableBase
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged([CallerMemberName] string name = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        }
-
-        public ICommand UpdatePatternCommand { get; set; }
-        public ICommand SaveFileCommand { get; set; }
+        public DelegateCommand UpdatePatternCommand { get; set; }
+        public DelegateCommand SaveFileCommand { get; set; }
 
         public int RepeatValue { get; set; }
         public bool RandomizePattern { get; set; }
         public string Title { get; set; } = "Pattern Generator";
 
-        public IShape Shape { get; set; }
+        private IShape shape;
+        public IShape Shape
+        {
+            get { return shape; }
+            set { SetProperty(ref shape, value); }
+        }
+
         public IList<IShape> ShapeList { get; private set; }
         public IShape SelectedShape
         {
@@ -37,7 +39,6 @@ namespace PatternGenerator.ViewModels
             {
                 this.Shape = value;
                 this.Shape.Generate();
-                this.OnPropertyChanged(nameof(this.Shape));
             }
         }
 
@@ -49,20 +50,19 @@ namespace PatternGenerator.ViewModels
             ShapeList.Add(new Spiral());
             ShapeList.Add(new DotMatrix());
 
-            Shape = ShapeList.First();
-            UpdatePatternHandler();
+            this.Shape = ShapeList.First();
+            this.Shape.Generate();
 
             this.RepeatValue = 10;
             this.RandomizePattern = true;
 
-            this.UpdatePatternCommand = new BaseCommand(true, UpdatePatternHandler);
-            this.SaveFileCommand = new BaseCommand(true, SaveFileHandler);
+            this.UpdatePatternCommand = new DelegateCommand(UpdatePatternHandler);
+            this.SaveFileCommand = new DelegateCommand(SaveFileHandler);
         }
 
         private void UpdatePatternHandler()
         {
             this.Shape.Generate();
-            this.OnPropertyChanged(nameof(this.Shape));
         }
 
         private void SaveFileHandler()

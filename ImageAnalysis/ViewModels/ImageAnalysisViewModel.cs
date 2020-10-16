@@ -13,30 +13,31 @@ using OpenCvSharp.WpfExtensions;
 using OpenCvSharp.Extensions;
 using System.Drawing;
 using System.Collections.ObjectModel;
+using Prism.Commands;
+using Prism.Mvvm;
 
 namespace ImageAnalysis.ViewModels
 {
-    public class ImageAnalysisViewModel : INotifyPropertyChanged
+    public class ImageAnalysisViewModel : BindableBase
     {
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged([CallerMemberName] string name = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        }
-
-        public ICommand OpenImageCommand { get; set; }
+        public DelegateCommand OpenImageCommand { get; set; }
 
         public ICalibrationImage SourceImage { get; set; } = new CalibrationImage();
 
         public ICalibrationImage BgSourceImage { get; set; } = new CalibrationImage();
 
-        public ObservableCollection<IImageList> ImgList { get; set; } = new ObservableCollection<IImageList>();
+        private ObservableCollection<IImageList> imgList;
+        public ObservableCollection<IImageList> ImgList
+        {
+            get { return imgList; }
+            set { SetProperty(ref imgList, value); }
+        }
 
         public ImageAnalysisViewModel()
         {
-
-            this.OpenImageCommand = new BaseCommand(true, OpenImageHandler);
+            ImgList = new ObservableCollection<IImageList>();
+            this.OpenImageCommand = new DelegateCommand(OpenImageHandler);
         }
 
         private void OpenImageHandler()
@@ -44,9 +45,6 @@ namespace ImageAnalysis.ViewModels
             this.SourceImage.OpenSrcImageMat();
 
             this.ImgList.Add(new ImageList("test", BitmapToBitmapImage.Convert(this.SourceImage.ImageMat.ToBitmap())));
-            
-            this.OnPropertyChanged(nameof(this.ImgList));
-            
 
         }
 

@@ -14,6 +14,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Input;
 using System.Diagnostics;
+using Prism.Commands;
 
 namespace PatternAnalysis.ViewModels
 {
@@ -26,11 +27,11 @@ namespace PatternAnalysis.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
-        public ICommand DataSet1FileCommand { get; set; }
-        public ICommand DataSet2FileCommand { get; set; }
-        public ICommand DataSet3FileCommand { get; set; }
-        public ICommand Analyse12Command { get; set; }
-        public ICommand Analyse23Command { get; set; }
+        public DelegateCommand DataSet1FileCommand { get; set; }
+        public DelegateCommand DataSet2FileCommand { get; set; }
+        public DelegateCommand DataSet3FileCommand { get; set; }
+        public DelegateCommand Analyse12Command { get; set; }
+        public DelegateCommand Analyse23Command { get; set; }
         public IPattern Pattern1 { get; set; }
         public IPattern Pattern2 { get; set; }
         public IPattern Pattern3 { get; set; }
@@ -41,11 +42,11 @@ namespace PatternAnalysis.ViewModels
 
         public PatternAnalysisViewModel()
         {
-            this.DataSet1FileCommand = new BaseCommand(true, DataSet1FileHandler);
-            this.DataSet2FileCommand = new BaseCommand(true, DataSet2FileHandler);
-            this.DataSet3FileCommand = new BaseCommand(true, DataSet3FileHandler);
-            this.Analyse12Command = new BaseCommand(true, Analyse12Handler);
-            this.Analyse23Command = new BaseCommand(true, Analyse23Handler);
+            this.DataSet1FileCommand = new DelegateCommand(DataSet1FileHandler);
+            this.DataSet2FileCommand = new DelegateCommand(DataSet2FileHandler);
+            this.DataSet3FileCommand = new DelegateCommand(DataSet3FileHandler);
+            this.Analyse12Command = new DelegateCommand(Analyse12Handler);
+            this.Analyse23Command = new DelegateCommand(Analyse23Handler);
             this.BinValue = 20;
             this.Title = "Test";
 
@@ -69,7 +70,7 @@ namespace PatternAnalysis.ViewModels
             OpenFileDialog openFileDialog = new OpenFileDialog();
             if (openFileDialog.ShowDialog() == true)
             {
-  
+
                 this.Pattern1 = new Pattern(openFileDialog.FileName);
                 this.OnPropertyChanged(nameof(this.Pattern1));
             }
