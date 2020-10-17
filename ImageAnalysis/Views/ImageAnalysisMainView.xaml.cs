@@ -14,7 +14,7 @@ namespace ImageAnalysis.Views
         IRegionManager _regionManager;
         IRegion _region;
 
-        ImageAnaylsisView _imageAnaylsisView;
+        ImageAnalysisView _imageAnalysisView;
 
         public ImageAnalysisMainView (IContainerExtension container, IRegionManager regionManager)
         {
@@ -28,12 +28,12 @@ namespace ImageAnalysis.Views
         }
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            _imageAnaylsisView = _container.Resolve<ImageAnaylsisView>();
+            _imageAnalysisView = _container.Resolve<ImageAnalysisView>();
 
 
             _region = _regionManager.Regions["ContentRegionImageAnalysisView"];
 
-            _region.Add(_imageAnaylsisView);
+            _region.Add(_imageAnalysisView);
         }
 
     }

@@ -1,5 +1,4 @@
-﻿using PatternAnalysis.ViewModels;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 
 namespace PatternAnalysis.Views
 {
@@ -11,7 +10,6 @@ namespace PatternAnalysis.Views
         public PatternAnalysisView()
         {
             InitializeComponent();
-            this.DataContext = new PatternAnalysisViewModel();
         }
     }
 }

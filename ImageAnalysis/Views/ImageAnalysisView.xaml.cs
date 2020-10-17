@@ -5,9 +5,9 @@ namespace ImageAnalysis.Views
     /// <summary>
     /// Interaction logic for ImageAnaylsisView.xaml
     /// </summary>
-    public partial class ImageAnaylsisView : UserControl
+    public partial class ImageAnalysisView : UserControl
     {
-        public ImageAnaylsisView()
+        public ImageAnalysisView()
         {
             InitializeComponent();
         }
