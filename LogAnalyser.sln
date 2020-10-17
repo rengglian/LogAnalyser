@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageAnalysis", "ImageAnaly
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PatternAnalysis", "PatternAnalysis\PatternAnalysis.csproj", "{6F12BE96-384D-461E-B7E4-47EFEA3C6794}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatternGenerator", "PatternGenerator\PatternGenerator.csproj", "{F9BEE5F6-8324-45A2-8D99-AE9F32EC0E51}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PatternGenerator", "PatternGenerator\PatternGenerator.csproj", "{F9BEE5F6-8324-45A2-8D99-AE9F32EC0E51}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{A5D9A531-9677-4011-AA13-41CAD7488532}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{F9BEE5F6-8324-45A2-8D99-AE9F32EC0E51}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F9BEE5F6-8324-45A2-8D99-AE9F32EC0E51}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F9BEE5F6-8324-45A2-8D99-AE9F32EC0E51}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A5D9A531-9677-4011-AA13-41CAD7488532}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5D9A531-9677-4011-AA13-41CAD7488532}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5D9A531-9677-4011-AA13-41CAD7488532}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5D9A531-9677-4011-AA13-41CAD7488532}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

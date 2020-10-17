@@ -10,8 +10,8 @@ namespace ImageAnalysis.Views
     /// </summary>
     public partial class ImageAnalysisMainView : UserControl
     {
-        IContainerExtension _container;
-        IRegionManager _regionManager;
+        private readonly IContainerExtension _container;
+        private readonly IRegionManager _regionManager;
         IRegion _region;
 
         ImageAnalysisView _imageAnalysisView;
