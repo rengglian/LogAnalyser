@@ -23,8 +23,6 @@ namespace LogAnalyser.PrismHelper
         {
             if (e.Action == NotifyCollectionChangedAction.Add)
             {
-                var tabList = new List<DependentViewInfo>();
-
                 foreach (var newView in e.NewItems)
                 {
                     var dependentViews = new List<DependentViewInfo>();
@@ -58,7 +56,7 @@ namespace LogAnalyser.PrismHelper
                 {
                     if (_dependentViewCache.ContainsKey(oldView))
                     {
-                        _dependentViewCache[oldView].ForEach(x => Region.RegionManager.Regions[x.TargetRegionName].Remove(x.View));
+                        _dependentViewCache[oldView].ForEach(item => Region.RegionManager.Regions[item.TargetRegionName].Remove(item.View));
 
                         if (!ShouldKeepAlive(oldView))
                             _dependentViewCache.Remove(oldView);

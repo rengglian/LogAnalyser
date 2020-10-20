@@ -1,11 +1,16 @@
 ﻿using OxyPlot;
+using OxyPlot.Axes;
+using OxyPlot.Series;
+using PatternGenerator.Helper;
 using PatternGenerator.Interfaces;
 using PatternGenerator.IO;
 using PatternGenerator.Shapes;
 using Prism.Commands;
 using Prism.Mvvm;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Controls;
 
 namespace PatternGenerator.ViewModels
 {
@@ -25,6 +30,13 @@ namespace PatternGenerator.ViewModels
             set { SetProperty(ref shape, value); }
         }
 
+        private PlotModel plotModel;
+        public PlotModel PlotModel
+        {
+            get { return plotModel; }
+            set { SetProperty(ref plotModel, value); }
+        }
+
         public IList<IShape> ShapeList { get; private set; }
         public IShape SelectedShape
         {
@@ -33,11 +45,14 @@ namespace PatternGenerator.ViewModels
             {
                 this.Shape = value;
                 this.Shape.Generate();
+                UpdatePatternHandler();
             }
         }
 
         public PatternGeneratorViewModel()
         {
+
+            PlotModel = PlotModelHelper.Init();
 
             ShapeList = new List<IShape>();
             ShapeList.Add(new Circle());
@@ -45,7 +60,7 @@ namespace PatternGenerator.ViewModels
             ShapeList.Add(new DotMatrix());
 
             this.Shape = ShapeList.First();
-            this.Shape.Generate();
+            UpdatePatternHandler();
 
             this.RepeatValue = 10;
             this.RandomizePattern = true;
@@ -57,6 +72,10 @@ namespace PatternGenerator.ViewModels
         private void UpdatePatternHandler()
         {
             this.Shape.Generate();
+            
+            PlotModel.Series.Clear();
+            PlotModel.Series.Add(PlotModelHelper.CreateSerie(this.Shape.Points.ToList<DataPoint>()));
+            PlotModel.InvalidatePlot(true);
         }
 
         private void SaveFileHandler()

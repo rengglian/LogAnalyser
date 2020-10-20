@@ -11,11 +11,11 @@ namespace PatternGenerator.Views
     /// 
     public partial class PatternGeneratorMainView : UserControl
     {
-        IContainerExtension _container;
-        IRegionManager _regionManager;
+        readonly IContainerExtension _container;
+        readonly IRegionManager _regionManager;
         IRegion _region;
 
-        PatternGeneratorView _ptternGeneratorView;
+        PatternGeneratorView _patternGeneratorView;
 
         public PatternGeneratorMainView(IContainerExtension container, IRegionManager regionManager)
         {
@@ -29,12 +29,12 @@ namespace PatternGenerator.Views
         }
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            _ptternGeneratorView = _container.Resolve<PatternGeneratorView>();
+            _patternGeneratorView = _container.Resolve<PatternGeneratorView>();
 
 
             _region = _regionManager.Regions["ContentRegionPatternGeneratorView"];
 
-            _region.Add(_ptternGeneratorView);
+            _region.Add(_patternGeneratorView);
         }
     }
 }

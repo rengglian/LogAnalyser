@@ -38,30 +38,21 @@
 
         <StackPanel Grid.Column="0" Grid.Row="1" Margin="5,5,5,5">
 
- 
+
             <WrapPanel Margin="0,0,0,5">
                 <TextBlock FontWeight="Bold" Text="Count : "/>
                 <TextBlock Text="{Binding Shape.Points.Count , StringFormat=0}" />
             </WrapPanel>
-            
+
             <Button Height="40px" Margin="0,0,0,5" Content="Save File" Command="{Binding SaveFileCommand}"/>
             <DockPanel Margin="0,0,0,5">
                 <Label HorizontalAlignment="Right" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="18">Repeat:</Label>
                 <TextBox VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="18" Text="{Binding RepeatValue, StringFormat=D}"></TextBox>
             </DockPanel>
             <CheckBox Margin="0,0,0,5" Content="Randomize Pattern" IsChecked="{Binding RandomizePattern}"/>
-            
+
         </StackPanel>
 
-        <oxy:Plot  Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="2" x:Uid="oxyGraph" x:Name="oxyPlot" Width="430" Height="430" Title="{Binding Title}">
-            <oxy:Plot.Axes>
-                <oxy:LinearAxis Position="Bottom" StartPosition="1" EndPosition="0" MajorGridlineStyle="Solid"/>
-                <oxy:LinearAxis StartPosition="1" EndPosition="0" MajorGridlineStyle="Solid"/>
-                
-            </oxy:Plot.Axes>
-            <oxy:Plot.Series>
-                <oxy:LineSeries x:Name="set1" ItemsSource="{Binding Shape.Points}" LineStyle="None"  MarkerType="Circle" MarkerSize="3" MarkerFill="Aqua"/>
-            </oxy:Plot.Series>
-        </oxy:Plot>
+        <oxy:PlotView Name="TestView" Model="{Binding PlotModel}" Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" Grid.ColumnSpan="2" Width="430" Height="430"/>
     </Grid>
 </UserControl>
