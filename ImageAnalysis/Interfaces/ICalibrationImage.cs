@@ -1,13 +1,14 @@
 ﻿using OpenCvSharp;
+using System.Windows.Media.Imaging;
 
 namespace ImageAnalysis.Interfaces
 {
     public interface ICalibrationImage
     {
-        Mat BgImageMat { get; set; }
         Mat ImageMat { get; set; }
-
-        void OpenBgImageMat();
-        void OpenSrcImageMat();
+        Mat EditedMat { get; set; }
+        BitmapImage ImageBitmap { get; set; }
+        BitmapImage EditedBitmap { get; set; }
+        void Substract(Mat img);
     }
 }
