@@ -10,7 +10,12 @@ namespace Infrastructure.Prism
 
         public DependentViewAttribute(Type viewType, string targetRegionName)
         {
-            Type = viewType;
+
+            if (targetRegionName is null)
+                throw new ArgumentNullException(nameof(targetRegionName));
+
+            Type = viewType ?? throw new ArgumentNullException(nameof(viewType));
+
             TargetRegionName = targetRegionName;
         }
     }

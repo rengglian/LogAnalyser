@@ -4,11 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace PatternGenerator.Helper
+namespace Infrastructure.Oxyplot
 {
     public class PlotModelHelper
     {
-        public static PlotModel Init()
+        public static PlotModel CreateScatterPlot()
         {
             var plotModel = new PlotModel()
             {
@@ -37,7 +37,7 @@ namespace PatternGenerator.Helper
             return plotModel;
         }
 
-        public static LineSeries CreateSerie(List<DataPoint> pts)
+        public static LineSeries CreateScatterSerie(List<DataPoint> pts)
         {
             var series = new LineSeries
             {

@@ -10,7 +10,7 @@ namespace LogAnalyser.PrismHelper
 {
     public class DependentViewRegionBehavior : RegionBehavior
     {
-        readonly Dictionary<object, List<DependentViewInfo>> _dependentViewCache = new Dictionary<object, List<DependentViewInfo>>();
+        Dictionary<object, List<DependentViewInfo>> _dependentViewCache = new Dictionary<object, List<DependentViewInfo>>();
 
         public const string BehaviorKey = "DependentViewRegionBehavior";
 
@@ -33,18 +33,16 @@ namespace LogAnalyser.PrismHelper
                     }
                     else
                     {
-                        foreach (var atr in GetCustomAttributes<DependentViewAttribute>(newView.GetType()))
+                        foreach (var attr in GetCustomAttributes<DependentViewAttribute>(newView.GetType()))
                         {
-                            var info = CreateDependentViewInfo(atr);
+                            var info = CreateDependentViewInfo(attr);
 
-                            if (info.View is ISupportDataContext context && newView is ISupportDataContext context1)
-                                context.DataContext = context1.DataContext;
+                            if (info.View is ISupportDataContext infoViewDataContext && newView is ISupportDataContext newViewDataContext)
+                                infoViewDataContext.DataContext = newViewDataContext.DataContext;
 
                             dependentViews.Add(info);
                         }
-
-                        if (!_dependentViewCache.ContainsKey(newView))
-                            _dependentViewCache.Add(newView, dependentViews);
+                        _dependentViewCache.Add(newView, dependentViews);
                     }
 
                     dependentViews.ForEach(item => Region.RegionManager.Regions[item.TargetRegionName].Add(item.View));
@@ -56,7 +54,8 @@ namespace LogAnalyser.PrismHelper
                 {
                     if (_dependentViewCache.ContainsKey(oldView))
                     {
-                        _dependentViewCache[oldView].ForEach(item => Region.RegionManager.Regions[item.TargetRegionName].Remove(item.View));
+                        var dependentViews = _dependentViewCache[oldView];
+                        dependentViews.ForEach(item => Region.RegionManager.Regions[item.TargetRegionName].Remove(item.View));
 
                         if (!ShouldKeepAlive(oldView))
                             _dependentViewCache.Remove(oldView);
@@ -78,7 +77,7 @@ namespace LogAnalyser.PrismHelper
             return info;
         }
 
-        private static bool ShouldKeepAlive(object view)
+        private bool ShouldKeepAlive(object view)
         {
             IRegionMemberLifetime lifetime = GetItemOrContextLifetime(view);
             if (lifetime != null)

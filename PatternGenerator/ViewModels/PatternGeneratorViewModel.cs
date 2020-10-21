@@ -1,4 +1,5 @@
-﻿using OxyPlot;
+﻿using Infrastructure.Oxyplot;
+using OxyPlot;
 using OxyPlot.Axes;
 using OxyPlot.Series;
 using PatternGenerator.Helper;
@@ -52,12 +53,14 @@ namespace PatternGenerator.ViewModels
         public PatternGeneratorViewModel()
         {
 
-            PlotModel = PlotModelHelper.Init();
+            PlotModel = PlotModelHelper.CreateScatterPlot();
 
-            ShapeList = new List<IShape>();
-            ShapeList.Add(new Circle());
-            ShapeList.Add(new Spiral());
-            ShapeList.Add(new DotMatrix());
+            ShapeList = new List<IShape>
+            {
+                new Circle(),
+                new Spiral(),
+                new DotMatrix()
+            };
 
             this.Shape = ShapeList.First();
             UpdatePatternHandler();
@@ -74,7 +77,7 @@ namespace PatternGenerator.ViewModels
             this.Shape.Generate();
             
             PlotModel.Series.Clear();
-            PlotModel.Series.Add(PlotModelHelper.CreateSerie(this.Shape.Points.ToList<DataPoint>()));
+            PlotModel.Series.Add(PlotModelHelper.CreateScatterSerie(this.Shape.Points.ToList<DataPoint>()));
             PlotModel.InvalidatePlot(true);
         }
 

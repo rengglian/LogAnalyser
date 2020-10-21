@@ -28,6 +28,7 @@ namespace PatternAnalysis.ViewModels
         public IPattern Pattern1 { get; set; }
         public IPattern Pattern2 { get; set; }
         public IPattern Pattern3 { get; set; }
+        public IPattern Pattern4 { get; set; }
         public ObservableCollection<DataPoint> HistoSet { get; private set; } = new ObservableCollection<DataPoint>();
         public int BinValue { get; set; }
         public string Title { get; set; }
@@ -42,7 +43,6 @@ namespace PatternAnalysis.ViewModels
             this.Analyse23Command = new DelegateCommand(Analyse23Handler);
             this.BinValue = 20;
             this.Title = "Test";
-
         }
 
         private void Analyse12Handler()
@@ -50,6 +50,20 @@ namespace PatternAnalysis.ViewModels
 
             this.CalibMatrix = AffineMatrix.CalculateMatrix(this.Pattern3, this.Pattern2, true);
             this.OnPropertyChanged(nameof(this.CalibMatrix));
+
+            this.Pattern4 = new Pattern("none");
+            this.Pattern4.Points.Clear();
+
+            this.Pattern3.Points.ForEach(pt =>
+           {
+               var x = this.CalibMatrix["m11"] * pt.X + this.CalibMatrix["m12"] * pt.Y + this.CalibMatrix["m13"];
+               var y = this.CalibMatrix["m21"] * pt.X + this.CalibMatrix["m22"] * pt.Y + this.CalibMatrix["m23"];
+               
+               this.Pattern4.Points.Add(new DataPoint(x, y));
+           });
+           this.OnPropertyChanged(nameof(this.Pattern4));
+           this.HistoSet = Histogram.Create(this.Pattern2, this.Pattern4, BinValue).ToObservableCollection();
+           this.OnPropertyChanged(nameof(this.HistoSet));
         }
 
         private void Analyse23Handler()

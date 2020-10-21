@@ -32,6 +32,8 @@ namespace PatternGenerator.Shapes
             double delta_r = radius / maxTheta;
             double theta = step_size / delta_r;
 
+            this.Points.Add(new DataPoint(0.0, 0.0));
+
             while (theta <= maxTheta)
             {
 

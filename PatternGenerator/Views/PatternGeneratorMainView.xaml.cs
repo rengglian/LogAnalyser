@@ -1,3 +1,4 @@
+using Infrastructure.Prism;
 using Prism.Ioc;
 using Prism.Regions;
 using System.Windows;
@@ -31,8 +32,7 @@ namespace PatternGenerator.Views
         {
             _patternGeneratorView = _container.Resolve<PatternGeneratorView>();
 
-
-            _region = _regionManager.Regions["ContentRegionPatternGeneratorView"];
+            _region = _regionManager.Regions[RegionNames.ContentRegionPatternGeneratorView];
 
             _region.Add(_patternGeneratorView);
         }

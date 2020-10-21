@@ -17,9 +17,16 @@ namespace PatternAnalysis.Helper
 
         public Pattern(string fileName)
         {
-            Points = JsonReader.Read(fileName);
-            CheckSum = CalculateCheckSum(Points);
-            Center = CalculateCenter(Points);
+            if (fileName == "none")
+            {
+                this.Points.Add(new DataPoint(0, 0));
+            } else
+            {
+                this.Points = JsonReader.Read(fileName);
+            }
+            this.CheckSum = CalculateCheckSum(this.Points);
+            this.Center = CalculateCenter(this.Points);
+
         }
 
         private string CalculateCheckSum(List<DataPoint> pointList)

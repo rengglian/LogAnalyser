@@ -31,13 +31,15 @@ namespace PatternAnalysis.Helper
         }
         private static Dictionary<string, double> TransformToDict(OpenCvSharp.Mat cvMat)
         {
-            var dict = new Dictionary<string, double>();
-            dict.Add("m11", cvMat.At<double>(0, 0));
-            dict.Add("m12", cvMat.At<double>(0, 1));
-            dict.Add("m21", cvMat.At<double>(1, 0));
-            dict.Add("m22", cvMat.At<double>(1, 1));
-            dict.Add("m13", Math.Round(cvMat.At<double>(0, 2), 0));
-            dict.Add("m23", Math.Round(cvMat.At<double>(1, 2), 0));
+            var dict = new Dictionary<string, double>
+            {
+                { "m11", cvMat.At<double>(0, 0) },
+                { "m12", cvMat.At<double>(0, 1) },
+                { "m21", cvMat.At<double>(1, 0) },
+                { "m22", cvMat.At<double>(1, 1) },
+                { "m13", Math.Round(cvMat.At<double>(0, 2), 0) },
+                { "m23", Math.Round(cvMat.At<double>(1, 2), 0) }
+            };
 
             return dict;
         }

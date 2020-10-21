@@ -8,7 +8,7 @@ namespace PatternGenerator.Views
     /// Interaction logic for PatternGeneratorView.xaml
     /// </summary>
     /// 
-    [DependentView(typeof(StackPanelView), "ContentRegionTop")]
+    [DependentView(typeof(StackPanelView), RegionNames.ContentRegionTop)]
     public partial class PatternGeneratorView : UserControl, ISupportDataContext
     {
         public PatternGeneratorView()

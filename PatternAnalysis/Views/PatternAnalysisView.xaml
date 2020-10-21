@@ -61,6 +61,7 @@
                 <oxy:LineSeries x:Name="set1" ItemsSource="{Binding Pattern1.Points}" LineStyle="None"  MarkerType="Circle" MarkerSize="3" MarkerFill="Aqua"/>
                 <oxy:LineSeries x:Name="set2" ItemsSource="{Binding Pattern2.Points}" LineStyle="None"  MarkerType="Circle" MarkerSize="3" MarkerFill="Crimson"/>
                 <oxy:LineSeries x:Name="set3" ItemsSource="{Binding Pattern3.Points}" LineStyle="None"  MarkerType="Circle" MarkerSize="3" MarkerFill="Orchid"/>
+                <oxy:LineSeries x:Name="set4" ItemsSource="{Binding Pattern4.Points}" LineStyle="None"  MarkerType="Circle" MarkerSize="3" MarkerFill="Green"/>
             </oxy:Plot.Series>
         </oxy:Plot>
 
