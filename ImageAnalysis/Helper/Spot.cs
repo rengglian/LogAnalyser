@@ -10,9 +10,9 @@ namespace ImageAnalysis.Helper
     public class Spot
     {
         public Point Position { get; set; }
-        public int Radius { get; set; }
+        public float Radius { get; set; }
 
-        public Spot(Point pt, int r)
+        public Spot(Point pt, float r)
         {
             Position = pt;
             Radius = r;

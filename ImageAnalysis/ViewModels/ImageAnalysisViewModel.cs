@@ -64,7 +64,6 @@ namespace ImageAnalysis.ViewModels
            });
 
 
-
         }
 
         private void OpenSecondImageHandler()

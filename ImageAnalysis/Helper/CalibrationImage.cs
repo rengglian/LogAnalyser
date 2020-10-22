@@ -33,10 +33,8 @@ namespace ImageAnalysis.Helper
 
             for( int i = 0; i< test.Length;i++)
             {
-                Spots.Add(new Spot(new System.Windows.Point(test[i].Center.X, test[i].Center.Y), (int)test[i].Radius));
+                Spots.Add(new Spot(new System.Windows.Point(test[i].Center.X-test[i].Radius/2, test[i].Center.Y- test[i].Radius / 2), test[i].Radius));
             }
-
-            Console.WriteLine("test");
         }
 
         public BitmapImage GetBitmapImage()
