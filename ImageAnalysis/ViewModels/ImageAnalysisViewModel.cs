@@ -44,19 +44,26 @@ namespace ImageAnalysis.ViewModels
 
         public ImageAnalysisViewModel()
         {
-            ImgList = new ObservableCollection<IImageList>();
+            this.ImgList = new ObservableCollection<IImageList>();
             this.OpenImageCommand = new DelegateCommand(OpenImageHandler);
             this.OpenSecondImageCommand = new DelegateCommand(OpenSecondImageHandler);
             this.SubstractImageCommand = new DelegateCommand(SubstractImageHandler);
 
-            Spots = new ObservableCollection<Spot>();
-            Spots.Add();
+            
+            
         }
 
         private void SubstractImageHandler()
         {
             this.SourceImage.Substract(this.BgSourceImage.ImageMat);
             this.ImgList.Add(new ImageList("Substract Image", this.SourceImage.EditedBitmap));
+            this.Spots = new ObservableCollection<Spot>();
+            this.SourceImage.Spots.ForEach(sp =>
+           {
+               this.Spots.Add(sp);
+           });
+
+
 
         }
 

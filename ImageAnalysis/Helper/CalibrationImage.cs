@@ -3,6 +3,8 @@ using ImageAnalysis.IO;
 using OpenCvSharp;
 using OpenCvSharp.Extensions;
 using System;
+using System.Collections.Generic;
+using System.Windows.Documents;
 using System.Windows.Media.Imaging;
 
 namespace ImageAnalysis.Helper
@@ -16,6 +18,8 @@ namespace ImageAnalysis.Helper
 
         public BitmapImage EditedBitmap { get; set; } = new BitmapImage();
 
+        public List<Spot> Spots { get; set; } = new List<Spot>();
+
         public CalibrationImage() {
             this.ImageMat = ImageReader.Read();
         }
@@ -26,6 +30,12 @@ namespace ImageAnalysis.Helper
             Cv2.Subtract(this.ImageMat, img, this.EditedMat);
             this.EditedBitmap = BitmapToBitmapImage.Convert(this.EditedMat.ToBitmap());
             var test = Cv2.HoughCircles(this.EditedMat, HoughMethods.Gradient, 1, 10, 70, 10, 3, 10);
+
+            for( int i = 0; i< test.Length;i++)
+            {
+                Spots.Add(new Spot(new System.Windows.Point(test[i].Center.X, test[i].Center.Y), (int)test[i].Radius));
+            }
+
             Console.WriteLine("test");
         }
 

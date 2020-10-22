@@ -7,9 +7,15 @@ using System.Windows;
 
 namespace ImageAnalysis.Helper
 {
-    public struct Spot
+    public class Spot
     {
-        public Point Position;
-        public int Radius;
+        public Point Position { get; set; }
+        public int Radius { get; set; }
+
+        public Spot(Point pt, int r)
+        {
+            Position = pt;
+            Radius = r;
+        }
     }
 }

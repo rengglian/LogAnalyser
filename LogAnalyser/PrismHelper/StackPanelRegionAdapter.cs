@@ -36,7 +36,7 @@ namespace LogAnalyser.PrismHelper
 
         protected override IRegion CreateRegion()
         {
-            return new AllActiveRegion();
+            return new Region();
         }
     }
 }
