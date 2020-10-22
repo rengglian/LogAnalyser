@@ -5,6 +5,8 @@ using System.Collections.ObjectModel;
 using Prism.Commands;
 using Prism.Mvvm;
 using System;
+using System.Security.Cryptography.Xml;
+using OpenCvSharp;
 
 namespace ImageAnalysis.ViewModels
 {
@@ -16,11 +18,19 @@ namespace ImageAnalysis.ViewModels
 
         public DelegateCommand SubstractImageCommand { get; set; }
 
-        public ICalibrationImage sourceImage;
+        private ICalibrationImage sourceImage;
         public ICalibrationImage SourceImage
         {
             get { return sourceImage; }
             set { SetProperty(ref sourceImage, value); }
+        }
+
+        private ObservableCollection<Spot> spots;
+
+        public ObservableCollection<Spot> Spots
+        {
+            get { return spots; }
+            set { SetProperty(ref spots, value); }
         }
 
         public ICalibrationImage BgSourceImage { get; set; }
@@ -38,6 +48,9 @@ namespace ImageAnalysis.ViewModels
             this.OpenImageCommand = new DelegateCommand(OpenImageHandler);
             this.OpenSecondImageCommand = new DelegateCommand(OpenSecondImageHandler);
             this.SubstractImageCommand = new DelegateCommand(SubstractImageHandler);
+
+            Spots = new ObservableCollection<Spot>();
+            Spots.Add();
         }
 
         private void SubstractImageHandler()
@@ -50,13 +63,13 @@ namespace ImageAnalysis.ViewModels
         private void OpenSecondImageHandler()
         {
             this.BgSourceImage = new CalibrationImage();
-            this.ImgList.Add(new ImageList("Background Image", this.BgSourceImage.ImageBitmap));
+            this.ImgList.Add(new ImageList("Background Image", this.BgSourceImage.GetBitmapImage()));
         }
 
         private void OpenImageHandler()
         {
             this.SourceImage = new CalibrationImage();
-            this.ImgList.Add(new ImageList("Src Image", this.SourceImage.ImageBitmap));
+            this.ImgList.Add(new ImageList("Src Image", this.SourceImage.GetBitmapImage()));
 
         }
 

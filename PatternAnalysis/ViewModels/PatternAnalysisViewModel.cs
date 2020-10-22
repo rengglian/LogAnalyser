@@ -48,7 +48,7 @@ namespace PatternAnalysis.ViewModels
         private void Analyse12Handler()
         {
 
-            this.CalibMatrix = AffineMatrix.CalculateMatrix(this.Pattern3, this.Pattern2, true);
+            this.CalibMatrix = AffineMatrix.CalculateMatrix(this.Pattern3, this.Pattern2);
             this.OnPropertyChanged(nameof(this.CalibMatrix));
 
             this.Pattern4 = new Pattern("none");
@@ -68,6 +68,11 @@ namespace PatternAnalysis.ViewModels
 
         private void Analyse23Handler()
         {
+
+            this.Pattern4 = new Pattern("none");
+            this.Pattern4.Points.Clear();
+            this.OnPropertyChanged(nameof(this.Pattern4));
+
             this.HistoSet = Histogram.Create(this.Pattern2, this.Pattern3, BinValue).ToObservableCollection();
             this.OnPropertyChanged(nameof(this.HistoSet));
         }

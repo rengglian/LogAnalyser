@@ -7,7 +7,7 @@ namespace PatternAnalysis.Helper
 {
     public class AffineMatrix
     {
-        public static Dictionary<string, double> CalculateMatrix(IPattern from, IPattern to, bool centerCorrection)
+        public static Dictionary<string, double> CalculateMatrix(IPattern from, IPattern to)
         {
             Point2f[] from_ = new Point2f[from.Points.Count];
             Point2f[] to_ = new Point2f[to.Points.Count];
@@ -26,8 +26,7 @@ namespace PatternAnalysis.Helper
             });
             Mat affineMatrix = Cv2.EstimateAffine2D(InputArray.Create(from_), InputArray.Create(to_));
 
-            if (centerCorrection) return TransformToDict(affineMatrix, from.Center);
-            else return TransformToDict(affineMatrix);
+            return TransformToDict(affineMatrix);
         }
         private static Dictionary<string, double> TransformToDict(OpenCvSharp.Mat cvMat)
         {
@@ -41,14 +40,6 @@ namespace PatternAnalysis.Helper
                 { "m23", Math.Round(cvMat.At<double>(1, 2), 0) }
             };
 
-            return dict;
-        }
-
-        private static Dictionary<string, double> TransformToDict(OpenCvSharp.Mat cvMat, System.Windows.Point center)
-        {
-            var dict = TransformToDict(cvMat);
-            dict.Add("a13", Math.Round(dict["m11"] * center.X + dict["m12"] * center.Y, 0));
-            dict.Add("a23", Math.Round(dict["m21"] * center.X + dict["m22"] * center.Y, 0));
             return dict;
         }
     }
