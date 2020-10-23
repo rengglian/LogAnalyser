@@ -28,5 +28,19 @@ namespace ImageAnalysis.Helper
                 return result;
             }
         }
+
+        public static Bitmap Convert(BitmapImage bmpImg)
+        {
+            if (bmpImg == null)
+                return null;
+
+            using (MemoryStream outStream = new MemoryStream())
+            {
+                BitmapEncoder enc = new BmpBitmapEncoder();
+                enc.Frames.Add(BitmapFrame.Create(bmpImg));
+                enc.Save(outStream);
+                return new Bitmap(outStream);
+            }
+        }
     }
 }

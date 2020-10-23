@@ -1,8 +1,6 @@
 ﻿using ImageAnalysis.Helper;
 using OpenCvSharp;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Windows.Media;
 
 namespace ImageAnalysis.ImageProcessing
