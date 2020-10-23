@@ -11,12 +11,14 @@ namespace ImageAnalysis.Helper
     public class Spot
     {
         public Point Position { get; set; }
-        public float Radius { get; set; }
+        public float Diameter { get; set; }
+        public SolidColorBrush Color { get; set; }
 
-        public Spot(Point pt, float r)
+        public Spot(Point pt, float d, SolidColorBrush c)
         {
             this.Position = pt;
-            this.Radius = r;
+            this.Diameter = d;
+            this.Color = c;
         }
     }
 }

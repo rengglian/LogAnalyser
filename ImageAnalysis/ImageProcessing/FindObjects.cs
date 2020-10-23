@@ -17,7 +17,10 @@ namespace ImageAnalysis.ImageProcessing
 
             for (int i = 0; i<tmp.Length; i++)
             {
-                spots.Add(new Spot(new System.Windows.Point(tmp[i].Center.X - tmp[i].Radius, tmp[i].Center.Y - tmp[i].Radius), tmp[i].Radius * 2));
+                var x = tmp[i].Center.X - tmp[i].Radius;
+                var y = tmp[i].Center.Y - tmp[i].Radius;
+                var d = tmp[i].Radius * 2;
+                spots.Add(new Spot(new System.Windows.Point(x, y), d, Brushes.Yellow));
             }
             return spots;
         }

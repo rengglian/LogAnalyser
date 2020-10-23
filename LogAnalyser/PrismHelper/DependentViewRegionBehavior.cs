@@ -10,7 +10,7 @@ namespace LogAnalyser.PrismHelper
 {
     public class DependentViewRegionBehavior : RegionBehavior
     {
-        Dictionary<object, List<DependentViewInfo>> _dependentViewCache = new Dictionary<object, List<DependentViewInfo>>();
+        readonly Dictionary<object, List<DependentViewInfo>>  _dependentViewCache = new Dictionary<object, List<DependentViewInfo>>();
 
         public const string BehaviorKey = "DependentViewRegionBehavior";
 
