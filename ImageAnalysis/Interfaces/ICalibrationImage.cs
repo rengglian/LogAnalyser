@@ -7,6 +7,7 @@ namespace ImageAnalysis.Interfaces
     {
         Mat ImageMat { get; set; }
         void Substract(Mat img);
+        void Blur();
         BitmapImage GetBitmapImage();
     }
 }

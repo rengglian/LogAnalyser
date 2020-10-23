@@ -18,10 +18,12 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <StackPanel Grid.Column="0" Grid.Row="0" Margin="10,5,5,5">
+        <StackPanel Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Margin="10,5,5,5">
             <Button Height="40px" Margin="0,0,0,5" Content="Open First Image" Command="{Binding OpenImageCommand}" CommandParameter="Source"/>
             <Button Height="40px" Margin="0,0,0,5" Content="Open Second Image" Command="{Binding OpenImageCommand}" CommandParameter="Background"/>
             <Button Height="40px" Margin="0,0,0,5" Content="Substract Images" Command="{Binding SubstractImageCommand}" CommandParameter="Substracted"/>
+            <Button Height="40px" Margin="0,0,0,5" Content="Blur Image" Command="{Binding BlurImageCommand}" CommandParameter="Blurred"/>
+            <Button Height="40px" Margin="0,0,0,5" Content="Find Circles" Command="{Binding FindCirclesCommand}"/>
         </StackPanel>
 
         <ContentPresenter Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" 

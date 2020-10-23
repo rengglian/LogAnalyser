@@ -7,6 +7,7 @@ using System.Windows.Documents;
 using System.Collections.Generic;
 using ImageAnalysis.ImageProcessing;
 using OpenCvSharp;
+using System;
 
 namespace ImageAnalysis.ViewModels
 {
@@ -14,8 +15,9 @@ namespace ImageAnalysis.ViewModels
     {
 
         public DelegateCommand<string> OpenImageCommand { get; set; }
-
         public DelegateCommand<string> SubstractImageCommand { get; set; }
+        public DelegateCommand<string> BlurImageCommand { get; set; }
+        public DelegateCommand FindCirclesCommand { get; set; }
 
         private readonly Dictionary<string, ICalibrationImage> images;
 
@@ -44,10 +46,7 @@ namespace ImageAnalysis.ViewModels
         public IImageList SelectedImage
         {
             get { return this.Img; }
-            set
-            {
-                this.Img = value;
-            }
+            set { this.Img = value; }
         }
 
         public ImageAnalysisViewModel()
@@ -57,7 +56,33 @@ namespace ImageAnalysis.ViewModels
 
             this.OpenImageCommand = new DelegateCommand<string>(OpenImageHandler);
             this.SubstractImageCommand = new DelegateCommand<string>(SubstractImageHandler);
-            
+            this.BlurImageCommand = new DelegateCommand<string>(BlurImageHandler);
+            this.FindCirclesCommand = new DelegateCommand(FindCirclesHandler);
+
+        }
+
+        private void FindCirclesHandler()
+        {
+            this.Spots = new ObservableCollection<Spot>();
+            var sp = FindObjects.Circles(this.images[img.Title].ImageMat);
+            sp.ForEach(sp =>
+            {
+                this.Spots.Add(sp);
+            });
+        }
+
+        private void BlurImageHandler(string src)
+        {
+            if (!this.images.ContainsKey(src))
+            {
+                this.images.Add(src, new CalibrationImage(this.images[img.Title].ImageMat));
+            }
+            else
+            {
+                this.images[src] = new CalibrationImage(this.images[img.Title].ImageMat);
+            }
+            this.images[src].Blur();
+            this.ImgList.Add(new ImageList(src, this.images[src].GetBitmapImage()));
         }
 
         private void SubstractImageHandler(string src)
@@ -72,12 +97,6 @@ namespace ImageAnalysis.ViewModels
             }
             this.images[src].Substract(this.images["Background"].ImageMat);
             this.ImgList.Add(new ImageList(src, this.images[src].GetBitmapImage()));
-            this.Spots = new ObservableCollection<Spot>();
-            var sp = FindObjects.Circles(this.images[src].ImageMat);
-            sp.ForEach(sp =>
-            {
-                this.Spots.Add(sp);
-            });
         }
 
         private void OpenImageHandler(string src)
