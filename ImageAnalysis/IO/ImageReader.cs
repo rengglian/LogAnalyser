@@ -12,10 +12,11 @@ namespace ImageAnalysis.IO
         public static Mat Read()
         {
 
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-
-            openFileDialog.DefaultExt = ".png";
-            openFileDialog.Filter = "PNG Files (*.png)|*.png|JPG Files (*.jpg)|*.jpg|JPEG Files (*.jpeg)|*.jpeg";
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                DefaultExt = ".png",
+                Filter = "PNG Files (*.png)|*.png|JPG Files (*.jpg)|*.jpg|JPEG Files (*.jpeg)|*.jpeg"
+            };
 
             Nullable<bool> result = openFileDialog.ShowDialog();
 

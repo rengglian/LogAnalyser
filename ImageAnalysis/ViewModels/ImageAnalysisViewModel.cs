@@ -13,12 +13,11 @@ namespace ImageAnalysis.ViewModels
     public class ImageAnalysisViewModel : BindableBase
     {
 
-        public DelegateCommand OpenImageCommand { get; set; }
-        public DelegateCommand OpenSecondImageCommand { get; set; }
+        public DelegateCommand<string> OpenImageCommand { get; set; }
 
-        public DelegateCommand SubstractImageCommand { get; set; }
+        public DelegateCommand<string> SubstractImageCommand { get; set; }
 
-        private List<ICalibrationImage> images;
+        private readonly Dictionary<string, ICalibrationImage> images;
 
         private ObservableCollection<Spot> spots;
 
@@ -54,38 +53,45 @@ namespace ImageAnalysis.ViewModels
         public ImageAnalysisViewModel()
         {
             this.ImgList = new ObservableCollection<IImageList>();
-            this.OpenImageCommand = new DelegateCommand(OpenImageHandler);
-            this.OpenSecondImageCommand = new DelegateCommand(OpenSecondImageHandler);
-            this.SubstractImageCommand = new DelegateCommand(SubstractImageHandler);
-            this.images = new List<ICalibrationImage>();
+            this.images = new Dictionary<string, ICalibrationImage>();
+
+            this.OpenImageCommand = new DelegateCommand<string>(OpenImageHandler);
+            this.SubstractImageCommand = new DelegateCommand<string>(SubstractImageHandler);
+            
         }
 
-        private void SubstractImageHandler()
+        private void SubstractImageHandler(string src)
         {
-            this.images.Add(new CalibrationImage(this.images[0].ImageMat));
-            this.images[2].Substract(this.images[1].ImageMat);
-            this.ImgList.Add(new ImageList("Substract Image", this.images[2].GetBitmapImage()));
+            if (!this.images.ContainsKey(src))
+            {
+                this.images.Add(src, new CalibrationImage(this.images["Source"].ImageMat));
+            }
+            else
+            {
+                this.images[src] = new CalibrationImage(this.images["Source"].ImageMat);
+            }
+            this.images[src].Substract(this.images["Background"].ImageMat);
+            this.ImgList.Add(new ImageList(src, this.images[src].GetBitmapImage()));
             this.Spots = new ObservableCollection<Spot>();
-            var sp = FindObjects.Circles(this.images[2].ImageMat);
+            var sp = FindObjects.Circles(this.images[src].ImageMat);
             sp.ForEach(sp =>
             {
                 this.Spots.Add(sp);
             });
         }
 
-        private void OpenSecondImageHandler()
+        private void OpenImageHandler(string src)
         {
-            this.images.Add(new CalibrationImage());
+            if (!this.images.ContainsKey(src))
+            {
+                this.images.Add(src, new CalibrationImage());
+            }
+            else
+            {
+                this.images[src] = new CalibrationImage();
+            }
             //this.SourceImage = new CalibrationImage();
-            this.ImgList.Add(new ImageList("Src Image", this.images[1].GetBitmapImage()));
-        }
-
-        private void OpenImageHandler()
-        {
-            this.images.Add(new CalibrationImage());
-            //this.SourceImage = new CalibrationImage();
-            this.ImgList.Add(new ImageList("Src Image", this.images[0].GetBitmapImage()));
-
+            this.ImgList.Add(new ImageList(src, this.images[src].GetBitmapImage()));
         }
 
     }
