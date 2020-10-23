@@ -25,9 +25,9 @@
         <StackPanel Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" prism:RegionManager.RegionName="ContentRegionTop" HorizontalAlignment="Left" VerticalAlignment="Top" Orientation="Horizontal"/>
 
         <StackPanel Grid.Row="2" Grid.Column="1">
-            <Button Command="{Binding NavigateCommand}" CommandParameter="PatternAnalysisMainView" Margin="5">Pattern Analysis</Button>
-            <Button Command="{Binding NavigateCommand}" CommandParameter="PatternGeneratorMainView" Margin="5">Pattern Generator</Button>
-            <Button Command="{Binding NavigateCommand}" CommandParameter="ImageAnalysisMainView" Margin="5">Image Analysis</Button>
+            <Button Command="{Binding NavigateCommand}" CommandParameter="PatternAnalysisView" Margin="5">Pattern Analysis</Button>
+            <Button Command="{Binding NavigateCommand}" CommandParameter="PatternGeneratorView" Margin="5">Pattern Generator</Button>
+            <Button Command="{Binding NavigateCommand}" CommandParameter="ImageAnalysisView" Margin="5">Image Analysis</Button>
         </StackPanel>
         
         <ContentControl Grid.Row="2" Grid.Column="2" prism:RegionManager.RegionName="ContentRegion" HorizontalAlignment="Left" VerticalAlignment="Top" />

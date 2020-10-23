@@ -13,7 +13,7 @@ namespace PatternGenerator
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterForNavigation<PatternGeneratorMainView>();
+            containerRegistry.RegisterForNavigation<PatternGeneratorView>();
         }
     }
 }

@@ -13,7 +13,7 @@ namespace PatternAnalysis
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterForNavigation<PatternAnalysisMainView>();
+            containerRegistry.RegisterForNavigation<PatternAnalysisView>();
         }
     }
 }

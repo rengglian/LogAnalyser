@@ -1,4 +1,5 @@
-﻿using ImageAnalysis.Interfaces;
+﻿using ImageAnalysis.ImageProcessing;
+using ImageAnalysis.Interfaces;
 using ImageAnalysis.IO;
 using OpenCvSharp;
 using OpenCvSharp.Extensions;
@@ -29,12 +30,7 @@ namespace ImageAnalysis.Helper
             this.EditedMat = this.ImageMat.Clone();
             Cv2.Subtract(this.ImageMat, img, this.EditedMat);
             this.EditedBitmap = BitmapToBitmapImage.Convert(this.EditedMat.ToBitmap());
-            var test = Cv2.HoughCircles(this.EditedMat, HoughMethods.Gradient, 1, 10, 70, 10, 3, 10);
-
-            for( int i = 0; i< test.Length;i++)
-            {
-                Spots.Add(new Spot(new System.Windows.Point(test[i].Center.X-test[i].Radius/2, test[i].Center.Y- test[i].Radius / 2), test[i].Radius));
-            }
+            Spots = FindObjects.Circles(this.EditedMat);
         }
 
         public BitmapImage GetBitmapImage()

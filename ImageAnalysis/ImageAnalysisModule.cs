@@ -13,7 +13,7 @@ namespace ImageAnalysis
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterForNavigation<ImageAnalysisMainView>();
+            containerRegistry.RegisterForNavigation<ImageAnalysisView>();
         }
     }
 }

@@ -48,9 +48,6 @@ namespace ImageAnalysis.ViewModels
             this.OpenImageCommand = new DelegateCommand(OpenImageHandler);
             this.OpenSecondImageCommand = new DelegateCommand(OpenSecondImageHandler);
             this.SubstractImageCommand = new DelegateCommand(SubstractImageHandler);
-
-            
-            
         }
 
         private void SubstractImageHandler()
@@ -62,8 +59,6 @@ namespace ImageAnalysis.ViewModels
            {
                this.Spots.Add(sp);
            });
-
-
         }
 
         private void OpenSecondImageHandler()

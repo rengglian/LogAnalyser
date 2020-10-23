@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.IO.Packaging;
 using System.Text;
 using System.Windows;
+using System.Windows.Media;
 
 namespace ImageAnalysis.Helper
 {
@@ -14,8 +15,8 @@ namespace ImageAnalysis.Helper
 
         public Spot(Point pt, float r)
         {
-            Position = pt;
-            Radius = r;
+            this.Position = pt;
+            this.Radius = r;
         }
     }
 }
