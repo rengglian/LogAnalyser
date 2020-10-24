@@ -18,5 +18,9 @@ namespace ImageAnalysis.Helper
             Counter = counter;
 
         }
+        public override string ToString()
+        {
+            return Title;
+        }
     }
 }

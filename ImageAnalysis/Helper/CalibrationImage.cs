@@ -34,6 +34,5 @@ namespace ImageAnalysis.Helper
         {
             return BitmapToBitmapImage.Convert(this.ImageMat.ToBitmap());
         }
-
     }
 }
