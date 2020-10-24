@@ -18,6 +18,7 @@ namespace ImageAnalysis.ViewModels
         public DelegateCommand<string> SubstractImageCommand { get; set; }
         public DelegateCommand<string> BlurImageCommand { get; set; }
         public DelegateCommand FindCirclesCommand { get; set; }
+        public DelegateCommand DeleteCommand { get; private set; }
 
         private readonly Dictionary<string, ICalibrationImage> images;
 
@@ -58,6 +59,12 @@ namespace ImageAnalysis.ViewModels
             this.SubstractImageCommand = new DelegateCommand<string>(SubstractImageHandler);
             this.BlurImageCommand = new DelegateCommand<string>(BlurImageHandler);
             this.FindCirclesCommand = new DelegateCommand(FindCirclesHandler);
+            this.DeleteCommand = new DelegateCommand(DeleteHandler);
+
+        }
+
+        private void DeleteHandler()
+        {
 
         }
 
@@ -82,7 +89,7 @@ namespace ImageAnalysis.ViewModels
                 this.images[src] = new CalibrationImage(this.images[img.Title].ImageMat);
             }
             this.images[src].Blur();
-            this.ImgList.Add(new ImageList(src, this.images[src].GetBitmapImage()));
+            this.ImgList.Add(new ImageList(src, this.ImgList.Count, this.images[src].GetBitmapImage()));
         }
 
         private void SubstractImageHandler(string src)
@@ -96,7 +103,7 @@ namespace ImageAnalysis.ViewModels
                 this.images[src] = new CalibrationImage(this.images["Source"].ImageMat);
             }
             this.images[src].Substract(this.images["Background"].ImageMat);
-            this.ImgList.Add(new ImageList(src, this.images[src].GetBitmapImage()));
+            this.ImgList.Add(new ImageList(src, this.ImgList.Count, this.images[src].GetBitmapImage()));
         }
 
         private void OpenImageHandler(string src)
@@ -110,7 +117,7 @@ namespace ImageAnalysis.ViewModels
                 this.images[src] = new CalibrationImage();
             }
             //this.SourceImage = new CalibrationImage();
-            this.ImgList.Add(new ImageList(src, this.images[src].GetBitmapImage()));
+            this.ImgList.Add(new ImageList(src, this.ImgList.Count, this.images[src].GetBitmapImage()));
         }
 
     }

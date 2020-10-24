@@ -8,14 +8,15 @@ namespace ImageAnalysis.Helper
 {
     public class ImageList : IImageList
     {
-
         public string Title { get; set; } = "";
-
         public BitmapImage ImageData { get; set; } = new BitmapImage();
-        public ImageList(string title, BitmapImage imageData)
+        public int Counter { get; set; } = -1;
+        public ImageList(string title, int counter, BitmapImage imageData)
         {
             Title = title;
             ImageData = imageData;
+            Counter = counter;
+
         }
     }
 }

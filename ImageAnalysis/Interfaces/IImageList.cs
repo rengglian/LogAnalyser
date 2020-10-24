@@ -7,5 +7,6 @@ namespace ImageAnalysis.Interfaces
     {
         BitmapImage ImageData { get; set; }
         string Title { get; set; }
+        int Counter { get; set; }
     }
 }
