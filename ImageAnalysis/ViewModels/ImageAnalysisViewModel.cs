@@ -88,16 +88,18 @@ namespace ImageAnalysis.ViewModels
 
         private void BlurImageHandler(string src)
         {
-            if (!this.images.ContainsKey(src))
+            var str = src + this.selectedImage.Title;
+
+            if (!this.images.ContainsKey(str))
             {
-                this.images.Add(src, new CalibrationImage(this.images[selectedImage.Title].ImageMat));
+                this.images.Add(str, new CalibrationImage(this.images[selectedImage.Title].ImageMat));
             }
             else
             {
-                this.images[src] = new CalibrationImage(this.images[selectedImage.Title].ImageMat);
+                this.images[str] = new CalibrationImage(this.images[selectedImage.Title].ImageMat);
             }
-            this.images[src].Blur();
-            this.ImgList.Add(new ImageList(src, this.images[src].GetBitmapImage()));
+            this.images[str].Blur();
+            this.ImgList.Add(new ImageList(str, this.images[str].GetBitmapImage()));
         }
 
         private void SubstractImageHandler(string src)
