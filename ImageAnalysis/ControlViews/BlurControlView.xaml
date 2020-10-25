@@ -6,20 +6,16 @@
              xmlns:local="clr-namespace:ImageAnalysis.ControlViews"
              mc:Ignorable="d" 
              d:DesignHeight="100" d:DesignWidth="200">
-    <Border BorderBrush="Navy" BorderThickness="1">
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="3*" />
-            </Grid.RowDefinitions>
-            <Border Grid.Row="0" Grid.Column="0" Background="Navy"></Border>
-            <TextBlock Grid.Row="0" Grid.Column="0" Height="20px" Margin="0,0,0,5" FontSize="15" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="center" Text="Blur Image"/>
-            <StackPanel Grid.Row="1" Grid.Column="0" Margin="5" VerticalAlignment="Center" >
-                <Button Height="25px" Margin="0,0,0,5" Content="Blur Image" Command="{Binding BlurImageCommand}" CommandParameter="Blurred"/>
-            </StackPanel>
-        </Grid>
-    </Border>
+    <Grid Margin="0,0,15,0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="3*" />
+        </Grid.RowDefinitions>
+        <Border Grid.Row="0" Grid.Column="0" Background="Navy"></Border>
+        <TextBlock Grid.Row="0" Grid.Column="0" Height="20px" FontSize="15" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="center" Text="Blur Image"/>
+        <Button Grid.Row="1" Grid.Column="0" Height="25px" Content="Blur Image" Command="{Binding BlurImageCommand}" CommandParameter="Blurred"/>
+    </Grid>
 </UserControl>

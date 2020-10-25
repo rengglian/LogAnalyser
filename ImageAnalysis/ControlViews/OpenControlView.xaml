@@ -6,21 +6,18 @@
              xmlns:local="clr-namespace:ImageAnalysis.ControlViews"
              mc:Ignorable="d" 
              d:DesignHeight="100" d:DesignWidth="200">
-    <Border BorderBrush="Navy" BorderThickness="1">
-        <Grid>
+    <Grid Margin="0,0,15,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
-                <RowDefinition Height="3*" />
-            </Grid.RowDefinitions>
-            <Border Grid.Row="0" Grid.Column="0" Background="Navy"></Border>
-            <TextBlock Grid.Row="0" Grid.Column="0" Height="20px" Margin="0,0,0,5" FontSize="15" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="center" Text="Source Images"/>
-            <StackPanel Grid.Row="1" Grid.Column="0" Margin="5" >
-                <Button Height="25px" Margin="0,0,0,5" Content="Open First Image" Command="{Binding OpenImageCommand}" CommandParameter="Source"/>
-                <Button Height="25px" Margin="0" Content="Open Second Image" Command="{Binding OpenImageCommand}" CommandParameter="Background"/>
-            </StackPanel>
-        </Grid>
-    </Border>
+                <RowDefinition Height="1.5*" />
+                <RowDefinition Height="1.5*" />
+        </Grid.RowDefinitions>
+        <Border Grid.Row="0" Grid.Column="0" Background="Navy"></Border>
+        <TextBlock Grid.Row="0" Grid.Column="0" Height="20px" FontSize="15" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="center" Text="Source Images"/>
+        <Button Grid.Row="1" Grid.Column="0" Margin="5" Height="25px" Content="Open First Image" Command="{Binding OpenImageCommand}" CommandParameter="Source"/>
+        <Button Grid.Row="2" Grid.Column="0" Margin="5" Height="25px" Content="Open Second Image" Command="{Binding OpenImageCommand}" CommandParameter="Background"/>
+    </Grid>
 </UserControl>

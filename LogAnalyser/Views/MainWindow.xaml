@@ -21,13 +21,13 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="10px" />
         </Grid.RowDefinitions>
-        
-        <StackPanel Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" prism:RegionManager.RegionName="ContentRegionTop" HorizontalAlignment="Left" VerticalAlignment="Top" Orientation="Horizontal"/>
 
+        <StackPanel Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" prism:RegionManager.RegionName="ContentRegionTop" HorizontalAlignment="Left" VerticalAlignment="Top" Orientation="Horizontal"/>
         <StackPanel Grid.Row="2" Grid.Column="1">
-            <Button Command="{Binding NavigateCommand}" CommandParameter="PatternAnalysisView" Margin="5">Pattern Analysis</Button>
-            <Button Command="{Binding NavigateCommand}" CommandParameter="PatternGeneratorView" Margin="5">Pattern Generator</Button>
-            <Button Command="{Binding NavigateCommand}" CommandParameter="ImageAnalysisView" Margin="5">Image Analysis</Button>
+            
+            <Button Margin="5" Command="{Binding NavigateCommand}" CommandParameter="PatternAnalysisView" Content="Pattern Analysis" />
+            <Button Margin="5" Command="{Binding NavigateCommand}" CommandParameter="PatternGeneratorView" Content="Pattern Generator" />
+            <Button Margin="5" Command="{Binding NavigateCommand}" CommandParameter="ImageAnalysisView" Content="Image Analysis"/>
         </StackPanel>
         
         <ContentControl Grid.Row="2" Grid.Column="2" prism:RegionManager.RegionName="ContentRegion" HorizontalAlignment="Left" VerticalAlignment="Top" />
