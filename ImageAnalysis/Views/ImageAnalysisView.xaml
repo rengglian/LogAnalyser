@@ -19,7 +19,7 @@
         </Grid.RowDefinitions>
 
         <ContentPresenter Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" 
-                      Content="{Binding ElementName=imageListView, Path=SelectedItem}">
+                      Content="{Binding ElementName=imageListView, Path=SelectedItem}" VerticalAlignment="Top">
             <ContentPresenter.ContentTemplate>
                 <DataTemplate>
                     <Image Stretch="None" Source="{Binding ImageData}"></Image>
@@ -27,7 +27,7 @@
             </ContentPresenter.ContentTemplate>
         </ContentPresenter>
 
-        <ItemsControl Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" ItemsSource="{Binding Spots}">
+        <ItemsControl Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" ItemsSource="{Binding Spots}" VerticalAlignment="Top">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <Canvas/>

@@ -19,8 +19,8 @@
         <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Background="Navy"></Border>
         <TextBlock Grid.Row="0" Grid.Column="0"  Grid.ColumnSpan="2" Height="20px" FontSize="15" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="center" Text="Substract Images"/>
         <Button Grid.Row="1" Grid.Column="0" Grid.RowSpan="2" Margin="5" Height="25px" Content="Substract Images" Command="{Binding SubstractImageCommand}" CommandParameter="Substracted"/>
-        <ComboBox Width="150" Height="25" Grid.Row="1" Grid.Column="1" Margin="5" SelectedIndex="0" ItemsSource="{Binding ImgList}"/>
-        <ComboBox Width="150" Height="25" Grid.Row="2" Grid.Column="1" Margin="5" SelectedIndex="1" ItemsSource="{Binding ImgList}"/>
+        <ComboBox Width="150" Height="25" Grid.Row="1" Grid.Column="1" Margin="5" SelectedIndex="0" ItemsSource="{Binding ImgList}" SelectedItem="{Binding SelectedSubA}"/>
+        <ComboBox Width="150" Height="25" Grid.Row="2" Grid.Column="1" Margin="5" SelectedIndex="1" ItemsSource="{Binding ImgList}" SelectedItem="{Binding SelectedSubB}"/>
         
     </Grid>
 </UserControl>

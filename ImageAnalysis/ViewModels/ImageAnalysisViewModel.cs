@@ -37,17 +37,25 @@ namespace ImageAnalysis.ViewModels
             set { SetProperty(ref imgList, value); }
         }
 
-        private IImageList img;
-        public IImageList Img
-        {
-            get { return img; }
-            set { SetProperty(ref img, value); }
-        }
-
+        private IImageList selectedImage { get; set; }
         public IImageList SelectedImage
         {
-            get { return this.Img; }
-            set { this.Img = value; }
+            get { return this.selectedImage; }
+            set { this.selectedImage = value; }
+        }
+
+        private IImageList selectedSubA { get; set; }
+        public IImageList SelectedSubA
+        {
+            get { return this.selectedSubA; }
+            set { this.selectedSubA = value; }
+        }
+
+        private IImageList selectedSubB { get; set; }
+        public IImageList SelectedSubB
+        {
+            get { return this.selectedSubB; }
+            set { this.selectedSubB = value; }
         }
 
         public ImageAnalysisViewModel()
@@ -71,7 +79,7 @@ namespace ImageAnalysis.ViewModels
         private void FindCirclesHandler()
         {
             this.Spots = new ObservableCollection<Spot>();
-            var sp = FindObjects.Circles(this.images[img.Title].ImageMat);
+            var sp = FindObjects.Circles(this.images[selectedImage.Title].ImageMat);
             sp.ForEach(sp =>
             {
                 this.Spots.Add(sp);
@@ -82,11 +90,11 @@ namespace ImageAnalysis.ViewModels
         {
             if (!this.images.ContainsKey(src))
             {
-                this.images.Add(src, new CalibrationImage(this.images[img.Title].ImageMat));
+                this.images.Add(src, new CalibrationImage(this.images[selectedImage.Title].ImageMat));
             }
             else
             {
-                this.images[src] = new CalibrationImage(this.images[img.Title].ImageMat);
+                this.images[src] = new CalibrationImage(this.images[selectedImage.Title].ImageMat);
             }
             this.images[src].Blur();
             this.ImgList.Add(new ImageList(src, this.images[src].GetBitmapImage()));
@@ -96,13 +104,13 @@ namespace ImageAnalysis.ViewModels
         {
             if (!this.images.ContainsKey(src))
             {
-                this.images.Add(src, new CalibrationImage(this.images["Source"].ImageMat));
+                this.images.Add(src, new CalibrationImage(this.images[selectedSubA.Title].ImageMat));
             }
             else
             {
-                this.images[src] = new CalibrationImage(this.images["Source"].ImageMat);
+                this.images[src] = new CalibrationImage(this.images[selectedSubA.Title].ImageMat);
             }
-            this.images[src].Substract(this.images["Background"].ImageMat);
+            this.images[src].Substract(this.images[selectedSubB.Title].ImageMat);
             this.ImgList.Add(new ImageList(src, this.images[src].GetBitmapImage()));
         }
 
