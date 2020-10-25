@@ -19,6 +19,7 @@ namespace ImageAnalysis.ViewModels
         public DelegateCommand<string> BlurImageCommand { get; set; }
         public DelegateCommand FindCirclesCommand { get; set; }
         public DelegateCommand DeleteCommand { get; private set; }
+        public DelegateCommand OpenTargetCommand { get; private set; }
 
         private readonly Dictionary<string, ICalibrationImage> images;
 
@@ -68,7 +69,13 @@ namespace ImageAnalysis.ViewModels
             this.BlurImageCommand = new DelegateCommand<string>(BlurImageHandler);
             this.FindCirclesCommand = new DelegateCommand(FindCirclesHandler);
             this.DeleteCommand = new DelegateCommand(DeleteHandler);
+            this.OpenTargetCommand = new DelegateCommand(OpenTargetHandler);
 
+        }
+
+        private void OpenTargetHandler()
+        {
+            
         }
 
         private void DeleteHandler()
