@@ -7,7 +7,7 @@
         xmlns:oxy="http://oxyplot.org/wpf"             
         xmlns:prism="http://prismlibrary.com/"
         prism:ViewModelLocator.AutoWireViewModel="true"
-        Title="Shell" Height="600" Width="1000">
+        Title="Shell" Height="700" Width="1000">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10px" />

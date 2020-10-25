@@ -53,10 +53,7 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <Label x:Name="srcImgCounter" Content="{Binding Counter}"/>
-                            <Label x:Name="srcImgLabel" Content="{Binding Title}"/>
-                        </StackPanel>
+                        <Label x:Name="srcImgLabel" Content="{Binding Title}"/>
                         <Image x:Name="srcImg" Stretch="Fill" Width="100" Source="{Binding ImageData}"/>
                     </StackPanel>
                 </DataTemplate>

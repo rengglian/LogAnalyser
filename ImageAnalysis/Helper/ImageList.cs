@@ -10,13 +10,10 @@ namespace ImageAnalysis.Helper
     {
         public string Title { get; set; } = "";
         public BitmapImage ImageData { get; set; } = new BitmapImage();
-        public int Counter { get; set; } = -1;
-        public ImageList(string title, int counter, BitmapImage imageData)
+        public ImageList(string title, BitmapImage imageData)
         {
             Title = title;
             ImageData = imageData;
-            Counter = counter;
-
         }
         public override string ToString()
         {

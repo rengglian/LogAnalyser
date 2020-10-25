@@ -89,7 +89,7 @@ namespace ImageAnalysis.ViewModels
                 this.images[src] = new CalibrationImage(this.images[img.Title].ImageMat);
             }
             this.images[src].Blur();
-            this.ImgList.Add(new ImageList(src, this.ImgList.Count, this.images[src].GetBitmapImage()));
+            this.ImgList.Add(new ImageList(src, this.images[src].GetBitmapImage()));
         }
 
         private void SubstractImageHandler(string src)
@@ -103,7 +103,7 @@ namespace ImageAnalysis.ViewModels
                 this.images[src] = new CalibrationImage(this.images["Source"].ImageMat);
             }
             this.images[src].Substract(this.images["Background"].ImageMat);
-            this.ImgList.Add(new ImageList(src, this.ImgList.Count, this.images[src].GetBitmapImage()));
+            this.ImgList.Add(new ImageList(src, this.images[src].GetBitmapImage()));
         }
 
         private void OpenImageHandler(string src)
@@ -117,7 +117,7 @@ namespace ImageAnalysis.ViewModels
                 this.images[src] = new CalibrationImage();
             }
             //this.SourceImage = new CalibrationImage();
-            this.ImgList.Add(new ImageList(src, this.ImgList.Count, this.images[src].GetBitmapImage()));
+            this.ImgList.Add(new ImageList(src, this.images[src].GetBitmapImage()));
         }
 
     }
