@@ -97,7 +97,7 @@ namespace ImageAnalysis.ViewModels
                 var scaledY = pt.Y * 0.03 + 576/2;
                 spots.Add(new Spot(new System.Windows.Point(scaledX, scaledY), 5, System.Windows.Media.Brushes.AliceBlue));
             }
-            spots.Add(new Spot(new System.Windows.Point(0, 0), 5, System.Windows.Media.Brushes.AliceBlue));
+            spots.Add(new Spot(new System.Windows.Point(720 / 2, 576 / 2), 5, System.Windows.Media.Brushes.AliceBlue));
 
             var sorted = PatternAnalyser.SortList(spots);
             this.Target = new ObservableCollection<Spot>();
@@ -105,6 +105,9 @@ namespace ImageAnalysis.ViewModels
             {
                 this.Target.Add(sp);
             });
+
+            var test = AffineMatrix.CalculateMatrix(this.Spots, this.Target);
+            Console.WriteLine("tet");
         }
 
 

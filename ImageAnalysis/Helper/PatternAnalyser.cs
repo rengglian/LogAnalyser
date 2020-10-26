@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows.Media;
 
@@ -29,6 +31,7 @@ namespace ImageAnalysis.Helper
                 var Xy = slope_X * Xx + offset_X;
                 var Yx = corners[2].Position.X + delta_Yx * i;
                 var Yy = slope_Y * Yx + offset_Y;
+                if (Double.IsNaN(Yy)) Yy = Xx;
 
                 var closest_X = unsorted.OrderBy(spot => spot.Distance(new System.Windows.Point(Xx, Xy))).First();
                 var closest_Y = unsorted.OrderBy(spot => spot.Distance(new System.Windows.Point(Yx, Yy))).First();
