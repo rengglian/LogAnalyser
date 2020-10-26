@@ -8,6 +8,8 @@ using System.Collections.Generic;
 using ImageAnalysis.ImageProcessing;
 using OpenCvSharp;
 using System;
+using Prism.Events;
+using Infrastructure.Prism;
 
 namespace ImageAnalysis.ViewModels
 {
@@ -19,7 +21,6 @@ namespace ImageAnalysis.ViewModels
         public DelegateCommand<string> BlurImageCommand { get; set; }
         public DelegateCommand FindCirclesCommand { get; set; }
         public DelegateCommand DeleteCommand { get; private set; }
-        public DelegateCommand OpenTargetCommand { get; private set; }
 
         private readonly Dictionary<string, ICalibrationImage> images;
 
@@ -59,7 +60,7 @@ namespace ImageAnalysis.ViewModels
             set { this.selectedSubB = value; }
         }
 
-        public ImageAnalysisViewModel()
+        public ImageAnalysisViewModel(IEventAggregator eventAggregator)
         {
             this.ImgList = new ObservableCollection<IImageList>();
             this.images = new Dictionary<string, ICalibrationImage>();
@@ -69,14 +70,16 @@ namespace ImageAnalysis.ViewModels
             this.BlurImageCommand = new DelegateCommand<string>(BlurImageHandler);
             this.FindCirclesCommand = new DelegateCommand(FindCirclesHandler);
             this.DeleteCommand = new DelegateCommand(DeleteHandler);
-            this.OpenTargetCommand = new DelegateCommand(OpenTargetHandler);
-
-        }
-
-        private void OpenTargetHandler()
-        {
             
+            eventAggregator.GetEvent<MessageSentEvent>().Subscribe(OnMessageReceived);
+
         }
+
+        private void OnMessageReceived(string message)
+        {
+            Console.WriteLine(message);
+        }
+
 
         private void DeleteHandler()
         {

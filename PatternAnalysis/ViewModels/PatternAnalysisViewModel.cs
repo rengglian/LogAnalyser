@@ -8,6 +8,8 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Prism.Commands;
+using Prism.Events;
+using Infrastructure.Prism;
 
 namespace PatternAnalysis.ViewModels
 {
@@ -20,6 +22,7 @@ namespace PatternAnalysis.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
+        private readonly IEventAggregator _eventAggregator;
         public DelegateCommand DataSet1FileCommand { get; set; }
         public DelegateCommand DataSet2FileCommand { get; set; }
         public DelegateCommand DataSet3FileCommand { get; set; }
@@ -34,7 +37,7 @@ namespace PatternAnalysis.ViewModels
         public string Title { get; set; }
         public Dictionary<string, double> CalibMatrix { get; set; } = new Dictionary<string, double>();
 
-        public PatternAnalysisViewModel()
+        public PatternAnalysisViewModel(IEventAggregator eventAggregator)
         {
             this.DataSet1FileCommand = new DelegateCommand(DataSet1FileHandler);
             this.DataSet2FileCommand = new DelegateCommand(DataSet2FileHandler);
@@ -43,6 +46,14 @@ namespace PatternAnalysis.ViewModels
             this.Analyse23Command = new DelegateCommand(Analyse23Handler);
             this.BinValue = 20;
             this.Title = "Test";
+            _eventAggregator = eventAggregator;
+
+        }
+
+        private void SendMessage()
+        {
+            var Message = "Hello World";
+            _eventAggregator.GetEvent<MessageSentEvent>().Publish(Message);
         }
 
         private void Analyse12Handler()
@@ -84,6 +95,7 @@ namespace PatternAnalysis.ViewModels
             {
 
                 this.Pattern1 = new Pattern(openFileDialog.FileName);
+                SendMessage();
                 this.OnPropertyChanged(nameof(this.Pattern1));
             }
         }
