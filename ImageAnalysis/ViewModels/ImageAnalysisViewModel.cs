@@ -10,6 +10,9 @@ using OpenCvSharp;
 using System;
 using Prism.Events;
 using Infrastructure.Prism;
+using System.Text.Json;
+using System.Drawing;
+using System.Windows.Media.Media3D;
 
 namespace ImageAnalysis.ViewModels
 {
@@ -30,6 +33,14 @@ namespace ImageAnalysis.ViewModels
         {
             get { return spots; }
             set { SetProperty(ref spots, value); }
+        }
+
+        private ObservableCollection<Spot> target;
+
+        public ObservableCollection<Spot> Target
+        {
+            get { return target; }
+            set { SetProperty(ref target, value); }
         }
 
         private ObservableCollection<IImageList> imgList;
@@ -77,7 +88,23 @@ namespace ImageAnalysis.ViewModels
 
         private void OnMessageReceived(string message)
         {
-            Console.WriteLine(message);
+            var json = JsonSerializer.Deserialize<List<System.Windows.Point>>(message);
+            var unique_items = new HashSet<System.Windows.Point>(json);
+            List<Spot> spots = new List<Spot>();
+            foreach (System.Windows.Point pt in unique_items)
+            {
+                var scaledX = pt.X * 0.03 + 720/2;
+                var scaledY = pt.Y * 0.03 + 576/2;
+                spots.Add(new Spot(new System.Windows.Point(scaledX, scaledY), 5, System.Windows.Media.Brushes.AliceBlue));
+            }
+            spots.Add(new Spot(new System.Windows.Point(0, 0), 5, System.Windows.Media.Brushes.AliceBlue));
+
+            var sorted = PatternAnalyser.SortList(spots);
+            this.Target = new ObservableCollection<Spot>();
+            sorted.ForEach(sp =>
+            {
+                this.Target.Add(sp);
+            });
         }
 
 
