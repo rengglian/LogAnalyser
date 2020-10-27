@@ -22,12 +22,12 @@ namespace ImageAnalysis.Helper
 
         public void Substract(Mat img)
         {
-            Cv2.Subtract(this.ImageMat, img, this.ImageMat);
+            Cv2.Absdiff(this.ImageMat, img, this.ImageMat);
         }
 
         public void Blur()
         {
-            Cv2.GaussianBlur(this.ImageMat, this.ImageMat, new Size(7, 7), 20);
+            Cv2.MedianBlur(this.ImageMat, this.ImageMat, 5);
         }
 
         public BitmapImage GetBitmapImage()

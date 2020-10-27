@@ -9,16 +9,19 @@ namespace ImageAnalysis.ImageProcessing
     {
         public static List<Spot> Circles(Mat img)
         {
+            var gray = img.Clone();
+            if (img.Channels() > 1) Cv2.CvtColor(img, gray, ColorConversionCodes.BGR2GRAY);
+
+            var obj = Cv2.HoughCircles(gray, HoughMethods.Gradient, 1, 10, 70, 10, 3, 10);
+
             List<Spot> spots = new List<Spot>();
 
-            var tmp = Cv2.HoughCircles(img, HoughMethods.Gradient, 1, 10, 70, 10, 3, 10);
-
-            for (int i = 0; i<tmp.Length; i++)
+            for (int i = 0; i<obj.Length; i++)
             {
 
-                var x = tmp[i].Center.X;
-                var y = tmp[i].Center.Y;
-                var d = tmp[i].Radius * 2;
+                var x = obj[i].Center.X;
+                var y = obj[i].Center.Y;
+                var d = obj[i].Radius * 2;
 
                 spots.Add(new Spot(new System.Windows.Point(x, y), d, Brushes.Yellow));
             }

@@ -3,16 +3,12 @@ using ImageAnalysis.Interfaces;
 using System.Collections.ObjectModel;
 using Prism.Commands;
 using Prism.Mvvm;
-using System.Windows.Documents;
 using System.Collections.Generic;
 using ImageAnalysis.ImageProcessing;
-using OpenCvSharp;
 using System;
 using Prism.Events;
-using Infrastructure.Prism;
 using System.Text.Json;
-using System.Drawing;
-using System.Windows.Media.Media3D;
+using Infrastructure.Prism.Events;
 
 namespace ImageAnalysis.ViewModels
 {
@@ -57,6 +53,13 @@ namespace ImageAnalysis.ViewModels
             set { this.selectedImage = value; }
         }
 
+        private Dictionary<string, double> calibMatrix;
+        public Dictionary<string, double> CalibMatrix
+        {
+            get { return this.calibMatrix; }
+            set { SetProperty(ref calibMatrix, value); }
+        }
+
         private IImageList selectedSubA { get; set; }
         public IImageList SelectedSubA
         {
@@ -82,7 +85,7 @@ namespace ImageAnalysis.ViewModels
             this.FindCirclesCommand = new DelegateCommand(FindCirclesHandler);
             this.DeleteCommand = new DelegateCommand(DeleteHandler);
             
-            eventAggregator.GetEvent<MessageSentEvent>().Subscribe(OnMessageReceived);
+            eventAggregator.GetEvent<PatternSendEvent>().Subscribe(OnMessageReceived);
 
         }
 
@@ -93,10 +96,11 @@ namespace ImageAnalysis.ViewModels
             List<Spot> spots = new List<Spot>();
             foreach (System.Windows.Point pt in unique_items)
             {
-                var scaledX = pt.X * 0.03 + 720/2;
-                var scaledY = pt.Y * 0.03 + 576/2;
+                var scaledX = -pt.X * 1 / 30.129 + 720 / 2;
+                var scaledY = pt.Y * 1 / 30.129 + 576 / 2;
                 spots.Add(new Spot(new System.Windows.Point(scaledX, scaledY), 5, System.Windows.Media.Brushes.AliceBlue));
             }
+
             spots.Add(new Spot(new System.Windows.Point(720 / 2, 576 / 2), 5, System.Windows.Media.Brushes.AliceBlue));
 
             var sorted = PatternAnalyser.SortList(spots);
@@ -106,7 +110,7 @@ namespace ImageAnalysis.ViewModels
                 this.Target.Add(sp);
             });
 
-            var test = AffineMatrix.CalculateMatrix(this.Spots, this.Target);
+            this.CalibMatrix = AffineMatrix.CalculateMatrix(this.Spots, this.Target);
             Console.WriteLine("tet");
         }
 

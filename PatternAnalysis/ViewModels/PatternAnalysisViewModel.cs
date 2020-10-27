@@ -9,8 +9,8 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Prism.Commands;
 using Prism.Events;
-using Infrastructure.Prism;
 using System.Text.Json;
+using Infrastructure.Prism.Events;
 
 namespace PatternAnalysis.ViewModels
 {
@@ -54,7 +54,7 @@ namespace PatternAnalysis.ViewModels
         private void SendMessage()
         {
             var json = JsonSerializer.Serialize(this.Pattern1.Points);
-            _eventAggregator.GetEvent<MessageSentEvent>().Publish(json);
+            _eventAggregator.GetEvent<PatternSendEvent>().Publish(json);
         }
 
         private void Analyse12Handler()

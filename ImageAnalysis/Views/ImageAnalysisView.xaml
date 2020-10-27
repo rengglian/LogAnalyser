@@ -14,7 +14,7 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
+            <RowDefinition Height="4*" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
@@ -65,7 +65,7 @@
             </ItemsControl.ItemTemplate>
         </ItemsControl>
 
-        <ListView Name="imageListView" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Margin="5,5,5,5" BorderThickness="0" SelectedIndex="0" ItemsSource="{Binding ImgList}" SelectedItem="{Binding SelectedImage}">
+        <ListView Name="imageListView" Grid.Column="1" Grid.Row="0" Margin="5,5,5,5" BorderThickness="0" SelectedIndex="0" ItemsSource="{Binding ImgList}" SelectedItem="{Binding SelectedImage}">
             <ListView.InputBindings>
                 <KeyBinding Gesture="Delete"  Command="{Binding DeleteCommand}" />
             </ListView.InputBindings>
@@ -78,6 +78,25 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+
+        <StackPanel Grid.Column="1" Grid.Row="1" Margin="5,5,5,5">
+            <ItemsControl  Margin="0,0,0,5" Name="calibTable" BorderThickness="0" ItemsSource="{Binding CalibMatrix}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Columns="2"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <WrapPanel Margin="0,0,5,0">
+                            <TextBlock FontWeight="Bold" Text="{Binding Key}" />
+                            <TextBlock FontWeight="Bold" Text=": "/>
+                            <TextBlock Text="{Binding Value , StringFormat=0.###}" />
+                        </WrapPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
 
     </Grid>
 </UserControl>

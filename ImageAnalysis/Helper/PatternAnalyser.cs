@@ -13,8 +13,8 @@ namespace ImageAnalysis.Helper
             var center = CenterSpot(unsorted);
             var corners = Corners(unsorted, center);
 
-            var slope_X = CalculateSlope(corners[0], corners[1]);
-            var slope_Y = CalculateSlope(corners[2], corners[3]);
+            var slope_X = CalculateSlope(corners[1], corners[0]);
+            var slope_Y = CalculateSlope(corners[3], corners[2]);
 
             var offset_X = CalculateOffset(corners[0], slope_X);
             var offset_Y = CalculateOffset(corners[2], slope_Y);
@@ -58,10 +58,10 @@ namespace ImageAnalysis.Helper
 
             spots.ForEach(spot =>
             {
-                if (spot.Position.X > corners[0].Position.X && spot.Position.Y >= corners[0].Position.Y) corners[0] = spot;
-                if (spot.Position.X < corners[1].Position.X && spot.Position.Y <= corners[1].Position.Y) corners[1] = spot;
-                if (spot.Position.X >= corners[2].Position.X && spot.Position.Y < corners[2].Position.Y) corners[2] = spot;
-                if (spot.Position.X <= corners[3].Position.X && spot.Position.Y > corners[3].Position.Y) corners[3] = spot;
+                if (spot.Position.X > corners[0].Position.X && spot.Position.Y <= corners[0].Position.Y) corners[0] = spot;
+                if (spot.Position.X < corners[1].Position.X && spot.Position.Y >= corners[1].Position.Y) corners[1] = spot;
+                if (spot.Position.X <= corners[3].Position.X && spot.Position.Y < corners[3].Position.Y) corners[3] = spot;
+                if (spot.Position.X >= corners[2].Position.X && spot.Position.Y > corners[2].Position.Y) corners[2] = spot;
             });
 
             corners[0].Color = Brushes.DarkBlue;
