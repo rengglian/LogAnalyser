@@ -27,7 +27,7 @@ namespace ImageAnalysis.Helper
 
         public void Blur()
         {
-            Cv2.MedianBlur(this.ImageMat, this.ImageMat, 5);
+            Cv2.GaussianBlur(this.ImageMat, this.ImageMat, new Size(7, 7), 20);
         }
 
         public BitmapImage GetBitmapImage()
