@@ -32,6 +32,7 @@ namespace ImageAnalysis.Helper
                 var closest_X = unsorted.OrderBy(spot => spot.Distance(new System.Windows.Point(Xx, Xy))).First();
                 if (i == 0) closest_X.Color = Brushes.Yellow;
                 else closest_X.Color = Brushes.Red;
+                closest_X.Counter = i;
 
                 sortedX.Add(closest_X);
             }
@@ -55,6 +56,7 @@ namespace ImageAnalysis.Helper
                 var closest_Y = unsorted.OrderBy(spot => spot.Distance(new System.Windows.Point(Yx, Yy))).First();
                 if (i == 0) closest_Y.Color = Brushes.Green;
                 else closest_Y.Color = Brushes.Blue;
+                closest_Y.Counter = i;
 
                 sortedY.Add(closest_Y);
             }

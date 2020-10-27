@@ -14,6 +14,8 @@ namespace ImageAnalysis.Helper
         public Point DrawPosition { get; set; }
         public float Diameter { get; set; }
         public SolidColorBrush Color { get; set; }
+        public int Counter { get; set; } = 0;
+
 
         public Spot(Point pt, float d, SolidColorBrush c)
         {

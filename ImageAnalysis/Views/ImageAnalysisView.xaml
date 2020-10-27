@@ -46,6 +46,32 @@
             </ItemsControl.ItemTemplate>
         </ItemsControl>
 
+        <ItemsControl Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" ItemsSource="{Binding Spots}" VerticalAlignment="Top">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Canvas/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemContainerStyle>
+                <Style TargetType="ContentPresenter">
+                    <Setter Property="Canvas.Left" Value="{Binding DrawPosition.X}"></Setter>
+                    <Setter Property="Canvas.Top" Value="{Binding DrawPosition.Y}"></Setter>
+                </Style>
+            </ItemsControl.ItemContainerStyle>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <DataTemplate.Resources>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="FontSize" Value="12" />
+                            <Setter Property="Foreground" Value="{Binding Color}" />
+                            <Setter Property="FontWeight" Value="Bold" />
+                        </Style>
+                    </DataTemplate.Resources>
+                    <TextBlock Text="{Binding Counter}" />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
         <ItemsControl Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" ItemsSource="{Binding Target}" VerticalAlignment="Top">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
@@ -61,6 +87,32 @@
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Ellipse Width="{Binding Diameter}" Height="{Binding Diameter}" Stroke="{Binding Color}" StrokeThickness="1" />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+        <ItemsControl Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" ItemsSource="{Binding Target}" VerticalAlignment="Top">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Canvas/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemContainerStyle>
+                <Style TargetType="ContentPresenter">
+                    <Setter Property="Canvas.Left" Value="{Binding DrawPosition.X}"></Setter>
+                    <Setter Property="Canvas.Top" Value="{Binding DrawPosition.Y}"></Setter>
+                </Style>
+            </ItemsControl.ItemContainerStyle>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <DataTemplate.Resources>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="FontSize" Value="12" />
+                            <Setter Property="Foreground" Value="{Binding Color}" />
+                            <Setter Property="FontWeight" Value="Bold" />
+                        </Style>
+                    </DataTemplate.Resources>
+                    <TextBlock Text="{Binding Counter}" />
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
