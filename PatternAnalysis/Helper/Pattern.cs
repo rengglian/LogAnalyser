@@ -6,6 +6,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Windows;
 using PatternAnalysis.Interfaces;
+using System.IO;
 
 namespace PatternAnalysis.Helper
 {
@@ -13,11 +14,12 @@ namespace PatternAnalysis.Helper
     {
         public List<DataPoint> Points { get; set; } = new List<DataPoint>();
         public string CheckSum { get; set; } = "";
+        public string FileName { get; set; } = "";
         public Point Center { get; set; } = new Point();
 
         public Pattern(string fileName)
         {
-            if (fileName == "none")
+            if (fileName == "None")
             {
                 this.Points.Add(new DataPoint(0, 0));
             } else
@@ -26,7 +28,7 @@ namespace PatternAnalysis.Helper
             }
             this.CheckSum = CalculateCheckSum(this.Points);
             this.Center = CalculateCenter(this.Points);
-
+            this.FileName = Path.GetFileName(fileName);
         }
 
         private string CalculateCheckSum(List<DataPoint> pointList)
@@ -63,5 +65,9 @@ namespace PatternAnalysis.Helper
             return center;
         }
 
+        public override string ToString()
+        {
+            return FileName;
+        }
     }
 }

@@ -8,6 +8,8 @@ namespace PatternAnalysis.Interfaces
     {
         Point Center { get; set; }
         string CheckSum { get; set; }
+        string FileName { get; set; }
         List<DataPoint> Points { get; set; }
+        string ToString();
     }
 }

@@ -6,120 +6,141 @@ using OxyPlot;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using Prism.Commands;
 using Prism.Events;
 using System.Text.Json;
 using Infrastructure.Prism.Events;
+using Prism.Mvvm;
+using Infrastructure.Oxyplot;
+using OxyPlot.Series;
 
 namespace PatternAnalysis.ViewModels
 {
-    public class PatternAnalysisViewModel : INotifyPropertyChanged
+    public class PatternAnalysisViewModel : BindableBase, INotifyPropertyChanged
     {
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged([CallerMemberName] string name = null)
+        private readonly IEventAggregator _eventAggregator;
+        public DelegateCommand<string> OpenDataSetCommand { get; set; }
+        public DelegateCommand TransformMatrixCommand { get; set; }
+        public DelegateCommand CreateHistogramCommand { get; set; }
+        public DelegateCommand SendCommand { get; set; }
+
+        private Dictionary<string, IPattern> patternList;
+        public Dictionary<string, IPattern> PatternList
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+            get { return patternList; }
+            set { SetProperty(ref patternList, value); }
         }
 
-        private readonly IEventAggregator _eventAggregator;
-        public DelegateCommand DataSet1FileCommand { get; set; }
-        public DelegateCommand DataSet2FileCommand { get; set; }
-        public DelegateCommand DataSet3FileCommand { get; set; }
-        public DelegateCommand Analyse12Command { get; set; }
-        public DelegateCommand Analyse23Command { get; set; }
-        public IPattern Pattern1 { get; set; }
-        public IPattern Pattern2 { get; set; }
-        public IPattern Pattern3 { get; set; }
-        public IPattern Pattern4 { get; set; }
+        private string selectedA { get; set; }
+        public string SelectedA
+        {
+            get { return this.selectedA; }
+            set { this.selectedA = value; }
+        }
+
+        private string selectedB { get; set; }
+        public string SelectedB
+        {
+            get { return this.selectedB; }
+            set { this.selectedB = value; }
+        }
+
         public ObservableCollection<DataPoint> HistoSet { get; private set; } = new ObservableCollection<DataPoint>();
         public int BinValue { get; set; }
         public string Title { get; set; }
-        public Dictionary<string, double> CalibMatrix { get; set; } = new Dictionary<string, double>();
+        private Dictionary<string, double> calibMatrix;
+        public Dictionary<string, double> CalibMatrix
+        {
+            get { return calibMatrix; }
+            set { SetProperty(ref calibMatrix, value); }
+        }
+
+        private Dictionary<string, ScatterSeries> scatterSeries { get; set; } = new Dictionary<string, ScatterSeries>();
+
+        private PlotModel plotModelPattern;
+        public PlotModel PlotModelPattern
+        {
+            get { return plotModelPattern; }
+            set { SetProperty(ref plotModelPattern, value); }
+        }
 
         public PatternAnalysisViewModel(IEventAggregator eventAggregator)
         {
-            this.DataSet1FileCommand = new DelegateCommand(DataSet1FileHandler);
-            this.DataSet2FileCommand = new DelegateCommand(DataSet2FileHandler);
-            this.DataSet3FileCommand = new DelegateCommand(DataSet3FileHandler);
-            this.Analyse12Command = new DelegateCommand(Analyse12Handler);
-            this.Analyse23Command = new DelegateCommand(Analyse23Handler);
+            this.PlotModelPattern = PlotModelHelper.CreateScatterPlot();
+
+            this.patternList = new Dictionary<string, IPattern>();
+
+            this.OpenDataSetCommand = new DelegateCommand<string>(OpenDataSetHandler);
+            this.TransformMatrixCommand = new DelegateCommand(TransformMatrixHandler);
+            this.CreateHistogramCommand = new DelegateCommand(CreateHistogramHandler);
+            this.SendCommand = new DelegateCommand(SendHandler);
             this.BinValue = 20;
             this.Title = "Test";
-            _eventAggregator = eventAggregator;
+            this._eventAggregator = eventAggregator;
 
         }
 
-        private void SendMessage()
+        private void CreateHistogramHandler()
         {
-            var json = JsonSerializer.Serialize(this.Pattern1.Points);
+            var str = "Set4";
+
+            if (!this.patternList.ContainsKey(str)) this.patternList.Add(str, new Pattern("None"));
+            else this.patternList[str] = new Pattern("None");
+
+            this.HistoSet = Histogram.Create(this.patternList[SelectedA], this.patternList[SelectedB], BinValue).ToObservableCollection();
+        }
+
+        private void OpenDataSetHandler(string str)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            if (openFileDialog.ShowDialog() == true)
+            {
+                if (!this.patternList.ContainsKey(str)) this.patternList.Add(str, new Pattern(openFileDialog.FileName));
+                else this.patternList[str] = new Pattern(openFileDialog.FileName);
+
+                ScatterSeries series;
+                if (str == "Set3" && this.patternList.ContainsKey("Set2")) series = PlotModelHelper.CreateScatterSerie(this.patternList[str].Points, this.patternList["Set2"].Points);
+                else series = PlotModelHelper.CreateScatterSerie(this.patternList[str].Points);
+
+                if (!this.scatterSeries.ContainsKey(str)) this.scatterSeries.Add(str, series);
+                else this.scatterSeries[str] = series;
+
+                PlotModelPattern.Series.Add(this.scatterSeries[str]);
+                PlotModelPattern.InvalidatePlot(true);
+            }
+        }
+
+        private void SendHandler()
+        {
+            var json = JsonSerializer.Serialize(this.patternList[SelectedA].Points);
             _eventAggregator.GetEvent<PatternSendEvent>().Publish(json);
         }
 
-        private void Analyse12Handler()
+        private void TransformMatrixHandler()
         {
 
-            this.CalibMatrix = AffineMatrix.CalculateMatrix(this.Pattern3, this.Pattern2);
-            this.OnPropertyChanged(nameof(this.CalibMatrix));
+            this.CalibMatrix = AffineMatrix.CalculateMatrix(this.patternList[SelectedA], this.patternList[SelectedB]);
 
-            this.Pattern4 = new Pattern("none");
-            this.Pattern4.Points.Clear();
+            var str = "Set4";
+            if (!this.patternList.ContainsKey(str)) this.patternList.Add(str, new Pattern("None"));
+            else this.patternList[str] = new Pattern("None");
 
-            this.Pattern3.Points.ForEach(pt =>
-           {
-               var x = this.CalibMatrix["m11"] * pt.X + this.CalibMatrix["m12"] * pt.Y + this.CalibMatrix["m13"];
-               var y = this.CalibMatrix["m21"] * pt.X + this.CalibMatrix["m22"] * pt.Y + this.CalibMatrix["m23"];
-               
-               this.Pattern4.Points.Add(new DataPoint(x, y));
-           });
-           this.OnPropertyChanged(nameof(this.Pattern4));
-           this.HistoSet = Histogram.Create(this.Pattern2, this.Pattern4, BinValue).ToObservableCollection();
-           this.OnPropertyChanged(nameof(this.HistoSet));
-        }
-
-        private void Analyse23Handler()
-        {
-
-            this.Pattern4 = new Pattern("none");
-            this.Pattern4.Points.Clear();
-            this.OnPropertyChanged(nameof(this.Pattern4));
-
-            this.HistoSet = Histogram.Create(this.Pattern2, this.Pattern3, BinValue).ToObservableCollection();
-            this.OnPropertyChanged(nameof(this.HistoSet));
-        }
-
-        private void DataSet1FileHandler()
-        {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            if (openFileDialog.ShowDialog() == true)
+            this.patternList[SelectedA].Points.ForEach(pt =>
             {
+                var x = this.CalibMatrix["m11"] * pt.X + this.CalibMatrix["m12"] * pt.Y + this.CalibMatrix["m13"];
+                var y = this.CalibMatrix["m21"] * pt.X + this.CalibMatrix["m22"] * pt.Y + this.CalibMatrix["m23"];
 
-                this.Pattern1 = new Pattern(openFileDialog.FileName);
-                SendMessage();
-                this.OnPropertyChanged(nameof(this.Pattern1));
-            }
+                this.patternList[str].Points.Add(new DataPoint(x, y));
+            });
+
+            var series = PlotModelHelper.CreateScatterSerie(this.patternList[str].Points);
+            if (!this.scatterSeries.ContainsKey(str)) this.scatterSeries.Add(str, series);
+            else this.scatterSeries[str] = series;
+            PlotModelPattern.Series.Add(this.scatterSeries[str]);
+            PlotModelPattern.InvalidatePlot(true);
+
+            this.HistoSet = Histogram.Create(this.patternList[SelectedB], this.patternList[str], BinValue).ToObservableCollection();
         }
-
-        private void DataSet2FileHandler()
-        {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            if (openFileDialog.ShowDialog() == true)
-            {
-                this.Pattern2 = new Pattern(openFileDialog.FileName);
-                this.OnPropertyChanged(nameof(this.Pattern2));
-            }
-        }
-
-        private void DataSet3FileHandler()
-        {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            if (openFileDialog.ShowDialog() == true)
-            {
-                this.Pattern3 = new Pattern(openFileDialog.FileName);
-                this.OnPropertyChanged(nameof(this.Pattern3));
-            }
-        }
-
     }
 }

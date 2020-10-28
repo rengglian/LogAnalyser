@@ -11,29 +11,16 @@
         d:DesignWidth="950" d:DesignHeight="550">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
             <ColumnDefinition Width="2*" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <StackPanel Grid.Column="0" Grid.Row="0" Margin="5,5,5,5">
-            <Button Height="40px" Margin="0,0,0,5" Content="Data Set 1" Command="{Binding DataSet1FileCommand}"/>
-            <Button Height="40px" Margin="0,0,0,5" Content="Data Set 2" Command="{Binding DataSet2FileCommand}"/>
-            <Button Height="40px" Margin="0,0,0,5" Content="Data Set 3" Command="{Binding DataSet3FileCommand}"/>
-            <Button Height="40px" Margin="0,0,0,5" Content="Analyse 2 and 3" Command="{Binding Analyse23Command}"/>
-            <DockPanel Margin="0,0,0,5">
-                <Label HorizontalAlignment="Right" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="18">μm / bins:</Label>
-                <TextBox VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="18" Text="{Binding BinValue, StringFormat=D}"></TextBox>
-            </DockPanel>
-
-        </StackPanel>
-
-        <StackPanel Grid.Column="0" Grid.Row="1" Margin="5,5,5,5">
-            <Button Height="40px" Margin="0,0,0,5" Content="Transform Matrix (1 / 3)" Command="{Binding Analyse12Command}"/>
+        <StackPanel Grid.Column="1" Grid.Row="0" Margin="5,5,5,5">
             <ItemsControl  Margin="0,0,0,5" Name="calibTable" BorderThickness="0" ItemsSource="{Binding CalibMatrix}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -52,20 +39,9 @@
             </ItemsControl>
         </StackPanel>
 
-        <oxy:Plot  Grid.Column="1" Grid.Row="0" x:Uid="oxyGraph" x:Name="oxyPlot" Width="400" Height="260" Title="{Binding Title}">
-            <oxy:Plot.Axes>
-                <oxy:LinearAxis Position="Bottom" StartPosition="1" EndPosition="0"/>
-                <oxy:LinearAxis StartPosition="1" EndPosition="0"/>
-            </oxy:Plot.Axes>
-            <oxy:Plot.Series>
-                <oxy:LineSeries x:Name="set1" ItemsSource="{Binding Pattern1.Points}" LineStyle="None"  MarkerType="Circle" MarkerSize="3" MarkerFill="Aqua"/>
-                <oxy:LineSeries x:Name="set2" ItemsSource="{Binding Pattern2.Points}" LineStyle="None"  MarkerType="Circle" MarkerSize="3" MarkerFill="Crimson"/>
-                <oxy:LineSeries x:Name="set3" ItemsSource="{Binding Pattern3.Points}" LineStyle="None"  MarkerType="Circle" MarkerSize="3" MarkerFill="Orchid"/>
-                <oxy:LineSeries x:Name="set4" ItemsSource="{Binding Pattern4.Points}" LineStyle="None"  MarkerType="Circle" MarkerSize="3" MarkerFill="Green"/>
-            </oxy:Plot.Series>
-        </oxy:Plot>
+        <oxy:PlotView Name="PatternPlot" Model="{Binding PlotModelPattern}" Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Width="350" Height="350" VerticalAlignment="Center" HorizontalAlignment="Center"/>
 
-        <oxy:Plot Grid.Column="1" Grid.Row="1" x:Uid="oxyGraph1" x:Name="oxyPlot1" Width="400" Height="260" Title="{Binding Title}">
+        <oxy:Plot Grid.Column="0" Grid.Row="2" x:Uid="oxyGraph1" x:Name="oxyPlot1" Width="400" Height="260" Title="{Binding Title}">
             <oxy:Plot.Axes>
                 <oxy:CategoryAxis Angle="-90" ItemsSource="{Binding HistoSet}" LabelField="X"/>
             </oxy:Plot.Axes>
@@ -74,7 +50,7 @@
             </oxy:Plot.Series>
         </oxy:Plot>
 
-        <ListView Grid.Column="2" Grid.Row="1" Margin="5,5,5,5" Name="histoTable" BorderThickness="0" ItemsSource="{Binding HistoSet}">
+        <ListView Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" Margin="5,5,5,5" Name="histoTable" BorderThickness="0" ItemsSource="{Binding HistoSet}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <WrapPanel>
@@ -86,13 +62,6 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-
-        <StackPanel Grid.Column="2" Grid.Row="0" >
-            <Label Content="{Binding Pattern1.CheckSum}"></Label>
-            <Label Content="{Binding Pattern2.CheckSum}"></Label>
-            <Label Content="{Binding Pattern3.CheckSum}"></Label>
-        </StackPanel>
-        
 
     </Grid>
 </UserControl>

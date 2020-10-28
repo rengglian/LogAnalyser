@@ -53,6 +53,6 @@
 
         </StackPanel>
 
-        <oxy:PlotView Name="TestView" Model="{Binding PlotModel}" Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" Grid.ColumnSpan="2" Width="430" Height="430"/>
+        <oxy:PlotView Name="PatternPlot" Model="{Binding PlotModel}" Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" Grid.ColumnSpan="2" Width="430" Height="430"/>
     </Grid>
 </UserControl>
