@@ -1,0 +1,25 @@
+﻿<UserControl x:Class="PatternAnalysis.ControlViews.OpenControlView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:PatternAnalysis.ControlViews"
+             mc:Ignorable="d" 
+             d:DesignHeight="100" d:DesignWidth="300">
+    <Grid Margin="0,0,15,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="3*" />
+        </Grid.RowDefinitions>
+        <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Background="Navy"></Border>
+        <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"  Height="20px" FontSize="15" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="center" Text="Import Data Sets"/>
+        <Button Grid.Row="1" Grid.Column="0" Margin="5" Height="25px" Content="Data Set 1" Command="{Binding OpenDataSetCommand}" CommandParameter="Set1"/>
+        <Button Grid.Row="1" Grid.Column="1" Margin="5" Height="25px" Content="Data Set 2" Command="{Binding OpenDataSetCommand}" CommandParameter="Set2"/>
+        <Button Grid.Row="1" Grid.Column="2" Margin="5" Height="25px" Content="Data Set 3" Command="{Binding OpenDataSetCommand}" CommandParameter="Set3"/>
+    </Grid>
+</UserControl>

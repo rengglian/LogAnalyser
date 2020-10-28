@@ -1,0 +1,27 @@
+﻿<UserControl x:Class="PatternAnalysis.ControlViews.TranformationControlView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:PatternAnalysis.ControlViews"
+             mc:Ignorable="d" 
+              d:DesignHeight="100" d:DesignWidth="400">
+    <Grid Margin="0,0,15,0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="1.5*" />
+            <RowDefinition Height="1.5*" />
+        </Grid.RowDefinitions>
+        <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Background="Navy"></Border>
+        <TextBlock Grid.Row="0" Grid.Column="0"  Grid.ColumnSpan="2" Height="20px" FontSize="15" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="center" Text="Transformation"/>
+        <StackPanel Grid.Row="1" Grid.Column="0" Grid.RowSpan="2" VerticalAlignment="Center" >
+            <Button Margin="5" Height="25px" Content="Calculate Tranform Matrix" Command="{Binding TransformMatrixCommand}"/>
+        </StackPanel>
+        <ComboBox Width="100" Height="25" Grid.Row="1" Grid.Column="1" Margin="5" ItemsSource="{Binding PatternList}" SelectedValuePath="Key" DisplayMemberPath="Value.FileName" SelectedValue="{Binding SelectedA}"/>
+        <ComboBox Width="100" Height="25" Grid.Row="2" Grid.Column="1" Margin="5" ItemsSource="{Binding PatternList}" SelectedValuePath="Key" DisplayMemberPath="Value.FileName" SelectedValue="{Binding SelectedB}"/>
+    </Grid>
+</UserControl>
