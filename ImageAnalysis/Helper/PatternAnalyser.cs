@@ -86,17 +86,17 @@ namespace ImageAnalysis.Helper
             {
                 if(calibImage)
                 {
-                    if (spot.Position.X < corners[2].Position.X && spot.Position.Y >= corners[2].Position.Y) corners[2] = spot;
-                    if (spot.Position.X > corners[3].Position.X && spot.Position.Y <= corners[3].Position.Y) corners[3] = spot;
-                    if (spot.Position.X <= corners[1].Position.X && spot.Position.Y < corners[1].Position.Y) corners[1] = spot;
-                    if (spot.Position.X >= corners[0].Position.X && spot.Position.Y > corners[0].Position.Y) corners[0] = spot;
+                    if (spot.Position.X < corners[1].Position.X && spot.Position.Y >= corners[1].Position.Y) corners[1] = spot;
+                    if (spot.Position.X > corners[0].Position.X && spot.Position.Y <= corners[0].Position.Y) corners[0] = spot;
+                    if (spot.Position.X <= corners[2].Position.X && spot.Position.Y < corners[2].Position.Y) corners[2] = spot;
+                    if (spot.Position.X >= corners[3].Position.X && spot.Position.Y > corners[3].Position.Y) corners[3] = spot;
                 }
                 else
                 {
                     if (spot.Position.X < corners[0].Position.X && spot.Position.Y >= corners[0].Position.Y) corners[0] = spot;
                     if (spot.Position.X > corners[1].Position.X && spot.Position.Y <= corners[1].Position.Y) corners[1] = spot;
-                    if (spot.Position.X <= corners[3].Position.X && spot.Position.Y < corners[3].Position.Y) corners[3] = spot;
-                    if (spot.Position.X >= corners[2].Position.X && spot.Position.Y > corners[2].Position.Y) corners[2] = spot;
+                    if (spot.Position.X >= corners[3].Position.X && spot.Position.Y > corners[3].Position.Y) corners[3] = spot;
+                    if (spot.Position.X <= corners[2].Position.X && spot.Position.Y < corners[2].Position.Y) corners[2] = spot;
 
                 }
 
