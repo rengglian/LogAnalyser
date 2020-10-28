@@ -12,6 +12,7 @@ namespace ImageAnalysis.ImageProcessing
             var gray = img.Clone();
             if (img.Channels() > 1) Cv2.CvtColor(img, gray, ColorConversionCodes.BGR2GRAY);
 
+            //Cv2.Flip(gray, gray, FlipMode.Y);
             var obj = Cv2.HoughCircles(gray, HoughMethods.Gradient, 1, 10, 70, 10, 3, 10);
 
             List<Spot> spots = new List<Spot>();
@@ -26,7 +27,7 @@ namespace ImageAnalysis.ImageProcessing
                 spots.Add(new Spot(new System.Windows.Point(x, y), d, Brushes.Yellow));
             }
 
-            var sorted = PatternAnalyser.SortList(spots);
+            var sorted = PatternAnalyser.SortList(spots, true);
 
             return sorted;
         }

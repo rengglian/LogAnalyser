@@ -8,10 +8,10 @@ namespace ImageAnalysis.Helper
 {
     public static class PatternAnalyser
     {
-        public static List<Spot> SortList(List<Spot> unsorted)
+        public static List<Spot> SortList(List<Spot> unsorted, bool calibImage)
         {
             var center = CenterSpot(unsorted);
-            var corners = Corners(unsorted, center);
+            var corners = Corners(unsorted, center, calibImage);
 
             var slope_X = CalculateSlope(corners[1], corners[0]);
             var slope_Y = CalculateSlope(corners[3], corners[2]);
@@ -72,7 +72,7 @@ namespace ImageAnalysis.Helper
             else return delta;
         }
 
-        private static List<Spot> Corners(List<Spot> spots, Spot center)
+        private static List<Spot> Corners(List<Spot> spots, Spot center, bool calibImage)
         {
             List<Spot> corners = new List<Spot>
             {
@@ -84,10 +84,22 @@ namespace ImageAnalysis.Helper
 
             spots.ForEach(spot =>
             {
-                if (spot.Position.X < corners[0].Position.X && spot.Position.Y >= corners[0].Position.Y) corners[0] = spot;
-                if (spot.Position.X > corners[1].Position.X && spot.Position.Y <= corners[1].Position.Y) corners[1] = spot;
-                if (spot.Position.X <= corners[3].Position.X && spot.Position.Y < corners[3].Position.Y) corners[3] = spot;
-                if (spot.Position.X >= corners[2].Position.X && spot.Position.Y > corners[2].Position.Y) corners[2] = spot;
+                if(calibImage)
+                {
+                    if (spot.Position.X < corners[2].Position.X && spot.Position.Y >= corners[2].Position.Y) corners[2] = spot;
+                    if (spot.Position.X > corners[3].Position.X && spot.Position.Y <= corners[3].Position.Y) corners[3] = spot;
+                    if (spot.Position.X <= corners[1].Position.X && spot.Position.Y < corners[1].Position.Y) corners[1] = spot;
+                    if (spot.Position.X >= corners[0].Position.X && spot.Position.Y > corners[0].Position.Y) corners[0] = spot;
+                }
+                else
+                {
+                    if (spot.Position.X < corners[0].Position.X && spot.Position.Y >= corners[0].Position.Y) corners[0] = spot;
+                    if (spot.Position.X > corners[1].Position.X && spot.Position.Y <= corners[1].Position.Y) corners[1] = spot;
+                    if (spot.Position.X <= corners[3].Position.X && spot.Position.Y < corners[3].Position.Y) corners[3] = spot;
+                    if (spot.Position.X >= corners[2].Position.X && spot.Position.Y > corners[2].Position.Y) corners[2] = spot;
+
+                }
+
             });
 
             corners[0].Color = Brushes.DarkBlue;

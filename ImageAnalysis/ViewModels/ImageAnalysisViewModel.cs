@@ -96,14 +96,14 @@ namespace ImageAnalysis.ViewModels
             List<Spot> spots = new List<Spot>();
             foreach (System.Windows.Point pt in unique_items)
             {
-                var scaledX = -pt.X * 1 / 30.129 + 720 / 2;
+                var scaledX = pt.X * 1 / 30.129 + 720 / 2;
                 var scaledY = pt.Y * 1 / 30.129 + 576 / 2;
                 spots.Add(new Spot(new System.Windows.Point(scaledX, scaledY), 5, System.Windows.Media.Brushes.AliceBlue));
             }
 
             spots.Add(new Spot(new System.Windows.Point(720 / 2, 576 / 2), 5, System.Windows.Media.Brushes.AliceBlue));
 
-            var sorted = PatternAnalyser.SortList(spots);
+            var sorted = PatternAnalyser.SortList(spots, false);
             this.Target = new ObservableCollection<Spot>();
             sorted.ForEach(sp =>
             {
