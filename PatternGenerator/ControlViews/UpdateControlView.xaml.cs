@@ -7,9 +7,9 @@ namespace PatternGenerator.ControlViews
     /// <summary>
     /// Interaction logic for StackPanelView.xaml
     /// </summary>
-    public partial class StackPanelView : UserControl, ISupportDataContext
+    public partial class UpdateControlView : UserControl, ISupportDataContext
     {
-        public StackPanelView()
+        public UpdateControlView()
         {
             InitializeComponent();
             SetResourceReference(StyleProperty, typeof(UserControl));

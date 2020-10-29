@@ -11,7 +11,7 @@ namespace LogAnalyser.ViewModels
     {
         private readonly IRegionManager _regionManager;
 
-        private string _title = "Prism Unity Application";
+        private string _title = "LogAnalyser";
         public string Title
         {
             get { return _title; }
@@ -30,7 +30,10 @@ namespace LogAnalyser.ViewModels
         private void Navigate(string navigatePath)
         {
             if (navigatePath != null)
+            {
+                Title = navigatePath;
                 _regionManager.RequestNavigate("ContentRegion", navigatePath);
+            }
         }
     }
 }

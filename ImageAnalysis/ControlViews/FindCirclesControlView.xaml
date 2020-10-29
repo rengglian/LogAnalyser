@@ -6,16 +6,9 @@
              xmlns:local="clr-namespace:ImageAnalysis.ControlViews"
              mc:Ignorable="d" 
              d:DesignHeight="100" d:DesignWidth="200">
-    <Grid Margin="0,0,15,0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="3*" />
-            </Grid.RowDefinitions>
-            <Border Grid.Row="0" Grid.Column="0" Background="Navy"></Border>
-        <TextBlock Grid.Row="0" Grid.Column="0" Height="20px" FontSize="15" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="center" Text="Find Circles"/>
-        <Button Grid.Row="1" Grid.Column="0" Margin="5" Height="25px" Content="Find" Command="{Binding FindCirclesCommand}"/>
-    </Grid>
+    <GroupBox Header="Find Circles" Height="100">
+        <StackPanel Margin="10,0,10,0" VerticalAlignment="Center">
+            <Button Height="25px" Content="Find" Command="{Binding FindCirclesCommand}"/>
+        </StackPanel>
+    </GroupBox>
 </UserControl>

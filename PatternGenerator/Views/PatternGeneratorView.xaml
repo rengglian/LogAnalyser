@@ -10,49 +10,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="2*" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-
-        <StackPanel Grid.Column="0" Grid.Row="0" Margin="5,5,5,5">
-            <ComboBox Grid.Row="2" Grid.Column="1"  Margin="0,0,0,5" ItemsSource="{Binding ShapeList}" SelectedItem="{Binding SelectedShape}" />
-            <ItemsControl  Margin="0,0,0,5" Name="calibTable" BorderThickness="0" ItemsSource="{Binding Shape.Options}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <WrapPanel Margin="0,0,0,5">
-                            <TextBlock FontWeight="Bold" Text="{Binding Key}" ToolTip="{Binding Value.Description}" />
-                            <TextBlock FontWeight="Bold" Text=": "/>
-                            <TextBox Text="{Binding Value.Value , StringFormat=0}" />
-                        </WrapPanel>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-            <Button Height="40px" Margin="0,0,0,5" Content="Update Pattern" Command="{Binding UpdatePatternCommand}"/>
-        </StackPanel>
-
-        <StackPanel Grid.Column="0" Grid.Row="1" Margin="5,5,5,5">
-
-
-            <WrapPanel Margin="0,0,0,5">
-                <TextBlock FontWeight="Bold" Text="Count : "/>
-                <TextBlock Text="{Binding Shape.Points.Count , StringFormat=0}" />
-            </WrapPanel>
-
-            <Button Height="40px" Margin="0,0,0,5" Content="Save File" Command="{Binding SaveFileCommand}"/>
-            <DockPanel Margin="0,0,0,5">
-                <Label HorizontalAlignment="Right" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="18">Repeat:</Label>
-                <TextBox VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="18" Text="{Binding RepeatValue, StringFormat=D}"></TextBox>
-            </DockPanel>
-            <CheckBox Margin="0,0,0,5" Content="Randomize Pattern" IsChecked="{Binding RandomizePattern}"/>
-
-        </StackPanel>
-
-        <oxy:PlotView Name="PatternPlot" Model="{Binding PlotModel}" Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" Grid.ColumnSpan="2" Width="430" Height="430"/>
+        <oxy:PlotView Name="PatternPlot" Model="{Binding PlotModel}" Width="430" Height="430"/>
     </Grid>
 </UserControl>

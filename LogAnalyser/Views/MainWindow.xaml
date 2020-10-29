@@ -12,7 +12,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10px" />
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="8*" />
+            <ColumnDefinition Width="7*" />
             <ColumnDefinition Width="10px" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -23,14 +23,15 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" prism:RegionManager.RegionName="ContentRegionTop" HorizontalAlignment="Left" VerticalAlignment="Top" Orientation="Horizontal"/>
-        <StackPanel Grid.Row="2" Grid.Column="1">
-            
-            <Button Margin="5" Command="{Binding NavigateCommand}" CommandParameter="PatternAnalysisView" Content="Pattern Analysis" />
-            <Button Margin="5" Command="{Binding NavigateCommand}" CommandParameter="PatternGeneratorView" Content="Pattern Generator" />
-            <Button Margin="5" Command="{Binding NavigateCommand}" CommandParameter="ImageAnalysisView" Content="Image Analysis"/>
-        </StackPanel>
-        
-        <ContentControl Grid.Row="2" Grid.Column="2" prism:RegionManager.RegionName="ContentRegion" HorizontalAlignment="Left" VerticalAlignment="Top" />
-
+        <GroupBox Grid.Row="2" Grid.Column="1" Header="Modules">
+            <StackPanel>
+                <Button Height="25" Margin="5" Command="{Binding NavigateCommand}" CommandParameter="PatternAnalysisView" Content="Pattern Analysis" />
+                <Button Height="25" Margin="5" Command="{Binding NavigateCommand}" CommandParameter="PatternGeneratorView" Content="Pattern Generator" />
+                <Button  Height="25" Margin="5" Command="{Binding NavigateCommand}" CommandParameter="ImageAnalysisView" Content="Image Analysis"/>
+            </StackPanel>
+        </GroupBox>
+        <GroupBox Grid.Row="2" Grid.Column="2" Header="{Binding Title}">
+            <ContentControl prism:RegionManager.RegionName="ContentRegion" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        </GroupBox>
     </Grid>
 </Window>

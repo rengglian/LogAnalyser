@@ -14,4 +14,22 @@
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="ControlViews\SaveControlView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="ControlViews\InfoControlView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="ControlViews\SaveControlView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="ControlViews\InfoControlView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+
 </Project>
