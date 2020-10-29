@@ -105,6 +105,18 @@ namespace PatternAnalysis.ViewModels
 
         private void OpenDataSetHandler(string str)
         {
+            var dict = new Dictionary<string, double>
+            {
+                { "m11", 1.0 },
+                { "m12", 0.0 },
+                { "m21", 0.0 },
+                { "m22", -1.0 },
+                { "m13", 20.0 },
+                { "m23", 5.0 }
+            };
+
+            var test = AffineMatrix.Decompose(dict);
+
             OpenFileDialog openFileDialog = new OpenFileDialog();
             if (openFileDialog.ShowDialog() == true)
             {

@@ -42,5 +42,32 @@ namespace PatternAnalysis.Helper
 
             return dict;
         }
+
+        public static DecomposeMatrix Decompose(Dictionary<string, double> affineMatrix)
+        {
+            var decomposedMatrix = new DecomposeMatrix();
+
+            var delta = affineMatrix["m11"] * affineMatrix["m22"] - affineMatrix["m12"] * affineMatrix["m21"];
+
+            if (affineMatrix["m11"] != 0 || affineMatrix["m12"] != 0) {
+                var r = Math.Sqrt(Math.Pow(affineMatrix["m11"], 2) + Math.Pow(affineMatrix["m12"], 2));
+                decomposedMatrix.Rotation = affineMatrix["m12"] > 0 ? Math.Acos(affineMatrix["m11"] / r) : -Math.Acos(affineMatrix["m11"] / r);
+                decomposedMatrix.Scale = new Point2d(r, delta / r);
+                decomposedMatrix.Shear = new Point2d(180 / Math.PI * Math.Atan((affineMatrix["m11"] * affineMatrix["m21"] + affineMatrix["m12"] * affineMatrix["m22"]) / (Math.Pow(r,2))), 0.0);
+            } 
+            else if (affineMatrix["m21"] != 0 || affineMatrix["m22"] != 0) 
+            {
+                var s = Math.Sqrt(Math.Pow(affineMatrix["m21"], 2) + Math.Pow(affineMatrix["m22"], 2));
+                decomposedMatrix.Rotation = Math.PI / 2 - (affineMatrix["m22"] > 0 ? Math.Acos(-affineMatrix["m21"] / s) : -Math.Acos(affineMatrix["m21"] / s));
+                decomposedMatrix.Scale = new Point2d(delta / s, s);
+                decomposedMatrix.Shear = new Point2d(0.0, 180 / Math.PI * Math.Atan((affineMatrix["m11"] * affineMatrix["m21"] + affineMatrix["m12"] * affineMatrix["m22"]) / (Math.Pow(s, 2))));
+            }
+
+            decomposedMatrix.Rotation *= 180 / Math.PI;
+
+            decomposedMatrix.Translation = new Point2d(affineMatrix["m13"], affineMatrix["m23"]);
+
+            return decomposedMatrix;
+        }
     }
 }
