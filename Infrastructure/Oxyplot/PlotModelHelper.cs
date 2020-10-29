@@ -60,6 +60,13 @@ namespace Infrastructure.Oxyplot
             return plotModel;
         }
 
+        public static PlotModel CreateHistogramm()
+        {
+            var plotModel = new PlotModel();
+
+            return plotModel;
+        }
+
         public static ScatterSeries CreateScatterSerie(List<DataPoint> pts)
         {
             var series = new ScatterSeries()
@@ -100,6 +107,17 @@ namespace Infrastructure.Oxyplot
 
             }
 
+            return series;
+        }
+
+        public static ColumnSeries CreateColumnSeries(List<DataPoint> pts)
+        {
+            var series = new ColumnSeries()
+            {
+                FillColor = OxyColors.Aqua,
+                ValueField = "Y",
+                ItemsSource = pts
+            };
             return series;
         }
     }

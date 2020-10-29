@@ -13,6 +13,8 @@ using Infrastructure.Prism.Events;
 using Prism.Mvvm;
 using Infrastructure.Oxyplot;
 using OxyPlot.Series;
+using OxyPlot.Wpf;
+using OxyPlot.Axes;
 
 namespace PatternAnalysis.ViewModels
 {
@@ -46,7 +48,6 @@ namespace PatternAnalysis.ViewModels
             set { this.selectedB = value; }
         }
 
-        public ObservableCollection<DataPoint> HistoSet { get; private set; } = new ObservableCollection<DataPoint>();
         public int BinValue { get; set; }
         public string Title { get; set; }
         private Dictionary<string, double> calibMatrix;
@@ -56,7 +57,7 @@ namespace PatternAnalysis.ViewModels
             set { SetProperty(ref calibMatrix, value); }
         }
 
-        private Dictionary<string, ScatterSeries> scatterSeries { get; set; } = new Dictionary<string, ScatterSeries>();
+        private Dictionary<string, OxyPlot.Series.ScatterSeries> scatterSeries { get; set; } = new Dictionary<string, OxyPlot.Series.ScatterSeries>();
 
         private PlotModel plotModelPattern;
         public PlotModel PlotModelPattern
@@ -65,20 +66,27 @@ namespace PatternAnalysis.ViewModels
             set { SetProperty(ref plotModelPattern, value); }
         }
 
+        private PlotModel plotModelHisto;
+        public PlotModel PlotModelHisto
+        {
+            get { return plotModelHisto; }
+            set { SetProperty(ref plotModelHisto, value); }
+        }
+
         public PatternAnalysisViewModel(IEventAggregator eventAggregator)
         {
-            this.PlotModelPattern = PlotModelHelper.CreateScatterPlot();
+            PlotModelPattern = PlotModelHelper.CreateScatterPlot();
+            PlotModelHisto = PlotModelHelper.CreateHistogramm();
 
-            this.patternList = new Dictionary<string, IPattern>();
+            patternList = new Dictionary<string, IPattern>();
 
-            this.OpenDataSetCommand = new DelegateCommand<string>(OpenDataSetHandler);
-            this.TransformMatrixCommand = new DelegateCommand(TransformMatrixHandler);
-            this.CreateHistogramCommand = new DelegateCommand(CreateHistogramHandler);
-            this.SendCommand = new DelegateCommand(SendHandler);
-            this.BinValue = 20;
-            this.Title = "Test";
-            this._eventAggregator = eventAggregator;
-
+            OpenDataSetCommand = new DelegateCommand<string>(OpenDataSetHandler);
+            TransformMatrixCommand = new DelegateCommand(TransformMatrixHandler);
+            CreateHistogramCommand = new DelegateCommand(CreateHistogramHandler);
+            SendCommand = new DelegateCommand(SendHandler);
+            BinValue = 20;
+            Title = "Test";
+            _eventAggregator = eventAggregator;
         }
 
         private void CreateHistogramHandler()
@@ -88,7 +96,11 @@ namespace PatternAnalysis.ViewModels
             if (!this.patternList.ContainsKey(str)) this.patternList.Add(str, new Pattern("None"));
             else this.patternList[str] = new Pattern("None");
 
-            this.HistoSet = Histogram.Create(this.patternList[SelectedA], this.patternList[SelectedB], BinValue).ToObservableCollection();
+            var histoSet = Histogram.Create(this.patternList[SelectedA], this.patternList[SelectedB], BinValue);
+            PlotModelHisto.Series.Clear();
+            PlotModelHisto.Series.Add(PlotModelHelper.CreateColumnSeries(histoSet));
+            PlotModelHisto.Axes.Add(new OxyPlot.Axes.CategoryAxis { Angle = 90, ItemsSource = histoSet, LabelField = "X" }) ;
+            PlotModelHisto.InvalidatePlot(true);
         }
 
         private void OpenDataSetHandler(string str)
@@ -99,7 +111,7 @@ namespace PatternAnalysis.ViewModels
                 if (!this.patternList.ContainsKey(str)) this.patternList.Add(str, new Pattern(openFileDialog.FileName));
                 else this.patternList[str] = new Pattern(openFileDialog.FileName);
 
-                ScatterSeries series;
+                OxyPlot.Series.ScatterSeries series;
                 if (str == "Set3" && this.patternList.ContainsKey("Set2")) series = PlotModelHelper.CreateScatterSerie(this.patternList[str].Points, this.patternList["Set2"].Points);
                 else series = PlotModelHelper.CreateScatterSerie(this.patternList[str].Points);
 
@@ -140,7 +152,12 @@ namespace PatternAnalysis.ViewModels
             PlotModelPattern.Series.Add(this.scatterSeries[str]);
             PlotModelPattern.InvalidatePlot(true);
 
-            this.HistoSet = Histogram.Create(this.patternList[SelectedB], this.patternList[str], BinValue).ToObservableCollection();
+            var histoSet = Histogram.Create(this.patternList[SelectedB], this.patternList[str], BinValue);
+
+            PlotModelHisto.Series.Clear();
+            PlotModelHisto.Series.Add(PlotModelHelper.CreateColumnSeries(histoSet));
+            PlotModelHisto.Axes.Add(new OxyPlot.Axes.CategoryAxis { Angle = 90, ItemsSource = histoSet, LabelField = "X" });
+            PlotModelHisto.InvalidatePlot(true);
         }
     }
 }
