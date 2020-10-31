@@ -4,8 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PatternAnalysis.ControlViews"
-             mc:Ignorable="d" 
-             d:DesignHeight="100" d:DesignWidth="300">
+             mc:Ignorable="d">
     <GroupBox Header="Import Shapes">
         <StackPanel Margin="10,0,10,0" VerticalAlignment="Center">
             <Button Grid.Row="1" Grid.Column="0" Margin="5" Height="25px" Content="Open" Command="{Binding OpenDataSetCommand}"/>

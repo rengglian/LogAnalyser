@@ -1,32 +1,32 @@
-﻿using PatternAnalysis.Extension;
-using PatternAnalysis.Helper;
+﻿using PatternAnalysis.Helper;
 using PatternAnalysis.Interfaces;
 using Microsoft.Win32;
 using OxyPlot;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using Prism.Commands;
 using Prism.Events;
 using System.Text.Json;
 using Infrastructure.Prism.Events;
 using Prism.Mvvm;
 using Infrastructure.Oxyplot;
-using OxyPlot.Series;
-using OxyPlot.Wpf;
 using OxyPlot.Axes;
 using System.Linq;
+using Prism.Services.Dialogs;
 
 namespace PatternAnalysis.ViewModels
 {
     public class PatternAnalysisViewModel : BindableBase
     {
 
+        private readonly IDialogService _dialogService;
+
         private readonly IEventAggregator _eventAggregator;
         public DelegateCommand OpenDataSetCommand { get; set; }
         public DelegateCommand TransformMatrixCommand { get; set; }
         public DelegateCommand CreateHistogramCommand { get; set; }
         public DelegateCommand SendCommand { get; set; }
+        public DelegateCommand CompareCommand { get; set; }
 
         private ObservableCollection<IPattern> patternList;
         public ObservableCollection<IPattern> PatternList
@@ -74,8 +74,11 @@ namespace PatternAnalysis.ViewModels
             set { SetProperty(ref plotModelHisto, value); }
         }
 
-        public PatternAnalysisViewModel(IEventAggregator eventAggregator)
+        public PatternAnalysisViewModel(IEventAggregator eventAggregator, IDialogService dialogService)
         {
+
+            _dialogService = dialogService;
+
             PlotModelPattern = PlotModelHelper.CreateScatterPlot();
             PlotModelHisto = PlotModelHelper.CreateHistogramm();
 
@@ -85,9 +88,18 @@ namespace PatternAnalysis.ViewModels
             TransformMatrixCommand = new DelegateCommand(TransformMatrixHandler);
             CreateHistogramCommand = new DelegateCommand(CreateHistogramHandler);
             SendCommand = new DelegateCommand(SendHandler);
+            CompareCommand = new DelegateCommand(CompareHandler);
+
             BinValue = 20;
             Title = "Test";
             _eventAggregator = eventAggregator;
+        }
+
+        private void CompareHandler()
+        {
+            var patternA = JsonSerializer.Serialize(SelectedA.Points);
+            var patternB = JsonSerializer.Serialize(SelectedB.Points);
+            _dialogService.ShowPatternCompareDialog(patternA, patternB, r =>{ });
         }
 
         private void CreateHistogramHandler()

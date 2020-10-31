@@ -1,4 +1,5 @@
-﻿using PatternAnalysis.Views;
+﻿using PatternAnalysis.Dialogs;
+using PatternAnalysis.Views;
 using Prism.Ioc;
 using Prism.Modularity;
 
@@ -14,6 +15,8 @@ namespace PatternAnalysis
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterForNavigation<PatternAnalysisView>();
+
+            containerRegistry.RegisterDialog<PatternCompareDialog, PatternCompareDialogViewModel>();
         }
     }
 }

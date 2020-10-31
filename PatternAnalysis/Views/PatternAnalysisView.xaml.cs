@@ -12,6 +12,7 @@ namespace PatternAnalysis.Views
     [DependentView(typeof(HistogramControlView), RegionNames.ContentRegionTop)]
     [DependentView(typeof(TranformationControlView), RegionNames.ContentRegionTop)]
     [DependentView(typeof(SendControlView), RegionNames.ContentRegionTop)]
+    [DependentView(typeof(ComparePatternControlView), RegionNames.ContentRegionTop)]
     public partial class PatternAnalysisView : UserControl, ISupportDataContext
     {
         public PatternAnalysisView()
