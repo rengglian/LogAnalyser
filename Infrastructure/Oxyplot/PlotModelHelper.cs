@@ -23,15 +23,16 @@ namespace Infrastructure.Oxyplot
             };
             plotModel.Axes.Add(color_axis);
 
-            var customAxis = new RangeColorAxis() { 
-                Key = "customColors", 
-                Position = AxisPosition.None 
+            var customAxis = new RangeColorAxis() {
+                Key = "customColors",
+                Position = AxisPosition.None
             };
-            customAxis.AddRange(0, 100, OxyColors.LightGreen);
-            customAxis.AddRange(100, 200, OxyColors.Green);
+            customAxis.AddRange(0, 50, OxyColors.LightGreen);
+            customAxis.AddRange(50, 100, OxyColors.Green);
+            customAxis.AddRange(100, 200, OxyColors.DarkGreen);
             customAxis.AddRange(200, 300, OxyColors.Orange);
             customAxis.AddRange(300, 500, OxyColors.DarkOrange);
-            customAxis.AddRange(500, 10000, OxyColors.DarkRed);
+            customAxis.AddRange(500, 100000, OxyColors.DarkRed);
             plotModel.Axes.Add(customAxis);
 
 
@@ -103,7 +104,7 @@ namespace Infrastructure.Oxyplot
             return series;
         }
 
-        public static ScatterSeries CreateScatterSerie(List<DataPoint> pts, List<DataPoint> rev)
+        public static ScatterSeries CreateScatterSerie(List<DataPoint> pts, List<double> distance)
         {
             var series = new ScatterSeries()
             {
@@ -112,15 +113,11 @@ namespace Infrastructure.Oxyplot
                 MarkerSize = 3
             };
 
-            List<double> deltaList = new List<double>();
-            if (pts.Count == rev.Count)
+            if (pts.Count == distance.Count)
             {
                 for(int i = 0; i < pts.Count; i++)
                 {
-                    var p1 = new System.Windows.Point { X = pts[i].X, Y = pts[i].Y };
-                    var p2 = new System.Windows.Point { X = rev[i].X, Y = rev[i].Y };
-                    deltaList.Add((p1 - p2).Length);
-                    series.Points.Add(new ScatterPoint(pts[i].X, pts[i].Y) { Value = deltaList[0] });
+                    series.Points.Add(new ScatterPoint(pts[i].X, pts[i].Y) { Value = distance[i] });
                 }
 
             }

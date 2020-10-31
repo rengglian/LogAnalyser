@@ -34,19 +34,18 @@ namespace PatternAnalysis.ViewModels
             get { return patternList; }
             set { SetProperty(ref patternList, value); }
         }
-
-        private IPattern selectedA { get; set; }
+        private IPattern _selectedA { get; set; }
         public IPattern SelectedA
         {
-            get { return this.selectedA; }
-            set { this.selectedA = value; }
+            get { return this._selectedA; }
+            set { this._selectedA = value; }
         }
 
-        private IPattern selectedB { get; set; }
+        private IPattern _selectedB { get; set; }
         public IPattern SelectedB
         {
-            get { return this.selectedB; }
-            set { this.selectedB = value; }
+            get { return this._selectedB; }
+            set { this._selectedB = value; }
         }
 
         public int BinValue { get; set; }
@@ -57,8 +56,6 @@ namespace PatternAnalysis.ViewModels
             get { return calibMatrix; }
             set { SetProperty(ref calibMatrix, value); }
         }
-
-        private Dictionary<string, OxyPlot.Series.ScatterSeries> scatterSeries { get; set; } = new Dictionary<string, OxyPlot.Series.ScatterSeries>();
 
         private PlotModel plotModelPattern;
         public PlotModel PlotModelPattern
@@ -154,7 +151,7 @@ namespace PatternAnalysis.ViewModels
             PlotModelPattern.Series.Add(series);
             PlotModelPattern.InvalidatePlot(true);
 
-            var histoSet = Histogram.Create(SelectedB, this.patternList.Last(), BinValue);
+            //var histoSet = Histogram.Create(SelectedB, this.patternList.Last(), BinValue);
             /*
             PlotModelHisto.Series.Clear();
             PlotModelHisto.Series.Add(PlotModelHelper.CreateColumnSeries(histoSet));

@@ -35,19 +35,19 @@ namespace PatternAnalysis.Helper
             var color = OxyColors.Red;
             if (fileName.Contains("PulseList-Raw"))
             {
-                color = OxyColors.LightCyan;
+                color = OxyColors.Chocolate;
             }
             else if (fileName.Contains("patternPositions") || fileName.Contains("PulseList-Edited"))
             {
-                color = OxyColors.LightGoldenrodYellow;
+                color = OxyColors.Coral;
             }
             else if (fileName.Contains("pulsePosition") || fileName.Contains("PulsePositions"))
             {
-                color = OxyColors.LightSalmon;
+                color = OxyColors.CornflowerBlue;
             }
             else if (fileName.Contains("checkerPosition") || fileName.Contains("CheckerPositions"))
             {
-                color = OxyColors.LightBlue;
+                color = OxyColors.SlateBlue;
             }
             
             return color;

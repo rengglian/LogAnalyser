@@ -1,11 +1,15 @@
 ﻿using Infrastructure.Oxyplot;
 using OxyPlot;
+using OxyPlot.Axes;
 using OxyPlot.Series;
+using PatternAnalysis.Extension;
+using PatternAnalysis.Helper;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 using System.Text.Json;
 
@@ -29,6 +33,20 @@ namespace PatternAnalysis.Dialogs
             set { SetProperty(ref _plotModelPatternB, value); }
         }
 
+        private PlotModel _plotModelHisto;
+        public PlotModel PlotModelHisto
+        {
+            get { return _plotModelHisto; }
+            set { SetProperty(ref _plotModelHisto, value); }
+        }
+
+        private ObservableCollection<DataPoint> _histoTable;
+        public ObservableCollection<DataPoint> HistoTable
+        {
+            get { return _histoTable; }
+            set { SetProperty(ref _histoTable, value); }
+        }
+
         public DelegateCommand CloseDialogCommand { get; }
 
         public event Action<IDialogResult> RequestClose;
@@ -39,6 +57,7 @@ namespace PatternAnalysis.Dialogs
 
             PlotModelPatternA = PlotModelHelper.CreateScatterPlot();
             PlotModelPatternB = PlotModelHelper.CreateScatterPlot();
+            PlotModelHisto = PlotModelHelper.CreateHistogramm();
         }
 
         private void CloseDialog()
@@ -68,15 +87,35 @@ namespace PatternAnalysis.Dialogs
             var patternA = JsonSerializer.Deserialize<List<System.Windows.Point>>(parameters.GetValue<string>("patternA"));
             var patternB = JsonSerializer.Deserialize<List<System.Windows.Point>>(parameters.GetValue<string>("patternB"));
 
+            var distance = Histogram.Distance(ConvertToDataPoint(patternA), ConvertToDataPoint(patternB));
+            var histoSet = Histogram.CreateBins(distance, 50);
 
-            PlotModelPatternA.Series.Add(generateScatterSeries(patternA, OxyColors.DarkOrchid));
-            PlotModelPatternB.Series.Add(generateScatterSeries(patternB, OxyColors.DarkKhaki));
+            HistoTable = histoSet.ToObservableCollection();
+
+            PlotModelPatternA.Series.Add(GenerateScatterSeries(patternA, distance));
+            PlotModelPatternB.Series.Add(GenerateScatterSeries(patternB, distance));
 
             PlotModelPatternA.InvalidatePlot(true);
             PlotModelPatternB.InvalidatePlot(true);
+
+            PlotModelHisto.Series.Clear();
+            PlotModelHisto.Series.Add(PlotModelHelper.CreateBarSeries(histoSet));
+            PlotModelHisto.Axes.Add(new CategoryAxis { Position = AxisPosition.Bottom, Key = "y", Angle = 90, ItemsSource = histoSet, LabelField = "X" });
+            PlotModelHisto.Axes.Add(new LinearAxis { Position = AxisPosition.Left, MinimumPadding = 0, MaximumPadding = 0.06, AbsoluteMinimum = 0, Key = "x" });
+            PlotModelHisto.InvalidatePlot(true);
+
         }
 
-        private ScatterSeries generateScatterSeries(List<System.Windows.Point> points, OxyColor color)
+        private ScatterSeries GenerateScatterSeries(List<System.Windows.Point> points, List<double> dist)
+        {
+            var pts = ConvertToDataPoint(points);
+
+            var series = PlotModelHelper.CreateScatterSerie(pts, dist);
+
+            return series;
+        }
+       
+        private List<DataPoint> ConvertToDataPoint(List<System.Windows.Point> points)
         {
             var pts = new List<DataPoint>();
 
@@ -85,9 +124,7 @@ namespace PatternAnalysis.Dialogs
                 pts.Add(new DataPoint(pt.X, pt.Y));
             });
 
-            var series = PlotModelHelper.CreateScatterSerie(pts, color);
-
-            return series;
+            return pts;
         }
     }
 }
