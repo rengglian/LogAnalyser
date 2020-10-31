@@ -13,6 +13,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*" />
             <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
@@ -41,9 +42,9 @@
 
         <oxy:PlotView Name="PatternPlot" Model="{Binding PlotModelPattern}" Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Width="350" Height="350" VerticalAlignment="Center" HorizontalAlignment="Center"/>
 
-        <oxy:PlotView Name="HistoPlot" Model="{Binding PlotModelHisto}" Grid.Row="2" Grid.Column="0" Width="350" Height="150" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <oxy:PlotView Name="HistoPlot" Model="{Binding PlotModelHisto}" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Width="550" Height="150" VerticalAlignment="Center" HorizontalAlignment="Center"/>
 
-        <ListView Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" Margin="5,5,5,5" Name="histoTable" BorderThickness="0" ItemsSource="{Binding HistoSet}">
+        <ListView Grid.Column="2" Grid.Row="0" Grid.RowSpan="2" Margin="5,5,5,5" Name="histoTable" BorderThickness="0" ItemsSource="{Binding HistoSet}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <WrapPanel>

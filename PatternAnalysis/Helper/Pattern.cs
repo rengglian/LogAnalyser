@@ -16,19 +16,41 @@ namespace PatternAnalysis.Helper
         public string CheckSum { get; set; } = "";
         public string FileName { get; set; } = "";
         public Point Center { get; set; } = new Point();
+        public OxyColor Color { get; set; }
 
         public Pattern(string fileName)
         {
-            if (fileName == "None")
+            if (fileName != "None")
             {
-                this.Points.Add(new DataPoint(0, 0));
-            } else
-            {
-                this.Points = JsonReader.Read(fileName);
+                Points = JsonReader.Read(fileName);
             }
-            this.CheckSum = CalculateCheckSum(this.Points);
-            this.Center = CalculateCenter(this.Points);
-            this.FileName = Path.GetFileName(fileName);
+            CheckSum = CalculateCheckSum(this.Points);
+            Center = CalculateCenter(this.Points);
+            FileName = Path.GetFileName(fileName);
+            Color = AssignColor(FileName);
+        }
+
+        private OxyColor AssignColor(string fileName)
+        {
+            var color = OxyColors.Red;
+            if (fileName.Contains("PulseList-Raw"))
+            {
+                color = OxyColors.LightCyan;
+            }
+            else if (fileName.Contains("patternPositions") || fileName.Contains("PulseList-Edited"))
+            {
+                color = OxyColors.LightGoldenrodYellow;
+            }
+            else if (fileName.Contains("pulsePosition") || fileName.Contains("PulsePositions"))
+            {
+                color = OxyColors.LightSalmon;
+            }
+            else if (fileName.Contains("checkerPosition") || fileName.Contains("CheckerPositions"))
+            {
+                color = OxyColors.LightBlue;
+            }
+            
+            return color;
         }
 
         private string CalculateCheckSum(List<DataPoint> pointList)

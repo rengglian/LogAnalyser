@@ -85,6 +85,24 @@ namespace Infrastructure.Oxyplot
             return series;
         }
 
+        public static ScatterSeries CreateScatterSerie(List<DataPoint> pts, OxyColor color)
+        {
+            var series = new ScatterSeries()
+            {
+                MarkerFill = color,
+                MarkerType = MarkerType.Circle,
+                MarkerSize = 3
+            };
+
+            var maxDist = pts.Max(pt => (Math.Pow(pt.X, 2) + Math.Pow(pt.Y, 2)));
+
+            foreach (DataPoint pt in pts)
+            {
+                series.Points.Add(new ScatterPoint(pt.X, pt.Y) { Value = (Math.Pow(pt.X, 2) + Math.Pow(pt.Y, 2)) / maxDist });
+            }
+            return series;
+        }
+
         public static ScatterSeries CreateScatterSerie(List<DataPoint> pts, List<DataPoint> rev)
         {
             var series = new ScatterSeries()
@@ -110,10 +128,14 @@ namespace Infrastructure.Oxyplot
             return series;
         }
 
-        public static ColumnSeries CreateColumnSeries(List<DataPoint> pts)
+        public static BarSeries CreateBarSeries(List<DataPoint> pts)
         {
-            var series = new ColumnSeries()
+
+            var series = new BarSeries()
             {
+                IsStacked = false,
+                XAxisKey = "x",
+                YAxisKey = "y",
                 FillColor = OxyColors.Aqua,
                 ValueField = "Y",
                 ItemsSource = pts

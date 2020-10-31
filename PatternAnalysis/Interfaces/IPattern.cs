@@ -10,6 +10,7 @@ namespace PatternAnalysis.Interfaces
         string CheckSum { get; set; }
         string FileName { get; set; }
         List<DataPoint> Points { get; set; }
+        OxyColor Color { get; set; }
         string ToString();
     }
 }
