@@ -170,7 +170,6 @@ namespace ImageAnalysis.ViewModels
             {
                 this.images[src] = new CalibrationImage();
             }
-            //this.SourceImage = new CalibrationImage();
             this.ImgList.Add(new ImageList(src, this.images[src].GetBitmapImage()));
         }
 

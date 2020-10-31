@@ -6,22 +6,22 @@
              xmlns:local="clr-namespace:PatternAnalysis.ControlViews"
              mc:Ignorable="d" 
               d:DesignHeight="100" d:DesignWidth="400">
-    <Grid Margin="0,0,15,0">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="1.5*" />
-            <RowDefinition Height="1.5*" />
-        </Grid.RowDefinitions>
-        <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Background="Navy"></Border>
-        <TextBlock Grid.Row="0" Grid.Column="0"  Grid.ColumnSpan="2" Height="20px" FontSize="15" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="center" Text="Transformation"/>
-        <StackPanel Grid.Row="1" Grid.Column="0" Grid.RowSpan="2" VerticalAlignment="Center" >
-            <Button Margin="5" Height="25px" Content="Calculate Tranform Matrix" Command="{Binding TransformMatrixCommand}"/>
-        </StackPanel>
-        <ComboBox Width="100" Height="25" Grid.Row="1" Grid.Column="1" Margin="5" ItemsSource="{Binding PatternList}" SelectedValuePath="Key" DisplayMemberPath="Value.FileName" SelectedValue="{Binding SelectedA}"/>
-        <ComboBox Width="100" Height="25" Grid.Row="2" Grid.Column="1" Margin="5" ItemsSource="{Binding PatternList}" SelectedValuePath="Key" DisplayMemberPath="Value.FileName" SelectedValue="{Binding SelectedB}"/>
-    </Grid>
+    <GroupBox Header="Affine Transformation Matrix">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Column="0" Margin="10,0,10,0" VerticalAlignment="Center">
+                <Button Height="25px" Content="Calculate" Command="{Binding TransformMatrixCommand}"/>
+            </StackPanel>
+            <StackPanel Grid.Column="1" Margin="10,0,10,0" VerticalAlignment="Center">
+                <ComboBox Width="100" Height="25" Margin="5" SelectedIndex="0" ItemsSource="{Binding PatternList}" DisplayMemberPath="FileName" SelectedValue="{Binding SelectedA}"/>
+                <ComboBox Width="100" Height="25" Margin="5" SelectedIndex="1" ItemsSource="{Binding PatternList}" DisplayMemberPath="FileName" SelectedValue="{Binding SelectedB}"/>
+            </StackPanel>
+        </Grid>
+    </GroupBox>
 </UserControl>
