@@ -135,7 +135,9 @@ namespace Infrastructure.Oxyplot
                 YAxisKey = "y",
                 FillColor = OxyColors.Aqua,
                 ValueField = "Y",
-                ItemsSource = pts
+                ItemsSource = pts,
+                LabelPlacement = LabelPlacement.Base,
+                LabelFormatString = "{0}"
             };
             return series;
         }

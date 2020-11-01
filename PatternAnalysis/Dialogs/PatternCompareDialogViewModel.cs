@@ -10,6 +10,7 @@ using Prism.Services.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text;
 using System.Text.Json;
 
@@ -18,6 +19,9 @@ namespace PatternAnalysis.Dialogs
     class PatternCompareDialogViewModel : BindableBase, IDialogAware
     {
         public string Title => "Pattern Compare Dialog";
+
+        private List<DataPoint> PatternA;
+        private List<DataPoint> PatternB;
 
         private PlotModel _plotModelPatternA;
         public PlotModel PlotModelPatternA
@@ -45,6 +49,20 @@ namespace PatternAnalysis.Dialogs
         {
             get { return _histoTable; }
             set { SetProperty(ref _histoTable, value); }
+        }
+
+        private ObservableCollection<Pulse> _pulseTableA;
+        public ObservableCollection<Pulse> PulseTableA
+        {
+            get { return _pulseTableA; }
+            set { SetProperty(ref _pulseTableA, value); }
+        }
+
+        private ObservableCollection<Pulse> _pulseTableB;
+        public ObservableCollection<Pulse> PulseTableB
+        {
+            get { return _pulseTableB; }
+            set { SetProperty(ref _pulseTableB, value); }
         }
 
         public DelegateCommand CloseDialogCommand { get; }
@@ -87,8 +105,14 @@ namespace PatternAnalysis.Dialogs
             var patternA = JsonSerializer.Deserialize<List<System.Windows.Point>>(parameters.GetValue<string>("patternA"));
             var patternB = JsonSerializer.Deserialize<List<System.Windows.Point>>(parameters.GetValue<string>("patternB"));
 
-            var distance = Histogram.Distance(ConvertToDataPoint(patternA), ConvertToDataPoint(patternB));
+            PatternA = ConvertToDataPoint(patternA);
+            PatternB = ConvertToDataPoint(patternB);
+
+            var distance = Histogram.Distance(PatternA, PatternB);
             var histoSet = Histogram.CreateBins(distance, 50);
+
+            PulseTableA = GetWrongPulses(PatternA, distance, 500);
+            PulseTableB = GetWrongPulses(PatternB, distance, 500);
 
             HistoTable = histoSet.ToObservableCollection();
 
@@ -104,6 +128,23 @@ namespace PatternAnalysis.Dialogs
             PlotModelHisto.Axes.Add(new LinearAxis { Position = AxisPosition.Left, MinimumPadding = 0, MaximumPadding = 0.06, AbsoluteMinimum = 0, Key = "x" });
             PlotModelHisto.InvalidatePlot(true);
 
+        }
+
+        private ObservableCollection<Pulse> GetWrongPulses(List<DataPoint> pattern, List<double> dist, double threshold)
+        {
+            List<int> indices = dist.Select((v, i) => new { v, i })
+            .Where(x => x.v > threshold)
+            .Select(x => x.i).ToList<int>();
+
+            var result = new ObservableCollection<Pulse>();
+
+            indices.ForEach(ind =>
+            {
+                if(ind>0) result.Add(new Pulse(ind-1, pattern[ind-1]));
+                result.Add(new Pulse(ind, pattern[ind]));
+            });
+
+            return result;
         }
 
         private ScatterSeries GenerateScatterSeries(List<System.Windows.Point> points, List<double> dist)
