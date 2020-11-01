@@ -95,11 +95,9 @@ namespace Infrastructure.Oxyplot
                 MarkerSize = 3
             };
 
-            var maxDist = pts.Max(pt => (Math.Pow(pt.X, 2) + Math.Pow(pt.Y, 2)));
-
             foreach (DataPoint pt in pts)
             {
-                series.Points.Add(new ScatterPoint(pt.X, pt.Y) { Value = (Math.Pow(pt.X, 2) + Math.Pow(pt.Y, 2)) / maxDist });
+                series.Points.Add(new ScatterPoint(pt.X, pt.Y) { Value = 1.0 });
             }
             return series;
         }

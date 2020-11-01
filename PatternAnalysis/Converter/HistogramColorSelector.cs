@@ -1,8 +1,5 @@
-﻿using OxyPlot;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Globalization;
-using System.Text;
 using System.Windows.Data;
 using System.Windows.Media;
 
@@ -20,13 +17,13 @@ namespace PatternAnalysis.Converter
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is double)
+            if (value is double @double)
             {
-                if ((double)value < 50) return new SolidColorBrush(_bin50);
-                if ((double)value >= 50 && (double)value < 100) return new SolidColorBrush(_bin100);
-                if ((double)value >= 100 && (double)value < 200) return new SolidColorBrush(_bin200);
-                if ((double)value >= 200 && (double)value < 300) return new SolidColorBrush(_bin300);
-                if ((double)value >= 300 && (double)value < 500) return new SolidColorBrush(_bin500);
+                if (@double < 50) return new SolidColorBrush(_bin50);
+                if (@double >= 50 && @double < 100) return new SolidColorBrush(_bin100);
+                if (@double >= 100 && @double < 200) return new SolidColorBrush(_bin200);
+                if (@double >= 200 && @double < 300) return new SolidColorBrush(_bin300);
+                if (@double >= 300 && @double < 500) return new SolidColorBrush(_bin500);
                 else return new SolidColorBrush(_bin100000);
             }
             return Binding.DoNothing;

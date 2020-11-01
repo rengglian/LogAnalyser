@@ -12,6 +12,7 @@ namespace PatternAnalysis.Helper
 {
     public class Pattern : IPattern
     {
+        private readonly byte alpha = 120;
         public List<DataPoint> Points { get; set; } = new List<DataPoint>();
         public string CheckSum { get; set; } = "";
         public string FileName { get; set; } = "";
@@ -32,22 +33,22 @@ namespace PatternAnalysis.Helper
 
         private OxyColor AssignColor(string fileName)
         {
-            var color = OxyColors.Red;
+            var color = OxyColor.FromAColor((byte)(alpha/2), OxyColors.Gray);
             if (fileName.Contains("PulseList-Raw"))
             {
-                color = OxyColors.Chocolate;
+                color = OxyColor.FromAColor(alpha, OxyColors.Chocolate);
             }
             else if (fileName.Contains("patternPositions") || fileName.Contains("PulseList-Edited"))
             {
-                color = OxyColors.Coral;
+                color = OxyColor.FromAColor(alpha, OxyColors.Coral);
             }
             else if (fileName.Contains("pulsePosition") || fileName.Contains("PulsePositions"))
             {
-                color = OxyColors.CornflowerBlue;
+                color = OxyColor.FromAColor(alpha, OxyColors.CornflowerBlue);
             }
             else if (fileName.Contains("checkerPosition") || fileName.Contains("CheckerPositions"))
             {
-                color = OxyColors.SlateBlue;
+                color = OxyColor.FromAColor(alpha, OxyColors.SlateBlue);
             }
             
             return color;

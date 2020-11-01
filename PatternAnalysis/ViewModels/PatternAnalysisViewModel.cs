@@ -24,7 +24,6 @@ namespace PatternAnalysis.ViewModels
         private readonly IEventAggregator _eventAggregator;
         public DelegateCommand OpenDataSetCommand { get; set; }
         public DelegateCommand TransformMatrixCommand { get; set; }
-        public DelegateCommand CreateHistogramCommand { get; set; }
         public DelegateCommand SendCommand { get; set; }
         public DelegateCommand CompareCommand { get; set; }
 
@@ -71,6 +70,13 @@ namespace PatternAnalysis.ViewModels
             set { SetProperty(ref plotModelHisto, value); }
         }
 
+        private DecomposeMatrix _decomposeMatrix;
+        public DecomposeMatrix DecomposeMatrix
+        {
+            get { return _decomposeMatrix; }
+            set { SetProperty(ref _decomposeMatrix, value); }
+        }
+
         public PatternAnalysisViewModel(IEventAggregator eventAggregator, IDialogService dialogService)
         {
 
@@ -79,15 +85,13 @@ namespace PatternAnalysis.ViewModels
             PlotModelPattern = PlotModelHelper.CreateScatterPlot();
             PlotModelHisto = PlotModelHelper.CreateHistogramm();
 
-            patternList = new ObservableCollection<IPattern>();
+            PatternList = new ObservableCollection<IPattern>();
 
             OpenDataSetCommand = new DelegateCommand(OpenDataSetHandler);
             TransformMatrixCommand = new DelegateCommand(TransformMatrixHandler);
-            CreateHistogramCommand = new DelegateCommand(CreateHistogramHandler);
             SendCommand = new DelegateCommand(SendHandler);
             CompareCommand = new DelegateCommand(CompareHandler);
 
-            BinValue = 20;
             Title = "Test";
             _eventAggregator = eventAggregator;
         }
@@ -99,30 +103,15 @@ namespace PatternAnalysis.ViewModels
             _dialogService.ShowPatternCompareDialog(patternA, patternB, r =>{ });
         }
 
-        private void CreateHistogramHandler()
-        {
-            
-            this.patternList.Add(new Pattern("None"));
-
-            var histoSet = Histogram.Create(SelectedA, SelectedB, BinValue);
-           
-            PlotModelHisto.Series.Clear();
-            PlotModelHisto.Series.Add(PlotModelHelper.CreateBarSeries(histoSet));
-            PlotModelHisto.Axes.Add(new CategoryAxis { Position = AxisPosition.Bottom, Key = "y", Angle = 90, ItemsSource = histoSet, LabelField = "X"});
-            PlotModelHisto.Axes.Add(new LinearAxis { Position = AxisPosition.Left, MinimumPadding = 0, MaximumPadding = 0.06, AbsoluteMinimum = 0, Key = "x" });
-
-            PlotModelHisto.InvalidatePlot(true);
-        }
-
         private void OpenDataSetHandler()
         {
 
             OpenFileDialog openFileDialog = new OpenFileDialog();
             if (openFileDialog.ShowDialog() == true)
             {
-                this.patternList.Add(new Pattern(openFileDialog.FileName));
+                PatternList.Add(new Pattern(openFileDialog.FileName));
                                 
-                var series = PlotModelHelper.CreateScatterSerie(this.patternList.Last().Points, patternList.Last().Color);
+                var series = PlotModelHelper.CreateScatterSerie(PatternList.Last().Points, PatternList.Last().Color);
                 
                 PlotModelPattern.Series.Add(series);
                 PlotModelPattern.InvalidatePlot(true);
@@ -138,25 +127,17 @@ namespace PatternAnalysis.ViewModels
         private void TransformMatrixHandler()
         {
 
-            this.CalibMatrix = AffineMatrix.CalculateMatrix(SelectedA, SelectedB);
+            CalibMatrix = AffineMatrix.CalculateMatrix(SelectedA, SelectedB);
 
-            var test = AffineMatrix.Decompose(this.CalibMatrix);
+            DecomposeMatrix = AffineMatrix.Decompose(CalibMatrix);
 
+            PatternList.Add(new Pattern("None"));
 
-            this.patternList.Add(new Pattern("None"));
+            PatternList.Last().Points = AffineMatrix.CalculateBack(SelectedA.Points, CalibMatrix);
 
-            this.patternList.Last().Points = AffineMatrix.CalculateBack(SelectedA.Points, CalibMatrix);
-
-            var series = PlotModelHelper.CreateScatterSerie(this.patternList.Last().Points);
+            var series = PlotModelHelper.CreateScatterSerie(PatternList.Last().Points, PatternList.Last().Color);
             PlotModelPattern.Series.Add(series);
             PlotModelPattern.InvalidatePlot(true);
-
-            //var histoSet = Histogram.Create(SelectedB, this.patternList.Last(), BinValue);
-            /*
-            PlotModelHisto.Series.Clear();
-            PlotModelHisto.Series.Add(PlotModelHelper.CreateColumnSeries(histoSet));
-            PlotModelHisto.Axes.Add(new OxyPlot.Axes.CategoryAxis { Angle = 90, ItemsSource = histoSet, LabelField = "X" });
-            PlotModelHisto.InvalidatePlot(true);*/
         }
     }
 }
