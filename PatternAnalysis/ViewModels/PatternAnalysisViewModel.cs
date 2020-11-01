@@ -13,6 +13,7 @@ using Infrastructure.Oxyplot;
 using OxyPlot.Axes;
 using System.Linq;
 using Prism.Services.Dialogs;
+using System;
 
 namespace PatternAnalysis.ViewModels
 {
@@ -26,6 +27,8 @@ namespace PatternAnalysis.ViewModels
         public DelegateCommand TransformMatrixCommand { get; set; }
         public DelegateCommand SendCommand { get; set; }
         public DelegateCommand CompareCommand { get; set; }
+
+        public DelegateCommand<int?> ListCommand { get; set; }
 
         private ObservableCollection<IPattern> patternList;
         public ObservableCollection<IPattern> PatternList
@@ -47,8 +50,6 @@ namespace PatternAnalysis.ViewModels
             set { this._selectedB = value; }
         }
 
-        public int BinValue { get; set; }
-        public string Title { get; set; }
         private Dictionary<string, double> calibMatrix;
         public Dictionary<string, double> CalibMatrix
         {
@@ -63,13 +64,6 @@ namespace PatternAnalysis.ViewModels
             set { SetProperty(ref plotModelPattern, value); }
         }
 
-        private PlotModel plotModelHisto;
-        public PlotModel PlotModelHisto
-        {
-            get { return plotModelHisto; }
-            set { SetProperty(ref plotModelHisto, value); }
-        }
-
         private Dictionary<string, double> _decomposeMatrix;
         public Dictionary<string, double> DecomposeMatrix
         {
@@ -79,21 +73,29 @@ namespace PatternAnalysis.ViewModels
 
         public PatternAnalysisViewModel(IEventAggregator eventAggregator, IDialogService dialogService)
         {
-
             _dialogService = dialogService;
+            _eventAggregator = eventAggregator;
 
             PlotModelPattern = PlotModelHelper.CreateScatterPlot();
-            PlotModelHisto = PlotModelHelper.CreateHistogramm();
-
+            
             PatternList = new ObservableCollection<IPattern>();
 
             OpenDataSetCommand = new DelegateCommand(OpenDataSetHandler);
             TransformMatrixCommand = new DelegateCommand(TransformMatrixHandler);
             SendCommand = new DelegateCommand(SendHandler);
             CompareCommand = new DelegateCommand(CompareHandler);
+            ListCommand = new DelegateCommand<int?>(ListHandler);
+            
+        }
 
-            Title = "Test";
-            _eventAggregator = eventAggregator;
+        private void ListHandler(int? item)
+        {
+            if (item >= 0)
+            {
+                PatternList.RemoveAt((int)item);
+                PlotModelPattern.Series.RemoveAt((int)item);
+                PlotModelPattern.InvalidatePlot(true);
+            }
         }
 
         private void CompareHandler()
