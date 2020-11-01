@@ -29,7 +29,7 @@ namespace PatternAnalysis.Helper
 
             return TransformToDict(affineMatrix);
         }
-        private static Dictionary<string, double> TransformToDict(OpenCvSharp.Mat cvMat)
+        private static Dictionary<string, double> TransformToDict(Mat cvMat)
         {
             var dict = new Dictionary<string, double>
             {
@@ -44,7 +44,7 @@ namespace PatternAnalysis.Helper
             return dict;
         }
 
-        public static DecomposeMatrix Decompose(Dictionary<string, double> affineMatrix)
+        public static Dictionary<string, double> Decompose(Dictionary<string, double> affineMatrix)
         {
             var decomposedMatrix = new DecomposeMatrix();
 
@@ -68,7 +68,18 @@ namespace PatternAnalysis.Helper
 
             decomposedMatrix.Translation = new Point2d(affineMatrix["m13"], affineMatrix["m23"]);
 
-            return decomposedMatrix;
+            var dict = new Dictionary<string, double>
+            {
+                { "ΔX", decomposedMatrix.Translation.X },
+                { "ΔY", decomposedMatrix.Translation.Y },
+                { "Scale X", decomposedMatrix.Scale.X },
+                { "Scale Y", decomposedMatrix.Scale.Y },
+                { "Shear X", decomposedMatrix.Shear.X },
+                { "Shear Y", decomposedMatrix.Shear.Y },
+                { "Rotation", decomposedMatrix.Rotation }
+            };
+
+            return dict;
         }
 
         public static List<DataPoint> CalculateBack(List<DataPoint> pts, Dictionary<string, double> affineMatrix)

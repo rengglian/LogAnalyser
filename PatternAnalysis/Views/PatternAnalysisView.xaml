@@ -22,9 +22,9 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="2*" />
+            <RowDefinition Height="0.5*" />
+            <RowDefinition Height="0.5*" />
             <RowDefinition Height="0.5*" />
         </Grid.RowDefinitions>
 
@@ -70,15 +70,13 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <WrapPanel Margin="0,0,5,0">
-                            <TextBlock FontWeight="Bold" Text="Rotation: " />
-                            <TextBlock Text="{Binding DecomposeMatrix.Rotation , StringFormat=0.###}" />
+                            <TextBlock FontWeight="Bold" Text="{Binding Key}" />
+                            <TextBlock FontWeight="Bold" Text=": "/>
+                            <TextBlock Text="{Binding Value , StringFormat=0.###}" />
                         </WrapPanel>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>            
-            
-            <TextBlock FontWeight="Bold" Text="Rotation: " />
-            <TextBlock Text="{Binding DecomposeMatrix.Rotation , StringFormat=0.###}" />
         </StackPanel>
 
         <oxy:PlotView Name="PatternPlot" Model="{Binding PlotModelPattern}" Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" Grid.ColumnSpan="2" Width="450" Height="450" VerticalAlignment="Center" HorizontalAlignment="Center"/>

@@ -70,8 +70,8 @@ namespace PatternAnalysis.ViewModels
             set { SetProperty(ref plotModelHisto, value); }
         }
 
-        private DecomposeMatrix _decomposeMatrix;
-        public DecomposeMatrix DecomposeMatrix
+        private Dictionary<string, double> _decomposeMatrix;
+        public Dictionary<string, double> DecomposeMatrix
         {
             get { return _decomposeMatrix; }
             set { SetProperty(ref _decomposeMatrix, value); }
