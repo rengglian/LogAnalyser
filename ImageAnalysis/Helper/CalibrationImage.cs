@@ -12,27 +12,33 @@ namespace ImageAnalysis.Helper
         public Mat ImageMat { get; set; }
 
         public CalibrationImage() {
-            this.ImageMat = ImageReader.Read();
+            ImageMat = ImageReader.Read();
+            if (ImageMat.Channels() > 1) FlipX();
         }
 
         public CalibrationImage(Mat img)
         {
-            this.ImageMat = img.Clone();
+            ImageMat = img.Clone();
         }
 
         public void Substract(Mat img)
         {
-            Cv2.Absdiff(this.ImageMat, img, this.ImageMat);
+            Cv2.Absdiff(ImageMat, img, ImageMat);
         }
 
         public void Blur()
         {
-            Cv2.GaussianBlur(this.ImageMat, this.ImageMat, new Size(7, 7), 20);
+            Cv2.GaussianBlur(ImageMat, ImageMat, new Size(7, 7), 20);
+        }
+
+        private void FlipX()
+        {
+            Cv2.Flip(ImageMat, ImageMat, FlipMode.Y);
         }
 
         public BitmapImage GetBitmapImage()
         {
-            return BitmapToBitmapImage.Convert(this.ImageMat.ToBitmap());
+            return BitmapToBitmapImage.Convert(ImageMat.ToBitmap());
         }
     }
 }
