@@ -11,6 +11,7 @@ namespace PatternAnalysis.Interfaces
         string FileName { get; set; }
         List<DataPoint> Points { get; set; }
         OxyColor Color { get; set; }
+        int Count { get; set; }
         string ToString();
     }
 }

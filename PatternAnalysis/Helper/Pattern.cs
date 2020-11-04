@@ -18,6 +18,7 @@ namespace PatternAnalysis.Helper
         public string FileName { get; set; } = "";
         public Point Center { get; set; } = new Point();
         public OxyColor Color { get; set; }
+        public int Count { get; set; }
 
         public Pattern(string fileName)
         {
@@ -25,10 +26,11 @@ namespace PatternAnalysis.Helper
             {
                 Points = JsonReader.Read(fileName);
             }
-            CheckSum = CalculateCheckSum(this.Points);
-            Center = CalculateCenter(this.Points);
+            CheckSum = CalculateCheckSum(Points);
+            Center = CalculateCenter(Points);
             FileName = Path.GetFileName(fileName);
             Color = AssignColor(FileName);
+            Count = Points.Count();
         }
 
         private OxyColor AssignColor(string fileName)

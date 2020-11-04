@@ -42,6 +42,7 @@
                         <StackPanel>
                             <TextBlock Foreground="{Binding FileName, Converter={StaticResource PatternColorSelector}}" FontWeight="Bold" Text="{Binding FileName}" />
                             <TextBlock Foreground="{Binding FileName, Converter={StaticResource PatternColorSelector}}" Text="{Binding CheckSum}" />
+                            <TextBlock Foreground="{Binding FileName, Converter={StaticResource PatternColorSelector}}" Text="{Binding Count}" />
                         </StackPanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>
