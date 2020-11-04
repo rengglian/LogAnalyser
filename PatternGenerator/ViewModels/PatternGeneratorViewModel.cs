@@ -22,6 +22,7 @@ namespace PatternGenerator.ViewModels
 
         public int RepeatValue { get; set; }
         public bool RandomizePattern { get; set; }
+
         public string Title { get; set; } = "Pattern Generator";
 
         private IShape shape;
@@ -41,11 +42,11 @@ namespace PatternGenerator.ViewModels
         public IList<IShape> ShapeList { get; private set; }
         public IShape SelectedShape
         {
-            get { return this.Shape; }
+            get { return Shape; }
             set
             {
-                this.Shape = value;
-                this.Shape.Generate();
+                Shape = value;
+                Shape.Generate();
                 UpdatePatternHandler();
             }
         }
@@ -59,31 +60,32 @@ namespace PatternGenerator.ViewModels
             {
                 new Circle(),
                 new Spiral(),
-                new DotMatrix()
+                new DotMatrix(),
+                new Cross()
             };
 
-            this.Shape = ShapeList.First();
+            Shape = ShapeList.First();
             UpdatePatternHandler();
 
-            this.RepeatValue = 10;
-            this.RandomizePattern = true;
+            RepeatValue = 10;
+            RandomizePattern = true;
 
-            this.UpdatePatternCommand = new DelegateCommand(UpdatePatternHandler);
-            this.SaveFileCommand = new DelegateCommand(SaveFileHandler);
+            UpdatePatternCommand = new DelegateCommand(UpdatePatternHandler);
+            SaveFileCommand = new DelegateCommand(SaveFileHandler);
         }
 
         private void UpdatePatternHandler()
         {
-            this.Shape.Generate();
+            Shape.Generate();
             
             PlotModel.Series.Clear();
-            PlotModel.Series.Add(PlotModelHelper.CreateScatterSerie(this.Shape.Points.ToList<DataPoint>()));
+            PlotModel.Series.Add(PlotModelHelper.CreateScatterSerie(Shape.Points.ToList<DataPoint>()));
             PlotModel.InvalidatePlot(true);
         }
 
         private void SaveFileHandler()
         {
-            JsonWrite.ExportPattern(this.Shape.Points.ToList<DataPoint>(), this.Shape.ToString(), RepeatValue, RandomizePattern);
+            JsonWrite.ExportPattern(Shape.Points.ToList<DataPoint>(), Shape.ToString(), RepeatValue, RandomizePattern);
         }
 
     }

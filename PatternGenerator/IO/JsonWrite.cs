@@ -16,8 +16,10 @@ namespace PatternGenerator.IO
             description += randomized ? "_randomized" : "";
             var fileName = DateTime.Now.ToString("HHmmss_") + description + ".json";
             var filePath = Path.Combine("./", fileName);
-            JsonSerializerOptions options = new JsonSerializerOptions();
-            options.WriteIndented = true;
+            JsonSerializerOptions options = new JsonSerializerOptions
+            {
+                WriteIndented = true
+            };
             string jsonString;
             var rng = new Random();
 

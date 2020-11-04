@@ -1,4 +1,5 @@
 ﻿using OxyPlot;
+using OxyPlot.Series;
 using PatternGenerator.Helper;
 using PatternGenerator.Interfaces;
 using System;
@@ -7,13 +8,13 @@ using System.Collections.ObjectModel;
 
 namespace PatternGenerator.Shapes
 {
-    class DotMatrix : IShape
+    class Cross : IShape
     {
         public ObservableCollection<DataPoint> Points { get; set; } = new ObservableCollection<DataPoint>();
         public string Description { get; set; } = "";
         public Dictionary<string, ShapeOptions> Options { get; set; } = new Dictionary<string, ShapeOptions>();
 
-        public DotMatrix()
+        public Cross()
         {
             Options.Add("N", new ShapeOptions(10, "N * N Square"));
             Options.Add("Side Length", new ShapeOptions(5000, "Side Length of Square"));
@@ -30,20 +31,25 @@ namespace PatternGenerator.Shapes
             var c = Math.Cos(Options["Rotation"].Value * Math.PI / 180);
             for (double i = 0; i <= l; i += l / n)
             {
-                for (double j = 0; j <= l; j += l / n)
-                {
-                    var x = i + min;
-                    var y = j + min;
+                var x = i + min;
+                var y = 0.0;
 
-                    var x_new = c * x - s * y;
-                    var y_new = s * x + c * y;
-                    Points.Add(new DataPoint(Math.Round(x_new, 0), Math.Round(y_new, 0)));
-                }
+                var new_x = c * x - s * y;
+                var new_y = s * x + c * y;
+
+                Points.Add(new DataPoint(Math.Round(new_x,0), Math.Round(new_y, 0)));
+
+                x = 0.0;
+                y = i + min;
+
+                new_x = c * x - s * y;
+                new_y = s * x + c * y;
+                Points.Add(new DataPoint(Math.Round(new_x, 0), Math.Round(new_y, 0)));
             }
         }
         public override string ToString()
         {
-            return "DotMatrix";
+            return "Cross";
         }
     }
 }

@@ -24,15 +24,15 @@ namespace PatternGenerator.Shapes
         {
             Points.Clear();
 
-            double step_size = this.Options["Steps Size"].Value;
-            double revolutions = this.Options["Revolutions"].Value;
-            double radius = this.Options["Radius"].Value;
+            double step_size = Options["Steps Size"].Value;
+            double revolutions = Options["Revolutions"].Value;
+            double radius = Options["Radius"].Value;
             double rotation = Math.PI / 2;
             double maxTheta = revolutions * 2 * Math.PI;
             double delta_r = radius / maxTheta;
             double theta = step_size / delta_r;
 
-            this.Points.Add(new DataPoint(0.0, 0.0));
+            Points.Add(new DataPoint(0.0, 0.0));
 
             while (theta <= maxTheta)
             {
@@ -40,7 +40,7 @@ namespace PatternGenerator.Shapes
                 double next_dist = delta_r * theta;
                 double new_theta = theta + rotation;
  
-                this.Points.Add(new DataPoint(Math.Round(Math.Cos(new_theta) * next_dist, 0), Math.Round(Math.Sin(new_theta) * next_dist, 0)));
+                Points.Add(new DataPoint(Math.Round(Math.Cos(new_theta) * next_dist, 0), Math.Round(Math.Sin(new_theta) * next_dist, 0)));
                 theta += step_size / next_dist;
             }
         }

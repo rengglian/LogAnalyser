@@ -25,15 +25,15 @@ namespace PatternGenerator.Shapes
         {
             Points.Clear();
             double min = 0;
-            double max = (2 * Math.PI) - (2 * Math.PI) / this.Options["Steps"].Value;
-            List<double> stepList = Enumerable.Range(0, this.Options["Steps"].Value)
-                 .Select(i => min + (max - min) * ((double)i / (this.Options["Steps"].Value - 1))).ToList();
+            double max = (2 * Math.PI) - (2 * Math.PI) / Options["Steps"].Value;
+            List<double> stepList = Enumerable.Range(0, Options["Steps"].Value)
+                 .Select(i => min + (max - min) * ((double)i / (Options["Steps"].Value - 1))).ToList();
 
-            var r2 = this.Options["R2"].Value == -1 ? this.Options["R1"].Value : this.Options["R2"].Value;
+            var r2 = Options["R2"].Value == -1 ? Options["R1"].Value : Options["R2"].Value;
 
             stepList.ForEach(stp =>
             {
-                this.Points.Add(new DataPoint(Math.Round(this.Options["R1"].Value * Math.Sin(stp), 0), Math.Round(r2 * Math.Cos(stp), 0)));
+                Points.Add(new DataPoint(Math.Round(Options["R1"].Value * Math.Sin(stp), 0), Math.Round(r2 * Math.Cos(stp), 0)));
             });
         }
         public override string ToString()
