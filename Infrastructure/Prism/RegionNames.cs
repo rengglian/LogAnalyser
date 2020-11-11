@@ -10,7 +10,5 @@ namespace Infrastructure.Prism
 
         public const string ContentRegionTop = "ContentRegionTop";
 
-        public const string ContentRegionPatternGeneratorView = "ContentRegionPatternGeneratorView";
-
     }
 }

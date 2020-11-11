@@ -2,20 +2,25 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Runtime.InteropServices.ComTypes;
-using System.Text;
 using System.Text.Json;
+using System.Windows.Navigation;
 
 namespace PatternAnalysis.IO
 {
-    class JsonReader
+    public class JsonReader
     { 
         public static List<DataPoint> Read(string fileName)
         {
-            var jsonString = File.ReadAllText(fileName);
-            var strList = JsonSerializer.Deserialize<List<string>>(jsonString);
-
             List<DataPoint> points = new List<DataPoint>();
+            var jsonString = File.Exists(fileName) ? File.ReadAllText(fileName) : "";
+            
+            List<string> strList = new List<string>();
+            try  {
+                strList = JsonSerializer.Deserialize<List<string>>(jsonString);
+            }
+            catch {
+                return points;
+            }
 
             strList.ForEach(item =>
             {
