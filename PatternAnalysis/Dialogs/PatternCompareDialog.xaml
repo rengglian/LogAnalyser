@@ -22,67 +22,76 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="10*" />
-            <RowDefinition Height="4*" />
-            <RowDefinition Height="4*" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="40px" />
         </Grid.RowDefinitions>
-        <oxy:PlotView Name="PatternPlotA" Margin="5" Model="{Binding PlotModelPatternA}" Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Width="350" Height="350" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-        <oxy:PlotView Name="PatternPlotB" Margin="5" Model="{Binding PlotModelPatternB}" Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" Width="350" Height="350" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-        <oxy:PlotView Name="HistoPlot" Model="{Binding PlotModelHisto}" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Width="730" Height="150" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-        
-        <StackPanel  Grid.Column="2" Grid.Row="0" Margin="10">
-            <Label FontWeight="Bold" Content="Histogram Values" HorizontalAlignment="Center"/>
-            <ListView Name="histoTable" BorderThickness="0" MaxHeight="250" ItemsSource="{Binding HistoTable}">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <WrapPanel>
-                            <TextBlock Foreground="{Binding X, Converter={StaticResource HistogramColorSelector}}" FontWeight="Bold" Text="Bin: " />
-                            <TextBlock Foreground="{Binding X, Converter={StaticResource HistogramColorSelector}}" Text="{Binding X}" />
-                            <TextBlock Foreground="{Binding X, Converter={StaticResource HistogramColorSelector}}" FontWeight="Bold" Text=" Count: " />
-                            <TextBlock Foreground="{Binding X, Converter={StaticResource HistogramColorSelector}}" Text="{Binding Y}" />
-                        </WrapPanel>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-        </StackPanel>
+        <GroupBox Header="Pulses A" Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" >
+            <oxy:PlotView Name="PatternPlotA" Margin="5" Model="{Binding PlotModelPatternA}" Width="350" Height="350" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        </GroupBox>
+        <GroupBox Header="Pulses B" Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" >
+            <oxy:PlotView Name="PatternPlotB" Margin="5" Model="{Binding PlotModelPatternB}" Width="350" Height="350" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        </GroupBox>
+        <GroupBox Header="Histogram" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2">
+            <oxy:PlotView Name="HistoPlot" Model="{Binding PlotModelHisto}" Width="730" Height="150" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        </GroupBox>
 
-        <StackPanel  Grid.Column="2" Grid.Row="1" Margin="10">
-            <Label FontWeight="Bold" Content="Pulses A" HorizontalAlignment="Center"/>
-            <ListView Name="pulseTableA" BorderThickness="0"  MaxHeight="150" ItemsSource="{Binding PulseTableA}">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <WrapPanel>
-                            <TextBlock FontWeight="Bold" Text="Number: " />
-                            <TextBlock Text="{Binding Count}" />
-                            <TextBlock FontWeight="Bold" Text=" X: " />
-                            <TextBlock Text="{Binding Position.X}" />
-                            <TextBlock FontWeight="Bold" Text=" Y: " />
-                            <TextBlock Text="{Binding Position.Y}" />
-                        </WrapPanel>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-        </StackPanel>
+        <GroupBox Grid.Column="2" Grid.Row="0" Header="Pulses A">
+            <StackPanel Margin="10">
+                <ListView Name="pulseTableA" BorderThickness="0"  MaxHeight="150" ItemsSource="{Binding PulseTableA}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <WrapPanel>
+                                <TextBlock FontWeight="Bold" Text="Number: " />
+                                <TextBlock Text="{Binding Count}" />
+                                <TextBlock FontWeight="Bold" Text=" X: " />
+                                <TextBlock Text="{Binding Position.X}" />
+                                <TextBlock FontWeight="Bold" Text=" Y: " />
+                                <TextBlock Text="{Binding Position.Y}" />
+                            </WrapPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackPanel>
+        </GroupBox>
 
-        <StackPanel  Grid.Column="2" Grid.Row="2" Margin="10">
-            <Label FontWeight="Bold" Content="Pulses B" HorizontalAlignment="Center"/>
-            <ListView Name="pulseTableB" BorderThickness="0" MaxHeight="150" ItemsSource="{Binding PulseTableB}">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <WrapPanel>
-                            <TextBlock FontWeight="Bold" Text="Number: " />
-                            <TextBlock Text="{Binding Count}" />
-                            <TextBlock FontWeight="Bold" Text=" X: " />
-                            <TextBlock Text="{Binding Position.X}" />
-                            <TextBlock FontWeight="Bold" Text=" Y: " />
-                            <TextBlock Text="{Binding Position.Y}" />
-                        </WrapPanel>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-        </StackPanel>
-        
-        <Button Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Height="25" Width="100" Margin="5" Content="OK" Command="{Binding CloseDialogCommand}"/>
+        <GroupBox Grid.Column="2" Grid.Row="1" Header="Pulses B">
+            <StackPanel Margin="10">
+                <ListView Name="pulseTableB" BorderThickness="0" MaxHeight="150" ItemsSource="{Binding PulseTableB}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <WrapPanel>
+                                <TextBlock FontWeight="Bold" Text="Number: " />
+                                <TextBlock Text="{Binding Count}" />
+                                <TextBlock FontWeight="Bold" Text=" X: " />
+                                <TextBlock Text="{Binding Position.X}" />
+                                <TextBlock FontWeight="Bold" Text=" Y: " />
+                                <TextBlock Text="{Binding Position.Y}" />
+                            </WrapPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackPanel>
+        </GroupBox>
+
+        <GroupBox Grid.Column="2" Grid.Row="2" Header="Histogram Values">
+            <StackPanel Margin="10">
+                <ListView Name="histoTable" BorderThickness="0" ItemsSource="{Binding HistoTable}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <WrapPanel>
+                                <TextBlock Foreground="{Binding X, Converter={StaticResource HistogramColorSelector}}" FontWeight="Bold" Text="Bin: " />
+                                <TextBlock Foreground="{Binding X, Converter={StaticResource HistogramColorSelector}}" Text="{Binding X}" />
+                                <TextBlock Foreground="{Binding X, Converter={StaticResource HistogramColorSelector}}" FontWeight="Bold" Text=" Count: " />
+                                <TextBlock Foreground="{Binding X, Converter={StaticResource HistogramColorSelector}}" Text="{Binding Y}" />
+                            </WrapPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackPanel>
+        </GroupBox>
+
+        <Button Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" Height="25" Width="100" Margin="5" Content="Close" Command="{Binding CloseDialogCommand}"/>
     </Grid>
 </UserControl>
