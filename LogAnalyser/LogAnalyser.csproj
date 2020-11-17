@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CameraCalibration\CameraCalibration.csproj" />
     <ProjectReference Include="..\ImageAnalysis\ImageAnalysis.csproj" />
     <ProjectReference Include="..\PatternAnalysis\PatternAnalysis.csproj" />
     <ProjectReference Include="..\PatternGenerator\PatternGenerator.csproj" />

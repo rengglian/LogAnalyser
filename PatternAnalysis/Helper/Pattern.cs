@@ -30,7 +30,7 @@ namespace PatternAnalysis.Helper
             Center = CalculateCenter(Points);
             FileName = Path.GetFileName(fileName);
             Color = AssignColor(FileName);
-            Count = Points.Count();
+            Count = Points.Count;
         }
 
         private OxyColor AssignColor(string fileName)
@@ -56,18 +56,18 @@ namespace PatternAnalysis.Helper
             return color;
         }
 
-        private string CalculateCheckSum(List<DataPoint> pointList)
+        private static string CalculateCheckSum(List<DataPoint> pointList)
         {
             var sb = new StringBuilder();
             pointList.ForEach(p =>
             {
-                sb.Append(((int)p.X).ToString());
-                sb.Append(((int)p.Y).ToString());
+                sb.Append((int)p.X);
+                sb.Append((int)p.Y);
             });
             var hash = MD5.Create().ComputeHash(Encoding.ASCII.GetBytes(sb.ToString()));
 
-            var sb2 = new StringBuilder(hash.Count());
-            for (var i = 0; i < hash.Count(); i++)
+            var sb2 = new StringBuilder(hash.Length);
+            for (var i = 0; i < hash.Length; i++)
                 sb2.Append(hash[i].ToString("x2"));
 
             return sb2.ToString();

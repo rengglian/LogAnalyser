@@ -28,6 +28,7 @@
                 <Button Height="25" Margin="5" Command="{Binding NavigateCommand}" CommandParameter="PatternAnalysisView" Content="Pattern Analysis" />
                 <Button Height="25" Margin="5" Command="{Binding NavigateCommand}" CommandParameter="PatternGeneratorView" Content="Pattern Generator" />
                 <Button  Height="25" Margin="5" Command="{Binding NavigateCommand}" CommandParameter="ImageAnalysisView" Content="Image Analysis"/>
+                <Button  Height="25" Margin="5" Command="{Binding NavigateCommand}" CommandParameter="CameraCalibrationView" Content="Camera Analysis"/>
             </StackPanel>
         </GroupBox>
         <GroupBox Grid.Row="2" Grid.Column="2" Header="{Binding Title}">
