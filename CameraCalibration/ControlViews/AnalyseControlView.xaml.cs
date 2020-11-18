@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Infrastructure.Prism;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,11 +19,12 @@ namespace CameraCalibration.ControlViews
     /// <summary>
     /// Interaction logic for Analyse.xaml
     /// </summary>
-    public partial class AnalyseControlView : UserControl
+    public partial class AnalyseControlView : UserControl, ISupportDataContext
     {
         public AnalyseControlView()
         {
             InitializeComponent();
+            SetResourceReference(StyleProperty, typeof(UserControl));
         }
     }
 }

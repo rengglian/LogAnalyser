@@ -6,7 +6,8 @@
              xmlns:local="clr-namespace:CameraCalibration"
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="true"
-             mc:Ignorable="d" >
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="900">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="4*" />
@@ -20,7 +21,7 @@
                       Content="{Binding ChessboardImage}" VerticalAlignment="Top">
             <ContentPresenter.ContentTemplate>
                 <DataTemplate>
-                    <Image Stretch="Uniform"  Source="{Binding ImageData}"/>
+                    <Image Stretch="None"  Source="{Binding ImageData}"/>
                 </DataTemplate>
             </ContentPresenter.ContentTemplate>
         </ContentPresenter>

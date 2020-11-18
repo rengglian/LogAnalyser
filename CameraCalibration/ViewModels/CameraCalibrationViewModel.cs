@@ -1,8 +1,10 @@
-﻿using CameraClibration.Helper;
+﻿using CameraCalibration.Helper;
+using CameraClibration.Helper;
 using Prism.Commands;
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,7 +21,7 @@ namespace CameraCalibration.ViewModels
         }
 
         public DelegateCommand OpenImageCommand { get; set; }
-        public DelegateCommand AnalyseImageCommand {get; set;}
+        public DelegateCommand AnalyseImageCommand { get; set;}
         public CameraCalibrationViewModel()
         {
             OpenImageCommand = new DelegateCommand(OpenImageHandler);
@@ -33,7 +35,10 @@ namespace CameraCalibration.ViewModels
 
         private void AnalyseImageHandler()
         {
-            ChessboardImage = new ChessBoardImage();
+            var pt = new Point(0,0);
+            var sq = new Point(8, 8);
+            var size = 230;
+            ChessBoard.Find(ChessboardImage.ImageMat, sq, pt, size);
         }
     }
 }

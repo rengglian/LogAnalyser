@@ -9,6 +9,7 @@ namespace CameraCalibration.Views
     /// </summary>
     /// 
     [DependentView(typeof(OpenControlView), RegionNames.ContentRegionTop)]
+    [DependentView(typeof(AnalyseControlView), RegionNames.ContentRegionTop)]
     public partial class CameraCalibrationView : UserControl, ISupportDataContext
     {
         public CameraCalibrationView()
