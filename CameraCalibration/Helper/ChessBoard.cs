@@ -1,6 +1,7 @@
 ﻿using OpenCvSharp;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -38,9 +39,9 @@ namespace CameraCalibration.Helper
 
                 Cv2.DrawChessboardCorners(_img_crop, board_sz, cornerSubPix, found);
 
-                var matCorners = new Mat(rows: chessboardCornersPerRow, cols: chessboardCornersPerCol, type: MatType.CV_32FC1, data: cornerSubPix);
+                var matCorners = new Mat(rows: chessboardCornersPerRow, cols: chessboardCornersPerCol, type: MatType.CV_32SC2, data: cornerSubPix);
 
-                var pointRow = matCorners.Reduce(ReduceDimension.Row, ReduceTypes.Avg, -1);
+                var pointRow = matCorners.Reduce(ReduceDimension.Row, ReduceTypes.Avg, MatType.CV_32SC2);
                 var pointCol = matCorners.Reduce(ReduceDimension.Column, ReduceTypes.Avg, -1);
                 var matCenter = pointCol.Reduce(ReduceDimension.Row, ReduceTypes.Avg, -1);
 
