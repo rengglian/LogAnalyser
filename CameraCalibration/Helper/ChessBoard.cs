@@ -59,10 +59,6 @@ namespace CameraCalibration.Helper
 
                 var roi_img = new Mat(img, roi);
                 _img_crop.CopyTo(roi_img);
-
-                Cv2.ImShow("draw", _img_crop);
-                Cv2.ImShow("test", img);
-
             }
         }
     }

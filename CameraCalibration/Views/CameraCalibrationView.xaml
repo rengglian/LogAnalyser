@@ -17,13 +17,8 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         
-        <ContentPresenter Grid.Column="0" Grid.Row="0" 
-                      Content="{Binding ChessboardImage}" VerticalAlignment="Top">
-            <ContentPresenter.ContentTemplate>
-                <DataTemplate>
-                    <Image Stretch="None"  Source="{Binding ImageData}"/>
-                </DataTemplate>
-            </ContentPresenter.ContentTemplate>
-        </ContentPresenter>
+        <StackPanel Grid.Column="0" Grid.Row="0">
+            <Image Stretch="None"  Source="{Binding ImageData}"/>
+        </StackPanel>
     </Grid>
 </UserControl>

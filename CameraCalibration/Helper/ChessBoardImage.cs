@@ -12,14 +12,11 @@ namespace CameraClibration.Helper
         public string Title { get; set; } = "";
 
         public string Description { get; set; } = "";
-        public BitmapImage ImageData { get; set; } = new BitmapImage();
+        
         public Mat ImageMat { get; set; }
         public ChessBoardImage()
         {
-            if (Read())
-            {
-                ImageData = ImageTypeConverter.Convert(ImageMat.ToBitmap());
-            }
+            Read();
         }
 
         public override string ToString()
@@ -47,11 +44,6 @@ namespace CameraClibration.Helper
                 return true;
             }
             return false;
-        }
-
-        public void Upate()
-        {
-            ImageData = ImageTypeConverter.Convert(ImageMat.ToBitmap());
         }
 
         public object Clone()

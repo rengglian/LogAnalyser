@@ -1,5 +1,6 @@
 ﻿using CameraCalibration.Helper;
 using CameraClibration.Helper;
+using OpenCvSharp.Extensions;
 using Prism.Commands;
 using Prism.Mvvm;
 using System;
@@ -8,11 +9,20 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media.Imaging;
 
 namespace CameraCalibration.ViewModels
 {
     public class CameraCalibrationViewModel : BindableBase
-    {
+    { 
+
+        private BitmapImage imageData;
+        public BitmapImage ImageData
+        {
+            get { return imageData; }
+            set { SetProperty(ref imageData, value); }
+        }
+
         private ChessBoardImage chessboardImage;
         public ChessBoardImage ChessboardImage
         {
@@ -31,16 +41,16 @@ namespace CameraCalibration.ViewModels
         private void OpenImageHandler()
         {
             ChessboardImage = new ChessBoardImage();
+            ImageData = ImageTypeConverter.Convert(ChessboardImage.ImageMat.ToBitmap());
         }
 
         private void AnalyseImageHandler()
         {
-            var test = ChessboardImage.Clone();
             var pt = new Point(0,0);
             var sq = new Point(8, 8);
             var size = 230;
             ChessBoard.Find(ChessboardImage.ImageMat, sq, pt, size);
-            ChessboardImage.Upate();
+            ImageData = ImageTypeConverter.Convert(ChessboardImage.ImageMat.ToBitmap());
         }
     }
 }
