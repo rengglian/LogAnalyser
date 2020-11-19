@@ -1,6 +1,7 @@
 ﻿using OpenCvSharp;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,7 +21,7 @@ namespace CameraCalibration.Helper
 
             var _img_crop = new Mat(_img, roi);
             var _img_gray = _img_crop.Clone();
-            //_img_crop.ConvertTo(_img_gray, -1, 2, 0);
+            _img_crop.ConvertTo(_img_gray, -1, 1, 0);
             
             Cv2.CvtColor(_img_gray, _img_gray, ColorConversionCodes.BGR2GRAY);
 
@@ -33,33 +34,79 @@ namespace CameraCalibration.Helper
             
             if(found)
             {
-                var termcrit = new TermCriteria(CriteriaType.Eps | CriteriaType.Count, 30, 0.1);
+                var termcrit = new TermCriteria(CriteriaType.Eps | CriteriaType.Count, 30, 0.001);
                 Point2f[] cornerSubPix = Cv2.CornerSubPix(_img_gray, corners, new Size(11, 11), new Size(-1, -1), termcrit);
 
                 Cv2.DrawChessboardCorners(_img_crop, board_sz, cornerSubPix, found);
 
-                var matCorners = new Mat(rows: chessboardCornersPerRow, cols: chessboardCornersPerCol, type: MatType.CV_32FC1, data: cornerSubPix);
+                var matCorners = new Mat(rows: chessboardCornersPerRow, cols: chessboardCornersPerCol, type: MatType.CV_32FC2, data: cornerSubPix);
 
                 var pointRow = matCorners.Reduce(ReduceDimension.Row, ReduceTypes.Avg, -1);
                 var pointCol = matCorners.Reduce(ReduceDimension.Column, ReduceTypes.Avg, -1);
                 var matCenter = pointCol.Reduce(ReduceDimension.Row, ReduceTypes.Avg, -1);
 
-                var vecRow = pointRow.At<Point2f>(pointRow.Cols - 1) - pointRow.At<Point2f>(0);
-                var vecCol = (pointCol.At<Point2f>(pointCol.Rows - 1) - pointCol.At<Point2f>(0));
-                var center = new Point2f(matCenter.At<Point2f>(0).X, matCenter.At<Point2f>(0).Y);
+                /*PrintMat(matCorners);
+                PrintMat(pointRow);
+                PrintMat(pointCol);*/
+
+                var vecRow = pointRow.At<Point2f>(0,pointRow.Cols - 1) - pointRow.At<Point2f>(0,0);
+                var vecCol = pointCol.At<Point2f>(pointCol.Rows - 1, 0) - pointCol.At<Point2f>(0, 0);
+                double rotationAngleRadians = Math.Abs(vecRow.X) > Math.Abs(vecCol.X) ? Math.Atan(vecRow.Y / vecRow.X) : Math.Atan(vecCol.Y / vecCol.X);
+
+                var rot_angle_degree = 180 * rotationAngleRadians / Math.PI;
 
                 float[] arrRow = { vecRow.X, vecRow.Y };
                 float[] arrCol = { vecCol.X, vecCol.Y };
 
-                var rotationAngleRadians = Math.Abs(vecRow.X) > Math.Abs(vecCol.X) ? Math.Atan(vecRow.Y / vecRow.X) : Math.Atan(vecCol.Y / vecCol.X);
-
-                var rotationAngleDegree = 180 * rotationAngleRadians / Math.PI;
                 var x_pixel_size_mm = 1.0 / Math.Sqrt(Cv2.Norm(InputArray.Create(arrRow)) / (chessboardCornersPerRow - 1) * Cv2.Norm(InputArray.Create(arrRow)) / (chessboardCornersPerRow - 1));
                 var y_pixel_size_mm = 1.0 / Math.Sqrt(Cv2.Norm(InputArray.Create(arrCol)) / (chessboardCornersPerCol - 1) * Cv2.Norm(InputArray.Create(arrCol)) / (chessboardCornersPerCol - 1));
+
+                //CameraCalibration(_img_crop, board_sz, cornerSubPix);
 
                 var roi_img = new Mat(img, roi);
                 _img_crop.CopyTo(roi_img);
             }
+
+
+        }
+
+        private static void PrintMat(Mat mat)
+        {
+            Debug.WriteLine("----------{0}----------", nameof(mat));
+            for (var rowIndex = 0; rowIndex < mat.Rows; rowIndex++)
+            {
+                for (var colIndex = 0; colIndex < mat.Cols; colIndex++)
+                {
+                    Debug.WriteLine("{0} {1} {2}", rowIndex, colIndex, mat.At<Point2f>(rowIndex, colIndex));
+                }
+                Debug.WriteLine("");
+            }
+        }
+
+        private static void CameraCalibration(Mat _img_crop, Size board_sz, Point2f[] cornerSubPix)
+        {
+            float cellSize = 0.001f; // in metres
+
+            List<Point3f> chessboard_coords = new List<Point3f>();
+            for (int i = 0; i < board_sz.Height; i++)
+                for (int j = 0; j < board_sz.Width; j++)
+                    chessboard_coords.Add(new Point3f(j, i, 0) * cellSize);
+            var objectPoints = new List<IEnumerable<Point3f>> { chessboard_coords };
+            var imagePoints = new List<IEnumerable<Point2f>> { cornerSubPix };
+
+            double[,] cameraMatrix = new double[3, 3];
+            double[] distCoefficients = new double[5];
+            Vec3d[] rvecs, tvecs;
+
+            Cv2.CalibrateCamera(objectPoints, imagePoints, _img_crop.Size(), cameraMatrix, distCoefficients, out rvecs, out tvecs);
+
+            Debug.WriteLine(
+                cameraMatrix[0, 0] + ", " + cameraMatrix[0, 1] + ", " + cameraMatrix[0, 2] + "\n" +
+                cameraMatrix[1, 0] + ", " + cameraMatrix[1, 1] + ", " + cameraMatrix[1, 2] + "\n" +
+                cameraMatrix[2, 0] + ", " + cameraMatrix[2, 1] + ", " + cameraMatrix[2, 2]
+            );
+
+            Debug.WriteLine(tvecs[0].Item0 + ", " + tvecs[0].Item1 + ", " + tvecs[0].Item2);
         }
     }
 }
