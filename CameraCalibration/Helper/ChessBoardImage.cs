@@ -32,8 +32,8 @@ namespace CameraClibration.Helper
 
             OpenFileDialog openFileDialog = new OpenFileDialog
             {
-                DefaultExt = ".jpg",
-                Filter = "JPG Files (*.jpg)|*.jpg|JPEG Files (*.jpeg)|*.jpeg|PNG Files (*.png)|*.png"
+                DefaultExt = ".png",
+                Filter = "PNG Files (*.png)|*.png|JPG Files (*.jpg)|*.jpg|JPEG Files (*.jpeg)|*.jpeg"
             };
 
             Nullable<bool> result = openFileDialog.ShowDialog();
@@ -47,6 +47,11 @@ namespace CameraClibration.Helper
                 return true;
             }
             return false;
+        }
+
+        public void Upate()
+        {
+            ImageData = ImageTypeConverter.Convert(ImageMat.ToBitmap());
         }
 
         public object Clone()

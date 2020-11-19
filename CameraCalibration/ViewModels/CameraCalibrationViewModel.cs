@@ -35,10 +35,12 @@ namespace CameraCalibration.ViewModels
 
         private void AnalyseImageHandler()
         {
+            var test = ChessboardImage.Clone();
             var pt = new Point(0,0);
             var sq = new Point(8, 8);
             var size = 230;
             ChessBoard.Find(ChessboardImage.ImageMat, sq, pt, size);
+            ChessboardImage.Upate();
         }
     }
 }
