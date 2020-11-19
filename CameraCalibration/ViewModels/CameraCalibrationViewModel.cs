@@ -23,12 +23,14 @@ namespace CameraCalibration.ViewModels
             set { SetProperty(ref imageData, value); }
         }
 
-        private ChessBoardImage chessboardImage;
-        public ChessBoardImage ChessboardImage
+        private Dictionary<string, double> cam;
+        public Dictionary<string, double> Cam
         {
-            get { return chessboardImage; }
-            set { SetProperty(ref chessboardImage, value); }
+            get { return cam; }
+            set { SetProperty(ref cam, value); }
         }
+
+        private ChessBoardImage chessboardImage;
 
         public DelegateCommand OpenImageCommand { get; set; }
         public DelegateCommand AnalyseImageCommand { get; set;}
@@ -40,17 +42,17 @@ namespace CameraCalibration.ViewModels
 
         private void OpenImageHandler()
         {
-            ChessboardImage = new ChessBoardImage();
-            ImageData = ImageTypeConverter.Convert(ChessboardImage.ImageMat.ToBitmap());
+            chessboardImage = new ChessBoardImage();
+            ImageData = ImageTypeConverter.Convert(chessboardImage.ImageMat.ToBitmap());
         }
 
         private void AnalyseImageHandler()
         {
             var pt = new Point(0,0);
             var sq = new Point(8, 8);
-            var size = 230;
-            ChessBoard.Find(ChessboardImage.ImageMat, sq, pt, size);
-            ImageData = ImageTypeConverter.Convert(ChessboardImage.ImageMat.ToBitmap());
+            var size = 290;
+            Cam = ChessBoard.Find(chessboardImage.ImageMat, sq, pt, size);
+            ImageData = ImageTypeConverter.Convert(chessboardImage.ImageMat.ToBitmap());
         }
     }
 }

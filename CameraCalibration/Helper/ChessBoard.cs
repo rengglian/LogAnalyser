@@ -11,7 +11,7 @@ namespace CameraCalibration.Helper
     public class ChessBoard
     {
    
-        public static void Find(Mat img, System.Drawing.Point squares, System.Drawing.Point roiCenter, int roiSize)
+        public static Dictionary<string, double> Find(Mat img, System.Drawing.Point squares, System.Drawing.Point roiCenter, int roiSize)
         {
             var _img = img.Clone();
             int im_width = _img.Cols / 2;
@@ -27,12 +27,13 @@ namespace CameraCalibration.Helper
 
             int chessboardCornersPerCol = squares.X - 1;
             int chessboardCornersPerRow = squares.Y - 1;
-            int chessboardCornersTotal = chessboardCornersPerCol * chessboardCornersPerRow;
             var board_sz = new Size(chessboardCornersPerRow, chessboardCornersPerCol);
             
             bool found = Cv2.FindChessboardCorners(_img_gray, board_sz, out Point2f[] corners, ChessboardFlags.AdaptiveThresh | ChessboardFlags.NormalizeImage);
-            
-            if(found)
+
+            CameraProperties cam = new CameraProperties();
+
+            if (found)
             {
                 var termcrit = new TermCriteria(CriteriaType.Eps | CriteriaType.Count, 30, 0.001);
                 Point2f[] cornerSubPix = Cv2.CornerSubPix(_img_gray, corners, new Size(11, 11), new Size(-1, -1), termcrit);
@@ -41,7 +42,7 @@ namespace CameraCalibration.Helper
 
                 var matCorners = new Mat(rows: chessboardCornersPerRow, cols: chessboardCornersPerCol, type: MatType.CV_32FC2, data: cornerSubPix);
 
-                var pointRow = matCorners.Reduce(ReduceDimension.Row, ReduceTypes.Avg, MatType.CV_32SC2);
+                var pointRow = matCorners.Reduce(ReduceDimension.Row, ReduceTypes.Avg, -1);
                 var pointCol = matCorners.Reduce(ReduceDimension.Column, ReduceTypes.Avg, -1);
                 var matCenter = pointCol.Reduce(ReduceDimension.Row, ReduceTypes.Avg, -1);
 
@@ -53,13 +54,13 @@ namespace CameraCalibration.Helper
                 var vecCol = pointCol.At<Point2f>(pointCol.Rows - 1, 0) - pointCol.At<Point2f>(0, 0);
                 double rotationAngleRadians = Math.Abs(vecRow.X) > Math.Abs(vecCol.X) ? Math.Atan(vecRow.Y / vecRow.X) : Math.Atan(vecCol.Y / vecCol.X);
 
-                var rot_angle_degree = 180 * rotationAngleRadians / Math.PI;
+                cam.Rotation = 180 * rotationAngleRadians / Math.PI;
 
                 float[] arrRow = { vecRow.X, vecRow.Y };
                 float[] arrCol = { vecCol.X, vecCol.Y };
 
-                var x_pixel_size_mm = 1.0 / Math.Sqrt(Cv2.Norm(InputArray.Create(arrRow)) / (chessboardCornersPerRow - 1) * Cv2.Norm(InputArray.Create(arrRow)) / (chessboardCornersPerRow - 1));
-                var y_pixel_size_mm = 1.0 / Math.Sqrt(Cv2.Norm(InputArray.Create(arrCol)) / (chessboardCornersPerCol - 1) * Cv2.Norm(InputArray.Create(arrCol)) / (chessboardCornersPerCol - 1));
+                cam.X = 1.0 / Math.Sqrt(Cv2.Norm(InputArray.Create(arrRow)) / (chessboardCornersPerRow - 1) * Cv2.Norm(InputArray.Create(arrRow)) / (chessboardCornersPerRow - 1));
+                cam.Y = 1.0 / Math.Sqrt(Cv2.Norm(InputArray.Create(arrCol)) / (chessboardCornersPerCol - 1) * Cv2.Norm(InputArray.Create(arrCol)) / (chessboardCornersPerCol - 1));
 
                 //CameraCalibration(_img_crop, board_sz, cornerSubPix);
 
@@ -67,7 +68,14 @@ namespace CameraCalibration.Helper
                 _img_crop.CopyTo(roi_img);
             }
 
+            var dict = new Dictionary<string, double>
+            {
+                { "X um / px", cam.X * 1000 },
+                { "Y um / px", cam.Y * 1000 },
+                { "Rotation", cam.Rotation }
+            };
 
+            return dict;
         }
 
         private static void PrintMat(Mat mat)

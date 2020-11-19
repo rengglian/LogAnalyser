@@ -20,5 +20,20 @@
         <StackPanel Grid.Column="0" Grid.Row="0">
             <Image Stretch="None"  Source="{Binding ImageData}"/>
         </StackPanel>
+
+        <StackPanel Grid.Column="1" Grid.Row="0" Margin="5,5,5,5">
+            <ItemsControl  Margin="0,0,0,5" Name="camTable" BorderThickness="0" ItemsSource="{Binding Cam}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <WrapPanel Margin="0,0,5,0">
+                            <TextBlock FontWeight="Bold" Text="{Binding Key}" />
+                            <TextBlock FontWeight="Bold" Text=": "/>
+                            <TextBlock Text="{Binding Value , StringFormat=0.###}" />
+                        </WrapPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
+        
     </Grid>
 </UserControl>
