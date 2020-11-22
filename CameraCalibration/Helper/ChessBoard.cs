@@ -46,7 +46,7 @@ namespace CameraCalibration.Helper
                 var pointCol = matCorners.Reduce(ReduceDimension.Column, ReduceTypes.Avg, -1);
                 var matCenter = pointCol.Reduce(ReduceDimension.Row, ReduceTypes.Avg, -1);
 
-                /*PrintMat(matCorners);
+                PrintMat(matCorners);/*
                 PrintMat(pointRow);
                 PrintMat(pointCol);*/
 
@@ -66,7 +66,10 @@ namespace CameraCalibration.Helper
 
                 var roi_img = new Mat(img, roi);
                 _img_crop.CopyTo(roi_img);
+
             }
+
+            Cv2.Rectangle(img, roi, new Scalar(0, 0, 255));
 
             var dict = new Dictionary<string, double>
             {
@@ -85,7 +88,7 @@ namespace CameraCalibration.Helper
             {
                 for (var colIndex = 0; colIndex < mat.Cols; colIndex++)
                 {
-                    Debug.WriteLine("{0} {1} {2}", rowIndex, colIndex, mat.At<Point2f>(rowIndex, colIndex));
+                    Debug.Write(mat.At<Point2f>(rowIndex, colIndex) + ";");
                 }
                 Debug.WriteLine("");
             }

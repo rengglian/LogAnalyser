@@ -1,0 +1,34 @@
+﻿<UserControl x:Class="CameraCalibration.ControlViews.AddCrossControlView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:CameraCalibration.ControlViews"
+             mc:Ignorable="d"
+             d:DesignHeight="100" d:DesignWidth="200">
+
+    <GroupBox Header="Add Cross" Height="100">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="2*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Column="0" Margin="10,0,10,0" VerticalAlignment="Center">
+                <Button Height="25px" Content="Add" Command="{Binding AddCrossCommand}"/>
+            </StackPanel>
+            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                <StackPanel  Margin="10,0,10,10" Orientation="Horizontal">
+                    <TextBlock FontWeight="Bold" Text="X [mm]: "/>
+                    <TextBox Text="{Binding CrossPosX , StringFormat=N3}" Width="75"/>
+                </StackPanel>
+                <StackPanel Margin="10,0,10,10" Orientation="Horizontal">
+                    <TextBlock FontWeight="Bold" Text="Y [mm]: "/>
+                    <TextBox Text="{Binding CrossPosY , StringFormat=N3}" Width="75"/>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </GroupBox>
+</UserControl>

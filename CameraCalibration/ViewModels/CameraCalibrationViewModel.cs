@@ -14,7 +14,21 @@ using System.Windows.Media.Imaging;
 namespace CameraCalibration.ViewModels
 {
     public class CameraCalibrationViewModel : BindableBase
-    { 
+    {
+
+        private float crossPosX;
+        public float CrossPosX
+        {
+            get { return crossPosX; }
+            set { SetProperty(ref crossPosX, value); }
+        }
+
+        private float crossPosY;
+        public float CrossPosY
+        {
+            get { return crossPosY; }
+            set { SetProperty(ref crossPosY, value); }
+        }
 
         private BitmapImage imageData;
         public BitmapImage ImageData
@@ -34,10 +48,15 @@ namespace CameraCalibration.ViewModels
 
         public DelegateCommand OpenImageCommand { get; set; }
         public DelegateCommand AnalyseImageCommand { get; set;}
+        public DelegateCommand AddCrossCommand { get; set; }
         public CameraCalibrationViewModel()
         {
             OpenImageCommand = new DelegateCommand(OpenImageHandler);
             AnalyseImageCommand = new DelegateCommand(AnalyseImageHandler);
+            AddCrossCommand = new DelegateCommand(AddCrossHandler);
+
+            CrossPosX = 0;
+            CrossPosY = 0;
         }
 
         private void OpenImageHandler()
@@ -49,9 +68,16 @@ namespace CameraCalibration.ViewModels
         private void AnalyseImageHandler()
         {
             var pt = new Point(0,0);
-            var sq = new Point(8, 8);
-            var size = 290;
+            var sq = new Point(16, 16);
+            var size = 520;
             Cam = ChessBoard.Find(chessboardImage.ImageMat, sq, pt, size);
+            ImageData = ImageTypeConverter.Convert(chessboardImage.ImageMat.ToBitmap());
+        }
+
+        private void AddCrossHandler()
+        {
+            OpenCvSharp.Point center = new OpenCvSharp.Point(1000*CrossPosX / Cam["X um / px"], 1000 * CrossPosY / Cam["Y um / px"]);
+            Crosshair.Draw(chessboardImage.ImageMat, center);
             ImageData = ImageTypeConverter.Convert(chessboardImage.ImageMat.ToBitmap());
         }
     }
