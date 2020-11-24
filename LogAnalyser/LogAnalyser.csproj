@@ -15,6 +15,7 @@
     <ProjectReference Include="..\ImageAnalysis\ImageAnalysis.csproj" />
     <ProjectReference Include="..\PatternAnalysis\PatternAnalysis.csproj" />
     <ProjectReference Include="..\PatternGenerator\PatternGenerator.csproj" />
+    <ProjectReference Include="..\TraceAnalysis\TraceAnalysis.csproj" />
   </ItemGroup>
 
 </Project>

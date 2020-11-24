@@ -19,7 +19,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{80B1E063
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PatternAnalysis.Tests", "PatternAnalysis.Tests\PatternAnalysis.Tests.csproj", "{39573C33-AB68-418C-9577-B7854441FB94}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CameraCalibration", "CameraCalibration\CameraCalibration.csproj", "{8C876842-CDB2-468F-99E8-1B409A3C9640}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CameraCalibration", "CameraCalibration\CameraCalibration.csproj", "{8C876842-CDB2-468F-99E8-1B409A3C9640}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TraceAnalysis", "TraceAnalysis\TraceAnalysis.csproj", "{82B240A3-D6FA-43CC-BF84-79D320E72AF5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,6 +57,10 @@ Global
 		{8C876842-CDB2-468F-99E8-1B409A3C9640}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8C876842-CDB2-468F-99E8-1B409A3C9640}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8C876842-CDB2-468F-99E8-1B409A3C9640}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82B240A3-D6FA-43CC-BF84-79D320E72AF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82B240A3-D6FA-43CC-BF84-79D320E72AF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82B240A3-D6FA-43CC-BF84-79D320E72AF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82B240A3-D6FA-43CC-BF84-79D320E72AF5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -67,6 +73,7 @@ Global
 		{A5D9A531-9677-4011-AA13-41CAD7488532} = {DA03287B-71EB-4F8B-9E67-67E7827957CD}
 		{39573C33-AB68-418C-9577-B7854441FB94} = {80B1E063-E531-4897-AF87-199C9E11B91C}
 		{8C876842-CDB2-468F-99E8-1B409A3C9640} = {DA03287B-71EB-4F8B-9E67-67E7827957CD}
+		{82B240A3-D6FA-43CC-BF84-79D320E72AF5} = {DA03287B-71EB-4F8B-9E67-67E7827957CD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {32959286-79D6-4AFB-986B-DA8FF9E612CE}

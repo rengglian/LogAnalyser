@@ -30,6 +30,7 @@ namespace LogAnalyser
             moduleCatalog.AddModule<PatternGenerator.PatternGeneratorModule>();
             moduleCatalog.AddModule<ImageAnalysis.ImageAnalysisModule>();
             moduleCatalog.AddModule<CameraCalibration.CameraCalibrationModule>();
+            moduleCatalog.AddModule<TraceAnalysis.TraceAnalysisModule>();
         }
 
         protected override void ConfigureRegionAdapterMappings(RegionAdapterMappings regionAdapterMappings)
