@@ -16,6 +16,13 @@ namespace CameraCalibration.ViewModels
     public class CameraCalibrationViewModel : BindableBase
     {
 
+        private bool exportRawCorners;
+        public bool ExportRawCorners
+        {
+            get { return exportRawCorners; }
+            set { SetProperty(ref exportRawCorners, value); }
+        }
+
         private float crossPosX;
         public float CrossPosX
         {
@@ -57,6 +64,7 @@ namespace CameraCalibration.ViewModels
 
             CrossPosX = 0;
             CrossPosY = 0;
+            ExportRawCorners = false;
         }
 
         private void OpenImageHandler()
@@ -70,7 +78,7 @@ namespace CameraCalibration.ViewModels
             var pt = new Point(0,0);
             var sq = new Point(16, 16);
             var size = 520;
-            Cam = ChessBoard.Find(chessboardImage.ImageMat, sq, pt, size);
+            Cam = ChessBoard.Find(chessboardImage.ImageMat, sq, pt, size, ExportRawCorners);
             ImageData = ImageTypeConverter.Convert(chessboardImage.ImageMat.ToBitmap());
         }
 

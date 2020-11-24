@@ -2,8 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace CameraCalibration.Helper
@@ -11,7 +13,7 @@ namespace CameraCalibration.Helper
     public class ChessBoard
     {
    
-        public static Dictionary<string, double> Find(Mat img, System.Drawing.Point squares, System.Drawing.Point roiCenter, int roiSize)
+        public static Dictionary<string, double> Find(Mat img, System.Drawing.Point squares, System.Drawing.Point roiCenter, int roiSize, bool export)
         {
             var _img = img.Clone();
             int im_width = _img.Cols / 2;
@@ -46,9 +48,11 @@ namespace CameraCalibration.Helper
                 var pointCol = matCorners.Reduce(ReduceDimension.Column, ReduceTypes.Avg, -1);
                 var matCenter = pointCol.Reduce(ReduceDimension.Row, ReduceTypes.Avg, -1);
 
-                PrintMat(matCorners);/*
-                PrintMat(pointRow);
-                PrintMat(pointCol);*/
+                if(export)
+                {
+                    _ = PrintMatAsync(matCorners);
+                }
+
 
                 var vecRow = pointRow.At<Point2f>(0,pointRow.Cols - 1) - pointRow.At<Point2f>(0,0);
                 var vecCol = pointCol.At<Point2f>(pointCol.Rows - 1, 0) - pointCol.At<Point2f>(0, 0);
@@ -59,8 +63,14 @@ namespace CameraCalibration.Helper
                 float[] arrRow = { vecRow.X, vecRow.Y };
                 float[] arrCol = { vecCol.X, vecCol.Y };
 
-                cam.X = 1.0 / Math.Sqrt(Cv2.Norm(InputArray.Create(arrRow)) / (chessboardCornersPerRow - 1) * Cv2.Norm(InputArray.Create(arrRow)) / (chessboardCornersPerRow - 1));
-                cam.Y = 1.0 / Math.Sqrt(Cv2.Norm(InputArray.Create(arrCol)) / (chessboardCornersPerCol - 1) * Cv2.Norm(InputArray.Create(arrCol)) / (chessboardCornersPerCol - 1));
+                var res_x = 1.0 / Math.Sqrt(Cv2.Norm(InputArray.Create(arrRow)) / (chessboardCornersPerRow - 1) * Cv2.Norm(InputArray.Create(arrRow)) / (chessboardCornersPerRow - 1));
+                var res_y = 1.0 / Math.Sqrt(Cv2.Norm(InputArray.Create(arrCol)) / (chessboardCornersPerCol - 1) * Cv2.Norm(InputArray.Create(arrCol)) / (chessboardCornersPerCol - 1));
+
+                cam.Resolution = new System.Windows.Point(res_x, res_y);
+
+                var center = new Point2f(matCenter.At<Point2f>(0).X, matCenter.At<Point2f>(0).Y);
+
+                cam.Center = new System.Windows.Point((center.X - roi.Width / 2)* cam.Resolution.X, (center.Y - roi.Height / 2) * cam.Resolution.Y);
 
                 //CameraCalibration(_img_crop, board_sz, cornerSubPix);
 
@@ -73,24 +83,34 @@ namespace CameraCalibration.Helper
 
             var dict = new Dictionary<string, double>
             {
-                { "X um / px", cam.X * 1000 },
-                { "Y um / px", cam.Y * 1000 },
-                { "Rotation", cam.Rotation }
+                { "X um / px", cam.Resolution.X * 1000 },
+                { "Y um / px", cam.Resolution.Y * 1000 },
+                { "Rotation [*]", cam.Rotation },
+                { "Center X [um]", cam.Center.X * 1000 },
+                { "Center Y [um]", cam.Center.Y * 1000 }
             };
 
             return dict;
         }
 
-        private static void PrintMat(Mat mat)
+        private static async Task PrintMatAsync(Mat mat)
         {
-            Debug.WriteLine("----------{0}----------", nameof(mat));
+            List<System.Windows.Point> cornerList= new List<System.Windows.Point>();
             for (var rowIndex = 0; rowIndex < mat.Rows; rowIndex++)
             {
                 for (var colIndex = 0; colIndex < mat.Cols; colIndex++)
                 {
-                    Debug.Write(mat.At<Point2f>(rowIndex, colIndex) + ";");
+                    cornerList.Add(new System.Windows.Point { X = mat.At<Point2f>(rowIndex, colIndex).X, Y = mat.At<Point2f>(rowIndex, colIndex).Y });
                 }
-                Debug.WriteLine("");
+            }
+            var options = new JsonSerializerOptions
+            {
+                WriteIndented = true
+            };
+
+            using (FileStream fs = File.Create(@".\WriteLines2.txt"))
+            {
+                await JsonSerializer.SerializeAsync(fs, cornerList, options);
             }
         }
 

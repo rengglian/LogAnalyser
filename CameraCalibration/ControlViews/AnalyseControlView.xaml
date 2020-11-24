@@ -8,6 +8,7 @@
     <GroupBox Header="Analyse Image" Height="100">
         <StackPanel Margin="10,0,10,0" VerticalAlignment="Center">
             <Button Height="25px" Content="Analyse" Command="{Binding AnalyseImageCommand}"/>
+            <CheckBox Content="Export raw corners" IsChecked="{Binding ExportRawCorners}"/>
         </StackPanel>
     </GroupBox>
 </UserControl>
