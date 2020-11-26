@@ -28,12 +28,12 @@ namespace PatternGenerator.Shapes
             double min = -l / 2;
             var s = Math.Sin(Options["Rotation"].Value * Math.PI / 180);
             var c = Math.Cos(Options["Rotation"].Value * Math.PI / 180);
-            for (double i = 0; i <= l; i += l / n)
+            for (double i = min; i < l / 2+1; i += l / n)
             {
-                for (double j = 0; j <= l; j += l / n)
+                for (double j = min; j < l / 2+1; j += l / n)
                 {
-                    var x = i + min;
-                    var y = j + min;
+                    var x = i;
+                    var y = j;
 
                     var x_new = c * x - s * y;
                     var y_new = s * x + c * y;
