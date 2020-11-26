@@ -95,12 +95,15 @@ namespace CameraCalibration.Helper
 
         private static async Task PrintMatAsync(Mat mat)
         {
-            List<System.Windows.Point> cornerList= new List<System.Windows.Point>();
+            List<string> cornerList= new List<string>();
             for (var rowIndex = 0; rowIndex < mat.Rows; rowIndex++)
             {
                 for (var colIndex = 0; colIndex < mat.Cols; colIndex++)
                 {
-                    cornerList.Add(new System.Windows.Point { X = mat.At<Point2f>(rowIndex, colIndex).X, Y = mat.At<Point2f>(rowIndex, colIndex).Y });
+                    var strToJson = mat.At<Point2f>(rowIndex, colIndex).X.ToString();
+                    strToJson += ",";
+                    strToJson += mat.At<Point2f>(rowIndex, colIndex).Y.ToString();
+                    cornerList.Add(strToJson);
                 }
             }
             var options = new JsonSerializerOptions
@@ -108,7 +111,7 @@ namespace CameraCalibration.Helper
                 WriteIndented = true
             };
 
-            using (FileStream fs = File.Create(@".\WriteLines2.txt"))
+            using (FileStream fs = File.Create(@".\ChessboardCorners.txt"))
             {
                 await JsonSerializer.SerializeAsync(fs, cornerList, options);
             }

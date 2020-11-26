@@ -24,7 +24,7 @@ namespace PatternAnalysis.IO
 
             strList.ForEach(item =>
             {
-                int[] coords = Array.ConvertAll(item.Split(','), int.Parse);
+                double[] coords = Array.ConvertAll(item.Split(','), double.Parse);
                 points.Add(new DataPoint(coords[0], coords[1]));
             });
 
