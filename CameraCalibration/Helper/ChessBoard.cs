@@ -111,10 +111,8 @@ namespace CameraCalibration.Helper
                 WriteIndented = true
             };
 
-            using (FileStream fs = File.Create(@".\ChessboardCorners.txt"))
-            {
-                await JsonSerializer.SerializeAsync(fs, cornerList, options);
-            }
+            using FileStream fs = File.Create(@".\ChessboardCorners.txt");
+            await JsonSerializer.SerializeAsync(fs, cornerList, options);
         }
 
         private static void CameraCalibration(Mat _img_crop, Size board_sz, Point2f[] cornerSubPix)
@@ -130,9 +128,8 @@ namespace CameraCalibration.Helper
 
             double[,] cameraMatrix = new double[3, 3];
             double[] distCoefficients = new double[5];
-            Vec3d[] rvecs, tvecs;
 
-            Cv2.CalibrateCamera(objectPoints, imagePoints, _img_crop.Size(), cameraMatrix, distCoefficients, out rvecs, out tvecs);
+            Cv2.CalibrateCamera(objectPoints, imagePoints, _img_crop.Size(), cameraMatrix, distCoefficients, out Vec3d[] rvecs, out Vec3d[] tvecs);
 
             Debug.WriteLine(
                 cameraMatrix[0, 0] + ", " + cameraMatrix[0, 1] + ", " + cameraMatrix[0, 2] + "\n" +
