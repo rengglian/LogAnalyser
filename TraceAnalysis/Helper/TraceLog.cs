@@ -52,15 +52,19 @@ namespace TraceAnalysis.Helper
 
                     FilteredTraces[parser.Name].ForEach(trace =>
                    {
+                       //Type t = Type.GetType(parser.Type);
+                       //Object[] args = { trace };
                        DataArrayEntries.Add(new DataArrayEntry(trace));
+                       //DataArrayEntries.Add(Activator.CreateInstance(t, args));
                    });
                     
                 });
-                
-
-                
-                Console.WriteLine("test");
             }
+        }
+        private object GetInstance(string strFullyQualifiedName)
+        {
+            Type t = Type.GetType(strFullyQualifiedName);
+            return Activator.CreateInstance(t);
         }
     }
 }

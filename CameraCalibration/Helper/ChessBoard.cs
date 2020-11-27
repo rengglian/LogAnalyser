@@ -12,25 +12,27 @@ namespace CameraCalibration.Helper
 {
     public class ChessBoard
     {
-   
+
         public static Dictionary<string, double> Find(Mat img, System.Drawing.Point squares, System.Drawing.Point roiCenter, int roiSize, bool export)
         {
             var _img = img.Clone();
             int im_width = _img.Cols / 2;
             int im_height = _img.Rows / 2;
-            
-            var roi = new Rect(im_width-roiCenter.X - roiSize/2, im_height - roiCenter.Y - roiSize / 2, roiSize, roiSize);
+
+            var clarity = VarianceOfLaplacian(img);
+
+            var roi = new Rect(im_width - roiCenter.X - roiSize / 2, im_height - roiCenter.Y - roiSize / 2, roiSize, roiSize);
 
             var _img_crop = new Mat(_img, roi);
             var _img_gray = _img_crop.Clone();
             _img_crop.ConvertTo(_img_gray, -1, 1, 0);
-            
+
             Cv2.CvtColor(_img_gray, _img_gray, ColorConversionCodes.BGR2GRAY);
 
             int chessboardCornersPerCol = squares.X - 1;
             int chessboardCornersPerRow = squares.Y - 1;
             var board_sz = new Size(chessboardCornersPerRow, chessboardCornersPerCol);
-            
+
             bool found = Cv2.FindChessboardCorners(_img_gray, board_sz, out Point2f[] corners, ChessboardFlags.AdaptiveThresh | ChessboardFlags.NormalizeImage);
 
             CameraProperties cam = new CameraProperties();
@@ -48,13 +50,13 @@ namespace CameraCalibration.Helper
                 var pointCol = matCorners.Reduce(ReduceDimension.Column, ReduceTypes.Avg, -1);
                 var matCenter = pointCol.Reduce(ReduceDimension.Row, ReduceTypes.Avg, -1);
 
-                if(export)
+                if (export)
                 {
                     _ = PrintMatAsync(matCorners);
                 }
 
 
-                var vecRow = pointRow.At<Point2f>(0,pointRow.Cols - 1) - pointRow.At<Point2f>(0,0);
+                var vecRow = pointRow.At<Point2f>(0, pointRow.Cols - 1) - pointRow.At<Point2f>(0, 0);
                 var vecCol = pointCol.At<Point2f>(pointCol.Rows - 1, 0) - pointCol.At<Point2f>(0, 0);
                 double rotationAngleRadians = Math.Abs(vecRow.X) > Math.Abs(vecCol.X) ? Math.Atan(vecRow.Y / vecRow.X) : Math.Atan(vecCol.Y / vecCol.X);
 
@@ -70,7 +72,7 @@ namespace CameraCalibration.Helper
 
                 var center = new Point2f(matCenter.At<Point2f>(0).X, matCenter.At<Point2f>(0).Y);
 
-                cam.Center = new System.Windows.Point((center.X - roi.Width / 2)* cam.Resolution.X, (center.Y - roi.Height / 2) * cam.Resolution.Y);
+                cam.Center = new System.Windows.Point((center.X - roi.Width / 2) * cam.Resolution.X, (center.Y - roi.Height / 2) * cam.Resolution.Y);
 
                 //CameraCalibration(_img_crop, board_sz, cornerSubPix);
 
@@ -87,7 +89,8 @@ namespace CameraCalibration.Helper
                 { "Y um / px", cam.Resolution.Y * 1000 },
                 { "Rotation [*]", cam.Rotation },
                 { "Center X [um]", cam.Center.X * 1000 },
-                { "Center Y [um]", cam.Center.Y * 1000 }
+                { "Center Y [um]", cam.Center.Y * 1000 },
+                { "Clarity", clarity}
             };
 
             return dict;
@@ -95,7 +98,7 @@ namespace CameraCalibration.Helper
 
         private static async Task PrintMatAsync(Mat mat)
         {
-            List<string> cornerList= new List<string>();
+            List<string> cornerList = new List<string>();
             for (var rowIndex = 0; rowIndex < mat.Rows; rowIndex++)
             {
                 for (var colIndex = 0; colIndex < mat.Cols; colIndex++)
@@ -138,6 +141,14 @@ namespace CameraCalibration.Helper
             );
 
             Debug.WriteLine(tvecs[0].Item0 + ", " + tvecs[0].Item1 + ", " + tvecs[0].Item2);
+        }
+
+        private static double VarianceOfLaplacian(Mat img)
+        {
+            using var imgLaplacian = new Mat();
+            Cv2.Laplacian(img, imgLaplacian, MatType.CV_64FC1);
+            Cv2.MeanStdDev(imgLaplacian, out var mean, out var stddev);
+            return stddev.Val0 * stddev.Val0;
         }
     }
 }

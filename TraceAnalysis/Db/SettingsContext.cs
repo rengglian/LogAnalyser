@@ -21,7 +21,7 @@ namespace TraceAnalysis.Db
             var parsers = Parsers.ToList();
             if (!parsers.Any())
             {
-                var parser = new Parser { Name = "Demo Parser", Pattern = "Access denied" };
+                var parser = new Parser { Name = "Demo Parser", Pattern = "Access denied", Type = "MyClass" };
                 Parsers.Add(parser);
                 SaveChanges();
             }
