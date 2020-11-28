@@ -30,6 +30,7 @@
                 <Button  Height="25" Margin="5" Command="{Binding NavigateCommand}" CommandParameter="ImageAnalysisView" Content="Image Analysis"/>
                 <Button  Height="25" Margin="5" Command="{Binding NavigateCommand}" CommandParameter="CameraCalibrationView" Content="Camera Analysis"/>
                 <Button  Height="25" Margin="5" Command="{Binding NavigateCommand}" CommandParameter="TraceAnalysisView" Content="Trace Analysis"/>
+                <Button  Height="25" Margin="5" Command="{Binding NavigateCommand}" CommandParameter="SequenceAnalysisView" Content="Sequence Analysis"/>
             </StackPanel>
         </GroupBox>
         <GroupBox Grid.Row="2" Grid.Column="2" Header="{Binding Title}">

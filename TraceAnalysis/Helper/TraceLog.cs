@@ -48,14 +48,18 @@ namespace TraceAnalysis.Helper
                 }
                 parsers.ForEach(parser => 
                 {
-                    FilteredTraces.Add(parser.Name, Logfile.Where(entry => entry.Payload[0] == parser.Pattern).Select(entry => entry).ToList<TraceEntry>());
+                    FilteredTraces.Add(parser.Name, Logfile.Where(entry => entry.Payload[0].Contains(parser.Pattern)).Select(entry => entry).ToList<TraceEntry>());
 
                     FilteredTraces[parser.Name].ForEach(trace =>
                    {
-                       //Type t = Type.GetType(parser.Type);
-                       //Object[] args = { trace };
-                       DataArrayEntries.Add(new DataArrayEntry(trace));
-                       //DataArrayEntries.Add(Activator.CreateInstance(t, args));
+                       if (parser.Type == typeof(DataArrayEntry).ToString())
+                       {
+                           DataArrayEntries.Add(new DataArrayEntry(trace));
+                       }
+                       else
+                       {
+
+                       }
                    });
                     
                 });
