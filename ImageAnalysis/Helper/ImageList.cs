@@ -1,7 +1,4 @@
 ﻿using ImageAnalysis.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Media.Imaging;
 
 namespace ImageAnalysis.Helper

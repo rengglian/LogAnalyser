@@ -1,7 +1,5 @@
 using PatternAnalysis.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
-using OxyPlot;
 
 namespace PatternAnalysis.Tests
 {

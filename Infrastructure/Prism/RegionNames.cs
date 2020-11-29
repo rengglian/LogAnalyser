@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Infrastructure.Prism
+﻿namespace Infrastructure.Prism
 {
     public static class RegionNames
     {

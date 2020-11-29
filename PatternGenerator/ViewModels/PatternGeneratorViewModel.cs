@@ -1,18 +1,12 @@
 ﻿using Infrastructure.Oxyplot;
 using OxyPlot;
-using OxyPlot.Axes;
-using OxyPlot.Series;
-using PatternGenerator.Helper;
 using PatternGenerator.Interfaces;
 using PatternGenerator.IO;
 using PatternGenerator.Shapes;
 using Prism.Commands;
 using Prism.Mvvm;
-using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
-using System.Windows.Controls;
 
 namespace PatternGenerator.ViewModels
 {

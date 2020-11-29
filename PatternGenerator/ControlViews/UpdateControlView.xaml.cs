@@ -1,5 +1,4 @@
 ﻿using Infrastructure.Prism;
-using System;
 using System.Windows.Controls;
 
 namespace PatternGenerator.ControlViews

@@ -1,10 +1,8 @@
-﻿using OxyPlot;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
 using System.Windows;
-using System.Windows.Navigation;
 
 namespace PatternAnalysis.IO
 {

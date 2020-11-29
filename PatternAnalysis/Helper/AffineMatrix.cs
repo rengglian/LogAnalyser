@@ -1,5 +1,4 @@
 ﻿using OpenCvSharp;
-using OxyPlot;
 using PatternAnalysis.Interfaces;
 using System;
 using System.Collections.Generic;

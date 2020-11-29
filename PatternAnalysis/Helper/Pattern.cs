@@ -1,7 +1,6 @@
 ﻿using PatternAnalysis.IO;
 using OxyPlot;
 using System.Collections.Generic;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Windows;

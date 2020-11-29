@@ -10,10 +10,8 @@ using System.Text.Json;
 using Infrastructure.Prism.Events;
 using Prism.Mvvm;
 using Infrastructure.Oxyplot;
-using OxyPlot.Axes;
 using System.Linq;
 using Prism.Services.Dialogs;
-using System;
 
 namespace PatternAnalysis.ViewModels
 {

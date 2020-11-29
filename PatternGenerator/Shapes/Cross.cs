@@ -1,6 +1,4 @@
-﻿using OxyPlot;
-using OxyPlot.Series;
-using PatternGenerator.Helper;
+﻿using PatternGenerator.Helper;
 using PatternGenerator.Interfaces;
 using System;
 using System.Collections.Generic;
