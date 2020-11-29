@@ -4,12 +4,13 @@ using PatternGenerator.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Windows;
 
 namespace PatternGenerator.Shapes
 {
     class Spiral : IShape
     {
-        public ObservableCollection<DataPoint> Points { get; set; } = new ObservableCollection<DataPoint>();
+        public ObservableCollection<Point> Points { get; set; } = new ObservableCollection<Point>();
         public string Description { get; set; } = "";
         public Dictionary<string, ShapeOptions> Options { get; set; } = new Dictionary<string, ShapeOptions>();
 
@@ -32,7 +33,7 @@ namespace PatternGenerator.Shapes
             double delta_r = radius / maxTheta;
             double theta = step_size / delta_r;
 
-            Points.Add(new DataPoint(0.0, 0.0));
+            Points.Add(new Point(0.0, 0.0));
 
             while (theta <= maxTheta)
             {
@@ -40,7 +41,7 @@ namespace PatternGenerator.Shapes
                 double next_dist = delta_r * theta;
                 double new_theta = theta + rotation;
  
-                Points.Add(new DataPoint(Math.Round(Math.Cos(new_theta) * next_dist, 0), Math.Round(Math.Sin(new_theta) * next_dist, 0)));
+                Points.Add(new Point(Math.Round(Math.Cos(new_theta) * next_dist, 0), Math.Round(Math.Sin(new_theta) * next_dist, 0)));
                 theta += step_size / next_dist;
             }
         }

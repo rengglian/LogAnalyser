@@ -4,13 +4,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
+using System.Windows;
 
 namespace PatternGenerator.IO
 {
     public class JsonWrite
     {
 
-        public static void ExportPattern(List<DataPoint> pattern, string description, int repeatFactor, bool randomized)
+        public static void ExportPattern(List<Point> pattern, string description, int repeatFactor, bool randomized)
         {
             description += "_" + pattern.Count + "x" + repeatFactor;
             description += randomized ? "_randomized" : "";

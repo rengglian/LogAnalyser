@@ -5,12 +5,13 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
 
 namespace PatternGenerator.Shapes
 {
     public class Circle : IShape
     {
-        public ObservableCollection<DataPoint> Points { get; set; } = new ObservableCollection<DataPoint>();
+        public ObservableCollection<Point> Points { get; set; } = new ObservableCollection<Point>();
         public string Description { get; set; } = "";
         public Dictionary<string, ShapeOptions> Options { get; set; } = new Dictionary<string, ShapeOptions>();
 
@@ -33,7 +34,7 @@ namespace PatternGenerator.Shapes
 
             stepList.ForEach(stp =>
             {
-                Points.Add(new DataPoint(Math.Round(Options["R1"].Value * Math.Sin(stp), 0), Math.Round(r2 * Math.Cos(stp), 0)));
+                Points.Add(new Point(Math.Round(Options["R1"].Value * Math.Sin(stp), 0), Math.Round(r2 * Math.Cos(stp), 0)));
             });
         }
         public override string ToString()

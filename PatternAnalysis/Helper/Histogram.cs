@@ -2,19 +2,20 @@
 using PatternAnalysis.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Windows;
 
 namespace PatternAnalysis.Helper
 {
     public class Histogram
     {
-        public static List<DataPoint> Create(IPattern from, IPattern to, int binSize)
+        public static List<Point> Create(IPattern from, IPattern to, int binSize)
         {
             var deltaList = Distance(from.Points, to.Points);
             var Points = CreateBins(deltaList, binSize);
             return Points;
         }
 
-        public static List<double> Distance(List<DataPoint> from, List<DataPoint> to)
+        public static List<double> Distance(List<Point> from, List<Point> to)
         {
             List<double> distance = new List<double>();
 
@@ -22,14 +23,12 @@ namespace PatternAnalysis.Helper
 
             for (int i = 0; i < from.Count; i++)
             {
-                var p1 = new System.Windows.Point { X = from[i].X, Y = from[i].Y };
-                var p2 = new System.Windows.Point { X = to[i].X, Y = to[i].Y };
-                distance.Add((p1 - p2).Length);
+                distance.Add((from[i] - to[i]).Length);
             }
             return distance;
         }
 
-        public static List<DataPoint> CreateBins(List<double> samples, int binSize)
+        public static List<Point> CreateBins(List<double> samples, int binSize)
         {
             SortedDictionary<int, int> bins = new SortedDictionary<int, int>();
             foreach (var value in samples)
@@ -42,10 +41,10 @@ namespace PatternAnalysis.Helper
                 bins[binIndex]++;
             }
 
-            List<DataPoint> Points = new List<DataPoint>();
+            List<Point> Points = new List<Point>();
             foreach (var item in bins)
             {
-                Points.Add(new DataPoint(item.Key, item.Value));
+                Points.Add(new Point(item.Key, item.Value));
             }
 
             return Points;

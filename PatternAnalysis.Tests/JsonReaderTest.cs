@@ -11,7 +11,7 @@ namespace PatternAnalysis.Tests
         [TestMethod]
         public void TestMethod1()
         {
-            List<DataPoint> points = JsonReader.Read("");
+            var points = JsonReader.Read("");
             Assert.IsTrue(points.Count == 0);
         }
     }

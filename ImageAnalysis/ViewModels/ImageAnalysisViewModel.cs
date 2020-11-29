@@ -49,41 +49,41 @@ namespace ImageAnalysis.ViewModels
         private IImageList selectedImage { get; set; }
         public IImageList SelectedImage
         {
-            get { return this.selectedImage; }
-            set { this.selectedImage = value; }
+            get { return selectedImage; }
+            set { selectedImage = value; }
         }
 
         private Dictionary<string, double> calibMatrix;
         public Dictionary<string, double> CalibMatrix
         {
-            get { return this.calibMatrix; }
+            get { return calibMatrix; }
             set { SetProperty(ref calibMatrix, value); }
         }
 
         private IImageList selectedSubA { get; set; }
         public IImageList SelectedSubA
         {
-            get { return this.selectedSubA; }
-            set { this.selectedSubA = value; }
+            get { return selectedSubA; }
+            set { selectedSubA = value; }
         }
 
         private IImageList selectedSubB { get; set; }
         public IImageList SelectedSubB
         {
-            get { return this.selectedSubB; }
-            set { this.selectedSubB = value; }
+            get { return selectedSubB; }
+            set { selectedSubB = value; }
         }
 
         public ImageAnalysisViewModel(IEventAggregator eventAggregator)
         {
-            this.ImgList = new ObservableCollection<IImageList>();
-            this.images = new Dictionary<string, ICalibrationImage>();
+            ImgList = new ObservableCollection<IImageList>();
+            images = new Dictionary<string, ICalibrationImage>();
 
-            this.OpenImageCommand = new DelegateCommand<string>(OpenImageHandler);
-            this.SubstractImageCommand = new DelegateCommand<string>(SubstractImageHandler);
-            this.BlurImageCommand = new DelegateCommand<string>(BlurImageHandler);
-            this.FindCirclesCommand = new DelegateCommand(FindCirclesHandler);
-            this.DeleteCommand = new DelegateCommand(DeleteHandler);
+            OpenImageCommand = new DelegateCommand<string>(OpenImageHandler);
+            SubstractImageCommand = new DelegateCommand<string>(SubstractImageHandler);
+            BlurImageCommand = new DelegateCommand<string>(BlurImageHandler);
+            FindCirclesCommand = new DelegateCommand(FindCirclesHandler);
+            DeleteCommand = new DelegateCommand(DeleteHandler);
             
             eventAggregator.GetEvent<PatternSendEvent>().Subscribe(OnMessageReceived);
 
@@ -104,13 +104,13 @@ namespace ImageAnalysis.ViewModels
             spots.Add(new Spot(new System.Windows.Point(720 / 2, 576 / 2), 5, System.Windows.Media.Brushes.AliceBlue));
 
             var sorted = PatternAnalyser.SortList(spots, false);
-            this.Target = new ObservableCollection<Spot>();
+            Target = new ObservableCollection<Spot>();
             sorted.ForEach(sp =>
             {
-                this.Target.Add(sp);
+                Target.Add(sp);
             });
 
-            this.CalibMatrix = AffineMatrix.CalculateMatrix(this.Spots, this.Target);
+            CalibMatrix = AffineMatrix.CalculateMatrix(Spots, Target);
             Console.WriteLine("tet");
         }
 
@@ -122,55 +122,55 @@ namespace ImageAnalysis.ViewModels
 
         private void FindCirclesHandler()
         {
-            this.Spots = new ObservableCollection<Spot>();
-            var sp = FindObjects.Circles(this.images[selectedImage.Title].ImageMat);
+            Spots = new ObservableCollection<Spot>();
+            var sp = FindObjects.Circles(images[selectedImage.Title].ImageMat);
             sp.ForEach(sp =>
             {
-                this.Spots.Add(sp);
+                Spots.Add(sp);
             });
         }
 
         private void BlurImageHandler(string src)
         {
-            var str = src + this.selectedImage.Title;
+            var str = src + selectedImage.Title;
 
-            if (!this.images.ContainsKey(str))
+            if (!images.ContainsKey(str))
             {
-                this.images.Add(str, new CalibrationImage(this.images[selectedImage.Title].ImageMat));
+                images.Add(str, new CalibrationImage(images[selectedImage.Title].ImageMat));
             }
             else
             {
-                this.images[str] = new CalibrationImage(this.images[selectedImage.Title].ImageMat);
+                images[str] = new CalibrationImage(images[selectedImage.Title].ImageMat);
             }
-            this.images[str].Blur();
-            this.ImgList.Add(new ImageList(str, this.images[str].GetBitmapImage()));
+            images[str].Blur();
+            ImgList.Add(new ImageList(str, images[str].GetBitmapImage()));
         }
 
         private void SubstractImageHandler(string src)
         {
-            if (!this.images.ContainsKey(src))
+            if (!images.ContainsKey(src))
             {
-                this.images.Add(src, new CalibrationImage(this.images[selectedSubA.Title].ImageMat));
+                images.Add(src, new CalibrationImage(images[selectedSubA.Title].ImageMat));
             }
             else
             {
-                this.images[src] = new CalibrationImage(this.images[selectedSubA.Title].ImageMat);
+                images[src] = new CalibrationImage(images[selectedSubA.Title].ImageMat);
             }
-            this.images[src].Substract(this.images[selectedSubB.Title].ImageMat);
-            this.ImgList.Add(new ImageList(src, this.images[src].GetBitmapImage()));
+            images[src].Substract(images[selectedSubB.Title].ImageMat);
+            ImgList.Add(new ImageList(src, images[src].GetBitmapImage()));
         }
 
         private void OpenImageHandler(string src)
         {
-            if (!this.images.ContainsKey(src))
+            if (!images.ContainsKey(src))
             {
-                this.images.Add(src, new CalibrationImage());
+                images.Add(src, new CalibrationImage());
             }
             else
             {
-                this.images[src] = new CalibrationImage();
+                images[src] = new CalibrationImage();
             }
-            this.ImgList.Add(new ImageList(src, this.images[src].GetBitmapImage()));
+            ImgList.Add(new ImageList(src, images[src].GetBitmapImage()));
         }
 
     }

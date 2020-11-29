@@ -39,15 +39,15 @@ namespace PatternAnalysis.ViewModels
         private IPattern _selectedA { get; set; }
         public IPattern SelectedA
         {
-            get { return this._selectedA; }
-            set { this._selectedA = value; }
+            get { return _selectedA; }
+            set { _selectedA = value; }
         }
 
         private IPattern _selectedB { get; set; }
         public IPattern SelectedB
         {
-            get { return this._selectedB; }
-            set { this._selectedB = value; }
+            get { return _selectedB; }
+            set { _selectedB = value; }
         }
 
         private Dictionary<string, double> calibMatrix;
@@ -76,7 +76,7 @@ namespace PatternAnalysis.ViewModels
             _dialogService = dialogService;
             _eventAggregator = eventAggregator;
 
-            PlotModelPattern = PlotModelHelper.CreateScatterPlot();
+            PlotModelPattern = PlotModelHelper.CreateScatterPlotInvX();
             
             PatternList = new ObservableCollection<IPattern>();
 

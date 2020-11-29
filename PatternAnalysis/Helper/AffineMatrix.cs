@@ -82,16 +82,16 @@ namespace PatternAnalysis.Helper
             return dict;
         }
 
-        public static List<DataPoint> CalculateBack(List<DataPoint> pts, Dictionary<string, double> affineMatrix)
+        public static List<System.Windows.Point> CalculateBack(List<System.Windows.Point> pts, Dictionary<string, double> affineMatrix)
         {
-            List<DataPoint> calc_points = new List<DataPoint>();
+            List<System.Windows.Point> calc_points = new List<System.Windows.Point>();
 
             pts.ForEach(pt =>
             {
                 var x = affineMatrix["m11"] * pt.X + affineMatrix["m12"] * pt.Y + affineMatrix["m13"];
                 var y = affineMatrix["m21"] * pt.X + affineMatrix["m22"] * pt.Y + affineMatrix["m23"];
 
-                calc_points.Add(new DataPoint(x, y));
+                calc_points.Add(new System.Windows.Point(x, y));
             });
 
             return calc_points;

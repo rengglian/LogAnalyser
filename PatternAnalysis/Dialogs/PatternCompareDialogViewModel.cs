@@ -13,6 +13,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
+using System.Windows;
 
 namespace PatternAnalysis.Dialogs
 {
@@ -20,8 +21,8 @@ namespace PatternAnalysis.Dialogs
     {
         public string Title => "Pattern Compare Dialog";
 
-        private List<DataPoint> PatternA;
-        private List<DataPoint> PatternB;
+        private List<Point> PatternA;
+        private List<Point> PatternB;
 
         private PlotModel _plotModelPatternA;
         public PlotModel PlotModelPatternA
@@ -44,8 +45,8 @@ namespace PatternAnalysis.Dialogs
             set { SetProperty(ref _plotModelHisto, value); }
         }
 
-        private ObservableCollection<DataPoint> _histoTable;
-        public ObservableCollection<DataPoint> HistoTable
+        private ObservableCollection<Point> _histoTable;
+        public ObservableCollection<Point> HistoTable
         {
             get { return _histoTable; }
             set { SetProperty(ref _histoTable, value); }
@@ -73,8 +74,8 @@ namespace PatternAnalysis.Dialogs
         {
             CloseDialogCommand = new DelegateCommand(CloseDialog);
 
-            PlotModelPatternA = PlotModelHelper.CreateScatterPlot();
-            PlotModelPatternB = PlotModelHelper.CreateScatterPlot();
+            PlotModelPatternA = PlotModelHelper.CreateScatterPlotInvX();
+            PlotModelPatternB = PlotModelHelper.CreateScatterPlotInvX();
             PlotModelHisto = PlotModelHelper.CreateHistogramm();
         }
 
@@ -102,11 +103,8 @@ namespace PatternAnalysis.Dialogs
 
         public void OnDialogOpened(IDialogParameters parameters)
         {
-            var patternA = JsonSerializer.Deserialize<List<System.Windows.Point>>(parameters.GetValue<string>("patternA"));
-            var patternB = JsonSerializer.Deserialize<List<System.Windows.Point>>(parameters.GetValue<string>("patternB"));
-
-            PatternA = ConvertToDataPoint(patternA);
-            PatternB = ConvertToDataPoint(patternB);
+            PatternA = JsonSerializer.Deserialize<List<Point>>(parameters.GetValue<string>("patternA"));
+            PatternB = JsonSerializer.Deserialize<List<Point>>(parameters.GetValue<string>("patternB"));
 
             var distance = Histogram.Distance(PatternA, PatternB);
             var histoSet = Histogram.CreateBins(distance, 50);
@@ -116,21 +114,21 @@ namespace PatternAnalysis.Dialogs
 
             HistoTable = histoSet.ToObservableCollection();
 
-            PlotModelPatternA.Series.Add(GenerateScatterSeries(patternA, distance));
-            PlotModelPatternB.Series.Add(GenerateScatterSeries(patternB, distance));
+            PlotModelPatternA.Series.Add(GenerateScatterSeries(PatternA, distance));
+            PlotModelPatternB.Series.Add(GenerateScatterSeries(PatternB, distance));
 
             PlotModelPatternA.InvalidatePlot(true);
             PlotModelPatternB.InvalidatePlot(true);
 
             PlotModelHisto.Series.Clear();
-            PlotModelHisto.Series.Add(PlotModelHelper.CreateBarSeries(histoSet));
+            PlotModelHisto.Series.Add(PlotModelHelper.CreateBarSeries(ConvertToDataPoint(histoSet)));
             PlotModelHisto.Axes.Add(new CategoryAxis { Position = AxisPosition.Bottom, Key = "y", Angle = 90, ItemsSource = histoSet, LabelField = "X" });
             PlotModelHisto.Axes.Add(new LinearAxis { Position = AxisPosition.Left, MinimumPadding = 0, MaximumPadding = 0.06, AbsoluteMinimum = 0, Key = "x" });
             PlotModelHisto.InvalidatePlot(true);
 
         }
 
-        private ObservableCollection<Pulse> GetWrongPulses(List<DataPoint> pattern, List<double> dist, double threshold)
+        private ObservableCollection<Pulse> GetWrongPulses(List<Point> pattern, List<double> dist, double threshold)
         {
             List<int> indices = dist.Select((v, i) => new { v, i })
             .Where(x => x.v > threshold)
@@ -147,16 +145,15 @@ namespace PatternAnalysis.Dialogs
             return result;
         }
 
-        private ScatterSeries GenerateScatterSeries(List<System.Windows.Point> points, List<double> dist)
+        private ScatterSeries GenerateScatterSeries(List<Point> points, List<double> dist)
         {
-            var pts = ConvertToDataPoint(points);
-
-            var series = PlotModelHelper.CreateScatterSerie(pts, dist);
+        
+            var series = PlotModelHelper.CreateScatterSerie(points, dist);
 
             return series;
         }
        
-        private List<DataPoint> ConvertToDataPoint(List<System.Windows.Point> points)
+        private List<DataPoint> ConvertToDataPoint(List<Point> points)
         {
             var pts = new List<DataPoint>();
 

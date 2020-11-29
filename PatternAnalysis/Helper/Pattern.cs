@@ -13,7 +13,7 @@ namespace PatternAnalysis.Helper
     public class Pattern : IPattern
     {
         private readonly byte alpha = 120;
-        public List<DataPoint> Points { get; set; } = new List<DataPoint>();
+        public List<Point> Points { get; set; } = new List<Point>();
         public string CheckSum { get; set; } = "";
         public string FileName { get; set; } = "";
         public Point Center { get; set; } = new Point();
@@ -56,7 +56,7 @@ namespace PatternAnalysis.Helper
             return color;
         }
 
-        private static string CalculateCheckSum(List<DataPoint> pointList)
+        private static string CalculateCheckSum(List<Point> pointList)
         {
             var sb = new StringBuilder();
             pointList.ForEach(p =>
@@ -73,7 +73,7 @@ namespace PatternAnalysis.Helper
             return sb2.ToString();
         }
 
-        private static Point CalculateCenter(List<DataPoint> pointList)
+        private static Point CalculateCenter(List<Point> pointList)
         {
 
             Point center = new Point { X = 0, Y = 0 };

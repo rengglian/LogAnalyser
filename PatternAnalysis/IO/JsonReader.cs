@@ -3,15 +3,16 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
+using System.Windows;
 using System.Windows.Navigation;
 
 namespace PatternAnalysis.IO
 {
     public class JsonReader
     { 
-        public static List<DataPoint> Read(string fileName)
+        public static List<Point> Read(string fileName)
         {
-            List<DataPoint> points = new List<DataPoint>();
+            List<Point> points = new List<Point>();
             var jsonString = File.Exists(fileName) ? File.ReadAllText(fileName) : "";
             
             List<string> strList = new List<string>();
@@ -25,7 +26,7 @@ namespace PatternAnalysis.IO
             strList.ForEach(item =>
             {
                 double[] coords = Array.ConvertAll(item.Split(','), double.Parse);
-                points.Add(new DataPoint(coords[0], coords[1]));
+                points.Add(new Point(coords[0], coords[1]));
             });
 
             return points;

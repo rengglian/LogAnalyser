@@ -10,6 +10,7 @@ using Prism.Commands;
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Controls;
 
@@ -54,7 +55,7 @@ namespace PatternGenerator.ViewModels
         public PatternGeneratorViewModel()
         {
 
-            PlotModel = PlotModelHelper.CreateScatterPlot();
+            PlotModel = PlotModelHelper.CreateScatterPlotInvX();
 
             ShapeList = new List<IShape>
             {
@@ -79,13 +80,13 @@ namespace PatternGenerator.ViewModels
             Shape.Generate();
             
             PlotModel.Series.Clear();
-            PlotModel.Series.Add(PlotModelHelper.CreateScatterSerie(Shape.Points.ToList<DataPoint>()));
+            PlotModel.Series.Add(PlotModelHelper.CreateScatterSerie(Shape.Points.ToList()));
             PlotModel.InvalidatePlot(true);
         }
 
         private void SaveFileHandler()
         {
-            JsonWrite.ExportPattern(Shape.Points.ToList<DataPoint>(), Shape.ToString(), RepeatValue, RandomizePattern);
+            JsonWrite.ExportPattern(Shape.Points.ToList(), Shape.ToString(), RepeatValue, RandomizePattern);
         }
 
     }

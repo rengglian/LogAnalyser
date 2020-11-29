@@ -5,12 +5,13 @@ using PatternGenerator.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Windows;
 
 namespace PatternGenerator.Shapes
 {
     class Cross : IShape
     {
-        public ObservableCollection<DataPoint> Points { get; set; } = new ObservableCollection<DataPoint>();
+        public ObservableCollection<Point> Points { get; set; } = new ObservableCollection<Point>();
         public string Description { get; set; } = "";
         public Dictionary<string, ShapeOptions> Options { get; set; } = new Dictionary<string, ShapeOptions>();
 
@@ -37,14 +38,14 @@ namespace PatternGenerator.Shapes
                 var new_x = c * x - s * y;
                 var new_y = s * x + c * y;
 
-                Points.Add(new DataPoint(Math.Round(new_x,0), Math.Round(new_y, 0)));
+                Points.Add(new Point(Math.Round(new_x,0), Math.Round(new_y, 0)));
 
                 x = 0.0;
                 y = i + min;
 
                 new_x = c * x - s * y;
                 new_y = s * x + c * y;
-                Points.Add(new DataPoint(Math.Round(new_x, 0), Math.Round(new_y, 0)));
+                Points.Add(new Point(Math.Round(new_x, 0), Math.Round(new_y, 0)));
             }
         }
         public override string ToString()
