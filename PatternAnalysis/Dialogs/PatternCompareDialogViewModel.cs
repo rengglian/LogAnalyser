@@ -127,7 +127,7 @@ namespace PatternAnalysis.Dialogs
 
         }
 
-        private ObservableCollection<Pulse> GetWrongPulses(List<Point> pattern, List<double> dist, double threshold)
+        private static ObservableCollection<Pulse> GetWrongPulses(List<Point> pattern, List<double> dist, double threshold)
         {
             List<int> indices = dist.Select((v, i) => new { v, i })
             .Where(x => x.v > threshold)
@@ -144,7 +144,7 @@ namespace PatternAnalysis.Dialogs
             return result;
         }
 
-        private ScatterSeries GenerateScatterSeries(List<Point> points, List<double> dist)
+        private static ScatterSeries GenerateScatterSeries(List<Point> points, List<double> dist)
         {
         
             var series = PlotModelHelper.CreateScatterSerie(points, dist);
@@ -152,7 +152,7 @@ namespace PatternAnalysis.Dialogs
             return series;
         }
        
-        private List<DataPoint> ConvertToDataPoint(List<Point> points)
+        private static List<DataPoint> ConvertToDataPoint(List<Point> points)
         {
             var pts = new List<DataPoint>();
 

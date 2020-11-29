@@ -10,7 +10,7 @@ namespace TraceAnalysis.ViewModels
     {
         public DelegateCommand OpenTraceCommand { get; set; }
 
-        private static SettingsContext _context = new SettingsContext();
+        private static readonly SettingsContext _context = new SettingsContext();
 
         public TraceAnalysisViewModel()
         {
