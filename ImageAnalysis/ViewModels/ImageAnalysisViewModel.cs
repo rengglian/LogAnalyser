@@ -111,7 +111,6 @@ namespace ImageAnalysis.ViewModels
             });
 
             CalibMatrix = AffineMatrix.CalculateMatrix(Spots, Target);
-            Console.WriteLine("tet");
         }
 
 
