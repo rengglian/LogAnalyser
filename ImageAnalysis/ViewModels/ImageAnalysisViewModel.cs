@@ -1,11 +1,9 @@
 ﻿using ImageAnalysis.Helper;
-using ImageAnalysis.Interfaces;
 using System.Collections.ObjectModel;
 using Prism.Commands;
 using Prism.Mvvm;
 using System.Collections.Generic;
 using ImageAnalysis.ImageProcessing;
-using System;
 using Prism.Events;
 using System.Text.Json;
 using Infrastructure.Prism.Events;
@@ -14,14 +12,18 @@ namespace ImageAnalysis.ViewModels
 {
     public class ImageAnalysisViewModel : BindableBase
     {
-
-        public DelegateCommand<string> OpenImageCommand { get; set; }
+        public DelegateCommand OpenImageCommand { get; set; }
         public DelegateCommand<string> SubstractImageCommand { get; set; }
         public DelegateCommand<string> BlurImageCommand { get; set; }
         public DelegateCommand FindCirclesCommand { get; set; }
-        public DelegateCommand DeleteCommand { get; private set; }
+        public DelegateCommand<int?> DeleteCommand { get; set; }
 
-        private readonly Dictionary<string, ICalibrationImage> images;
+        private ObservableCollection<CalibrationImage> calibImg;
+        public ObservableCollection<CalibrationImage> CalibImg
+        {
+            get { return calibImg; }
+            set { SetProperty(ref calibImg, value); }
+        }
 
         private ObservableCollection<Spot> spots;
 
@@ -39,20 +41,6 @@ namespace ImageAnalysis.ViewModels
             set { SetProperty(ref target, value); }
         }
 
-        private ObservableCollection<IImageList> imgList;
-        public ObservableCollection<IImageList> ImgList
-        {
-            get { return imgList; }
-            set { SetProperty(ref imgList, value); }
-        }
-
-        private IImageList selectedImage { get; set; }
-        public IImageList SelectedImage
-        {
-            get { return selectedImage; }
-            set { selectedImage = value; }
-        }
-
         private Dictionary<string, double> calibMatrix;
         public Dictionary<string, double> CalibMatrix
         {
@@ -60,15 +48,15 @@ namespace ImageAnalysis.ViewModels
             set { SetProperty(ref calibMatrix, value); }
         }
 
-        private IImageList selectedSubA { get; set; }
-        public IImageList SelectedSubA
+        private CalibrationImage selectedSubA { get; set; }
+        public CalibrationImage SelectedSubA
         {
             get { return selectedSubA; }
             set { selectedSubA = value; }
         }
 
-        private IImageList selectedSubB { get; set; }
-        public IImageList SelectedSubB
+        private CalibrationImage selectedSubB { get; set; }
+        public CalibrationImage SelectedSubB
         {
             get { return selectedSubB; }
             set { selectedSubB = value; }
@@ -76,15 +64,14 @@ namespace ImageAnalysis.ViewModels
 
         public ImageAnalysisViewModel(IEventAggregator eventAggregator)
         {
-            ImgList = new ObservableCollection<IImageList>();
-            images = new Dictionary<string, ICalibrationImage>();
+            CalibImg = new ObservableCollection<CalibrationImage>();
 
-            OpenImageCommand = new DelegateCommand<string>(OpenImageHandler);
+            OpenImageCommand = new DelegateCommand(OpenImageHandler);
             SubstractImageCommand = new DelegateCommand<string>(SubstractImageHandler);
             BlurImageCommand = new DelegateCommand<string>(BlurImageHandler);
             FindCirclesCommand = new DelegateCommand(FindCirclesHandler);
-            DeleteCommand = new DelegateCommand(DeleteHandler);
-            
+            DeleteCommand = new DelegateCommand<int?>(DeleteHandler);
+
             eventAggregator.GetEvent<PatternSendEvent>().Subscribe(OnMessageReceived);
 
         }
@@ -112,65 +99,43 @@ namespace ImageAnalysis.ViewModels
 
             CalibMatrix = AffineMatrix.CalculateMatrix(Spots, Target);
         }
-
-
-        private void DeleteHandler()
+        private void OpenImageHandler()
         {
+            CalibImg.Add(new CalibrationImage());
+        }
 
+        private void DeleteHandler(int? item)
+        {
+            if (item >= 0)
+            {
+                CalibImg.RemoveAt((int)item);
+            }
+        }
+
+        private void SubstractImageHandler(string src)
+        {
+            var img = (CalibrationImage)selectedSubA.Clone();
+            img.Substract(selectedSubB.ImageMat);
+            img.Description = src;
+            CalibImg.Add(img);
+        }
+
+        private void BlurImageHandler(string src)
+        {
+            var img = (CalibrationImage)selectedSubA.Clone();
+            img.Blur();
+            img.Description = src;
+            CalibImg.Add(img);
         }
 
         private void FindCirclesHandler()
         {
             Spots = new ObservableCollection<Spot>();
-            var sp = FindObjects.Circles(images[selectedImage.Title].ImageMat);
+            var sp = FindObjects.Circles(selectedSubA.ImageMat);
             sp.ForEach(sp =>
             {
                 Spots.Add(sp);
             });
         }
-
-        private void BlurImageHandler(string src)
-        {
-            var str = src + selectedImage.Title;
-
-            if (!images.ContainsKey(str))
-            {
-                images.Add(str, new CalibrationImage(images[selectedImage.Title].ImageMat));
-            }
-            else
-            {
-                images[str] = new CalibrationImage(images[selectedImage.Title].ImageMat);
-            }
-            images[str].Blur();
-            ImgList.Add(new ImageList(str, images[str].GetBitmapImage()));
-        }
-
-        private void SubstractImageHandler(string src)
-        {
-            if (!images.ContainsKey(src))
-            {
-                images.Add(src, new CalibrationImage(images[selectedSubA.Title].ImageMat));
-            }
-            else
-            {
-                images[src] = new CalibrationImage(images[selectedSubA.Title].ImageMat);
-            }
-            images[src].Substract(images[selectedSubB.Title].ImageMat);
-            ImgList.Add(new ImageList(src, images[src].GetBitmapImage()));
-        }
-
-        private void OpenImageHandler(string src)
-        {
-            if (!images.ContainsKey(src))
-            {
-                images.Add(src, new CalibrationImage());
-            }
-            else
-            {
-                images[src] = new CalibrationImage();
-            }
-            ImgList.Add(new ImageList(src, images[src].GetBitmapImage()));
-        }
-
     }
 }

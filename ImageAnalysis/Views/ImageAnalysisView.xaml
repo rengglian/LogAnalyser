@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:ImageAnalysis.Views"
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="true"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="900">
     <Grid>
@@ -152,14 +153,18 @@
             </ItemsControl.ItemTemplate>
         </ItemsControl>
 
-        <ListView Name="imageListView" Grid.Column="1" Grid.Row="0" BorderThickness="0" SelectedIndex="0" ItemsSource="{Binding ImgList}" SelectedItem="{Binding SelectedImage}">
-            <ListView.InputBindings>
-                <KeyBinding Gesture="Delete"  Command="{Binding DeleteCommand}" />
-            </ListView.InputBindings>
+        <ListView Name="imageListView" Grid.Column="1" Grid.Row="0" BorderThickness="0" SelectedIndex="0" ItemsSource="{Binding CalibImg}">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseDoubleClick">
+                    <prism:InvokeCommandAction Command="{Binding DeleteCommand}"
+                        CommandParameter="{Binding ElementName=imageListView, Path=SelectedIndex}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
-                        <Label x:Name="srcImgLabel" Content="{Binding Title}"/>
+                        <TextBlock x:Name="srcImgLabel" Text="{Binding Title}"/>
+                        <TextBlock x:Name="srcImgDescription" Text="{Binding Description}"/>
                         <Image x:Name="srcImg" Stretch="Fill" Width="100" Source="{Binding ImageData}"/>
                     </StackPanel>
                 </DataTemplate>

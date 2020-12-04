@@ -19,8 +19,8 @@
                 <Button Height="25px" Content="Substract" Command="{Binding SubstractImageCommand}" CommandParameter="Substracted"/>
             </StackPanel>
             <StackPanel  Grid.Column="1" Margin="10,0,10,0" VerticalAlignment="Center">
-                <ComboBox Width="150" Height="25" Margin="0,0,0,10" SelectedIndex="0" ItemsSource="{Binding ImgList}" SelectedItem="{Binding SelectedSubA}"/>
-                <ComboBox Width="150" Height="25" SelectedIndex="1" ItemsSource="{Binding ImgList}" SelectedItem="{Binding SelectedSubB}"/>
+                <ComboBox Width="150" Height="25" Margin="0,0,0,10" SelectedIndex="0" ItemsSource="{Binding CalibImg}" SelectedItem="{Binding SelectedSubA}"/>
+                <ComboBox Width="150" Height="25" SelectedIndex="1" ItemsSource="{Binding CalibImg}" SelectedItem="{Binding SelectedSubB}"/>
             </StackPanel>
         </Grid>
     </GroupBox>

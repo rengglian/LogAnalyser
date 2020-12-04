@@ -1,12 +1,13 @@
 ﻿using Microsoft.Win32;
 using OpenCvSharp;
 using System;
+using System.IO;
 
 namespace ImageAnalysis.IO
 {
     public class ImageReader
     {
-        public static Mat Read()
+        public static MatFromFile Read()
         {
 
             OpenFileDialog openFileDialog = new OpenFileDialog
@@ -20,11 +21,14 @@ namespace ImageAnalysis.IO
             if (result == true)
             {
                 string filename = openFileDialog.FileName;
-                Mat srcImage;
 
-                srcImage = new Mat(filename, ImreadModes.AnyDepth | ImreadModes.AnyColor);
+                MatFromFile data = new MatFromFile
+                {
+                    FileName = Path.GetFileName(filename),
+                    ImageMat = new Mat(filename, ImreadModes.AnyDepth | ImreadModes.AnyColor)
+                };
 
-                return srcImage;
+                return data;
             }
             return null;
         }

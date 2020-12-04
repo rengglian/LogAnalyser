@@ -6,10 +6,9 @@
              xmlns:local="clr-namespace:ImageAnalysis.ControlViews"
              mc:Ignorable="d" 
              d:DesignHeight="100" d:DesignWidth="200">
-    <GroupBox Header="Open Images" Height="100">
+    <GroupBox Header="Calibration Images" Height="100">
         <StackPanel Margin="10,0,10,0" VerticalAlignment="Center">
-            <Button Margin="0,0,0,10" Height="25px" Content="First Image" Command="{Binding OpenImageCommand}" CommandParameter="Source"/>
-            <Button Height="25px" Content="Second Image" Command="{Binding OpenImageCommand}" CommandParameter="Background"/>
+            <Button Margin="0,0,0,10" Height="25px" Content="Open" Command="{Binding OpenImageCommand}"/>
         </StackPanel>
     </GroupBox>
 </UserControl>
