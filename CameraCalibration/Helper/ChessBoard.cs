@@ -13,7 +13,7 @@ namespace CameraCalibration.Helper
 
         public static Dictionary<string, double> Find(Mat img, System.Drawing.Point squares, System.Drawing.Point roiCenter, int roiSize, bool export)
         {
-            var _img = img.Clone();
+            using var _img = img.Clone();
             int im_width = _img.Cols / 2;
             int im_height = _img.Rows / 2;
 
@@ -21,8 +21,8 @@ namespace CameraCalibration.Helper
 
             var roi = new Rect(im_width - roiCenter.X - roiSize / 2, im_height - roiCenter.Y - roiSize / 2, roiSize, roiSize);
 
-            var _img_crop = new Mat(_img, roi);
-            var _img_gray = _img_crop.Clone();
+            using var _img_crop = new Mat(_img, roi);
+            using var _img_gray = _img_crop.Clone();
             _img_crop.ConvertTo(_img_gray, -1, 1, 0);
 
             Cv2.CvtColor(_img_gray, _img_gray, ColorConversionCodes.BGR2GRAY);
