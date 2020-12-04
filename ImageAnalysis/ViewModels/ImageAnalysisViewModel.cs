@@ -90,22 +90,26 @@ namespace ImageAnalysis.ViewModels
             FindCirclesCommand = new DelegateCommand(FindCirclesHandler);
             DeleteCommand = new DelegateCommand<int?>(DeleteHandler);
 
-            eventAggregator.GetEvent<PatternSendEvent>().Subscribe(OnMessageReceived);
+            eventAggregator.GetEvent<PatternSendEvent>().Subscribe(OnPatternMessageReceived);
         }
 
-        private void OnMessageReceived(string message)
+        private void OnPatternMessageReceived(string message)
         {
             var json = JsonSerializer.Deserialize<List<Point>>(message);
             var unique_items = new HashSet<Point>(json);
             List<Spot> spots = new List<Spot>();
+
+            var offset = new Point(Props["Image Width"].Value / 2.0, Props["Image Height"].Value / 2.0);
+            var scale = new Point(1.0 / Props["X um / px"].Value, 1.0 / Props["Y um / px"].Value);
+
             foreach (Point pt in unique_items)
             {
-                var scaledX = pt.X * 1 / 30.129 + 720 / 2;
-                var scaledY = pt.Y * 1 / 30.129 + 576 / 2;
+                var scaledX = pt.X * scale.X + offset.X;
+                var scaledY = pt.Y * scale.Y + offset.Y;
                 spots.Add(new Spot(new Point(scaledX, scaledY), 5, Brushes.AliceBlue));
             }
 
-            spots.Add(new Spot(new Point(720 / 2, 576 / 2), 5, Brushes.AliceBlue));
+            spots.Add(new Spot(new Point(offset.X, offset.Y), 5, Brushes.AliceBlue));
 
             Target = PatternAnalyser.SortList(spots, false).ToObservableCollection();
 
