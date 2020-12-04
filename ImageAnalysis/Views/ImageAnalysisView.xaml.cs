@@ -12,6 +12,7 @@ namespace ImageAnalysis.Views
     [DependentView(typeof(SubstractControlView), RegionNames.ContentRegionTop)]
     [DependentView(typeof(BlurControlView), RegionNames.ContentRegionTop)]
     [DependentView(typeof(FindCirclesControlView), RegionNames.ContentRegionTop)]
+    [DependentView(typeof(ImagePropertiesView), RegionNames.ContentRegionTop)]
     public partial class ImageAnalysisView : UserControl, ISupportDataContext
     {
         public ImageAnalysisView()

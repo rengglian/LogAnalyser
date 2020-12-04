@@ -1,4 +1,4 @@
-﻿using PatternGenerator.Helper;
+﻿using Infrastructure.Helper;
 using PatternGenerator.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -7,17 +7,17 @@ using System.Windows;
 
 namespace PatternGenerator.Shapes
 {
-    class Spiral : IShape
+    public class Spiral : IShape
     {
         public ObservableCollection<Point> Points { get; set; } = new ObservableCollection<Point>();
         public string Description { get; set; } = "";
-        public Dictionary<string, ShapeOptions> Options { get; set; } = new Dictionary<string, ShapeOptions>();
+        public Dictionary<string, Options> Options { get; set; } = new Dictionary<string, Options>();
 
         public Spiral()
         {
-            Options.Add("Radius", new ShapeOptions(5000, "Outer most radius of spiral"));
-            Options.Add("Revolutions", new ShapeOptions(5, "Number of revolutions"));
-            Options.Add("Steps Size", new ShapeOptions(400, "Distance between points"));
+            Options.Add("Radius", new Options(5000, "Outer most radius of spiral"));
+            Options.Add("Revolutions", new Options(5, "Number of revolutions"));
+            Options.Add("Steps Size", new Options(400, "Distance between points"));
         }
 
         public void Generate()

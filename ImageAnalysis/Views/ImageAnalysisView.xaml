@@ -153,7 +153,7 @@
             </ItemsControl.ItemTemplate>
         </ItemsControl>
 
-        <ListView Name="imageListView" Grid.Column="1" Grid.Row="0" BorderThickness="0" SelectedIndex="0" ItemsSource="{Binding CalibImg}">
+        <ListView Name="imageListView" Grid.Column="1" Grid.Row="0" BorderThickness="0" SelectedIndex="0" ItemsSource="{Binding CalibImg}" SelectedItem="{Binding SelectedImgList}">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseDoubleClick">
                     <prism:InvokeCommandAction Command="{Binding DeleteCommand}"

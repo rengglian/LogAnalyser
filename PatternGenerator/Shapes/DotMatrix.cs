@@ -1,4 +1,4 @@
-﻿using PatternGenerator.Helper;
+﻿using Infrastructure.Helper;
 using PatternGenerator.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -7,17 +7,17 @@ using System.Windows;
 
 namespace PatternGenerator.Shapes
 {
-    class DotMatrix : IShape
+    public class DotMatrix : IShape
     {
         public ObservableCollection<Point> Points { get; set; } = new ObservableCollection<Point>();
         public string Description { get; set; } = "";
-        public Dictionary<string, ShapeOptions> Options { get; set; } = new Dictionary<string, ShapeOptions>();
+        public Dictionary<string, Options> Options { get; set; } = new Dictionary<string, Options>();
 
         public DotMatrix()
         {
-            Options.Add("N", new ShapeOptions(10, "N * N Square"));
-            Options.Add("Side Length", new ShapeOptions(5000, "Side Length of Square"));
-            Options.Add("Rotation", new ShapeOptions(0, "Rotation in degree"));
+            Options.Add("N", new Options(10, "N * N Square"));
+            Options.Add("Side Length", new Options(5000, "Side Length of Square"));
+            Options.Add("Rotation", new Options(0, "Rotation in degree"));
         }
 
         public void Generate()

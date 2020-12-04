@@ -1,4 +1,4 @@
-﻿using PatternGenerator.Helper;
+﻿using Infrastructure.Helper;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
@@ -9,7 +9,7 @@ namespace PatternGenerator.Interfaces
     {
         string Description { get; set; }
         ObservableCollection<Point> Points { get; set; }
-        public Dictionary<string, ShapeOptions> Options { get; set; }
+        public Dictionary<string, Options> Options { get; set; }
         public void Generate();
     }
 }

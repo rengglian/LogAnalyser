@@ -1,4 +1,4 @@
-﻿using PatternGenerator.Helper;
+﻿using Infrastructure.Helper;
 using PatternGenerator.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -12,13 +12,13 @@ namespace PatternGenerator.Shapes
     {
         public ObservableCollection<Point> Points { get; set; } = new ObservableCollection<Point>();
         public string Description { get; set; } = "";
-        public Dictionary<string, ShapeOptions> Options { get; set; } = new Dictionary<string, ShapeOptions>();
+        public Dictionary<string, Options> Options { get; set; } = new Dictionary<string, Options>();
 
         public Circle()
         {
-            Options.Add("R1", new ShapeOptions(3000, "Major radius"));
-            Options.Add("R2", new ShapeOptions(-1, "Minor radius [-1 R2==R1]"));
-            Options.Add("Steps", new ShapeOptions(20, "Number of datapoints"));
+            Options.Add("R1", new Options(3000, "Major radius"));
+            Options.Add("R2", new Options(-1, "Minor radius [-1 R2==R1]"));
+            Options.Add("Steps", new Options(20, "Number of datapoints"));
         }
 
         public void Generate()
@@ -26,7 +26,7 @@ namespace PatternGenerator.Shapes
             Points.Clear();
             double min = 0;
             double max = (2 * Math.PI) - (2 * Math.PI) / Options["Steps"].Value;
-            List<double> stepList = Enumerable.Range(0, Options["Steps"].Value)
+            List<double> stepList = Enumerable.Range(0, (int)Options["Steps"].Value)
                  .Select(i => min + (max - min) * ((double)i / (Options["Steps"].Value - 1))).ToList();
 
             var r2 = Options["R2"].Value == -1 ? Options["R1"].Value : Options["R2"].Value;

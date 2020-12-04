@@ -1,0 +1,38 @@
+﻿<UserControl x:Class="ImageAnalysis.ControlViews.ImagePropertiesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ImageAnalysis.ControlViews"
+             mc:Ignorable="d" 
+              d:DesignHeight="100" d:DesignWidth="230">
+    <GroupBox Header="Image Properties" Height="100">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Column="1" Margin="10,0,10,0" VerticalAlignment="Center">
+                <ItemsControl  Name="propsTable" BorderThickness="0" ItemsSource="{Binding Props}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Columns="2"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <WrapPanel Margin="0,0,5,0">
+                                <TextBlock FontWeight="Bold" Text="{Binding Key}" ToolTip="{Binding Value.Description}" />
+                                <TextBlock FontWeight="Bold" Text=": "/>
+                                <TextBox Text="{Binding Value.Value , StringFormat=0.###}" />
+                            </WrapPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </Grid>
+    </GroupBox>
+</UserControl>
