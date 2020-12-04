@@ -186,10 +186,14 @@ namespace Infrastructure.Oxyplot
                 MarkerSize = 3
             };
 
-            foreach (Point pt in pts)
+            var test = pts.GroupBy(p => p);
+            double max = test.Max(c => c.Count());
+
+            foreach (var grp in test)
             {
-                series.Points.Add(new ScatterPoint(pt.X, pt.Y) { Value = 1.0 });
+                series.Points.Add(new ScatterPoint(grp.Key.X, grp.Key.Y) { Value = (double)(grp.Count()) / max });
             }
+
             return series;
         }
 
