@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PatternAnalysis.ControlViews"
              mc:Ignorable="d">
-    <GroupBox Header="Use Shape for Image Analysis Module">
+    <GroupBox Header="Use Pattern for Image Analysis Module">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
