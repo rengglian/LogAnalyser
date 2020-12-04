@@ -25,8 +25,8 @@
         <StackPanel Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" prism:RegionManager.RegionName="ContentRegionTop" HorizontalAlignment="Left" VerticalAlignment="Top" Orientation="Horizontal"/>
         <GroupBox Grid.Row="2" Grid.Column="1" Header="Modules">
             <StackPanel>
-                <Button Height="25" Margin="5" Command="{Binding NavigateCommand}" CommandParameter="PatternAnalysisView" Content="Pattern Analysis" />
                 <Button Height="25" Margin="5" Command="{Binding NavigateCommand}" CommandParameter="PatternGeneratorView" Content="Pattern Generator" />
+                <Button Height="25" Margin="5" Command="{Binding NavigateCommand}" CommandParameter="PatternAnalysisView" Content="Pattern Analysis" />
                 <Button  Height="25" Margin="5" Command="{Binding NavigateCommand}" CommandParameter="ImageAnalysisView" Content="Image Analysis"/>
                 <Button  Height="25" Margin="5" Command="{Binding NavigateCommand}" CommandParameter="CameraCalibrationView" Content="Camera Analysis"/>
                 <Button  Height="25" Margin="5" Command="{Binding NavigateCommand}" CommandParameter="TraceAnalysisView" Content="Trace Analysis"/>

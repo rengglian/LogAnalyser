@@ -26,8 +26,8 @@ namespace LogAnalyser
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
         {
-            moduleCatalog.AddModule<PatternAnalysis.PatternAnalysisModule>();
             moduleCatalog.AddModule<PatternGenerator.PatternGeneratorModule>();
+            moduleCatalog.AddModule<PatternAnalysis.PatternAnalysisModule>();
             moduleCatalog.AddModule<ImageAnalysis.ImageAnalysisModule>();
             moduleCatalog.AddModule<CameraCalibration.CameraCalibrationModule>();
             moduleCatalog.AddModule<TraceAnalysis.TraceAnalysisModule>();
