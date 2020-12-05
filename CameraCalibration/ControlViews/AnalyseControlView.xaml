@@ -6,9 +6,36 @@
              xmlns:local="clr-namespace:CameraCalibration.ControlViews"
              mc:Ignorable="d">
     <GroupBox Header="Analyse Image" Height="100">
-        <StackPanel Margin="10,0,10,0" VerticalAlignment="Center">
-            <Button Height="25px" Content="Analyse" Command="{Binding AnalyseImageCommand}"/>
-            <CheckBox Content="Export raw corners" IsChecked="{Binding ExportRawCorners}"/>
-        </StackPanel>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="2*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Column="0" Margin="10,0,10,0" VerticalAlignment="Center">
+                <Button Height="25px" Content="Analyse" Command="{Binding AnalyseImageCommand}"/>
+                <CheckBox Content="Export raw corners" IsChecked="{Binding ExportRawCorners}"/>
+            </StackPanel>
+            <StackPanel  Grid.Column="1" Margin="10,0,10,0" VerticalAlignment="Center">
+                <ItemsControl  Name="propsTable" BorderThickness="0" ItemsSource="{Binding AnalyseOpt}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Columns="2"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <WrapPanel Margin="0,0,5,0">
+                                <TextBlock FontWeight="Bold" Text="{Binding Key}" ToolTip="{Binding Value.Description}" />
+                                <TextBlock FontWeight="Bold" Text=": "/>
+                                <TextBox Text="{Binding Value.Value , StringFormat=0.###}" />
+                            </WrapPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </Grid>
     </GroupBox>
 </UserControl>

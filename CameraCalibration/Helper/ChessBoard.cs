@@ -11,7 +11,7 @@ namespace CameraCalibration.Helper
     public class ChessBoard
     {
 
-        public static Dictionary<string, double> Find(Mat img, System.Drawing.Point squares, System.Drawing.Point roiCenter, int roiSize, bool export)
+        public static Dictionary<string, double> Find(Mat img, System.Windows.Point squares, System.Windows.Point roiCenter, System.Windows.Point roiSize, bool export)
         {
             using var _img = img.Clone();
             int im_width = _img.Cols / 2;
@@ -19,7 +19,7 @@ namespace CameraCalibration.Helper
 
             var clarity = VarianceOfLaplacian(img);
 
-            var roi = new Rect(im_width - roiCenter.X - roiSize / 2, im_height - roiCenter.Y - roiSize / 2, roiSize, roiSize);
+            var roi = new Rect(im_width - (int)roiCenter.X - (int)roiSize.X / 2, im_height - (int)roiCenter.Y - (int)roiSize.Y / 2, (int)roiSize.X, (int)roiSize.Y);
 
             using var _img_crop = new Mat(_img, roi);
             using var _img_gray = _img_crop.Clone();
@@ -27,8 +27,8 @@ namespace CameraCalibration.Helper
 
             Cv2.CvtColor(_img_gray, _img_gray, ColorConversionCodes.BGR2GRAY);
 
-            int chessboardCornersPerCol = squares.X - 1;
-            int chessboardCornersPerRow = squares.Y - 1;
+            int chessboardCornersPerCol = (int)squares.X - 1;
+            int chessboardCornersPerRow = (int)squares.Y - 1;
             var board_sz = new Size(chessboardCornersPerRow, chessboardCornersPerCol);
 
             bool found = Cv2.FindChessboardCorners(_img_gray, board_sz, out Point2f[] corners, ChessboardFlags.AdaptiveThresh | ChessboardFlags.NormalizeImage);
