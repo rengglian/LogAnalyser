@@ -26,7 +26,7 @@ namespace PatternAnalysis.ViewModels
         public DelegateCommand SendCommand { get; set; }
         public DelegateCommand CompareCommand { get; set; }
 
-        public DelegateCommand<int?> ListCommand { get; set; }
+        public DelegateCommand<int?> DeleteCommand { get; set; }
 
         private ObservableCollection<IPattern> patternList;
         public ObservableCollection<IPattern> PatternList
@@ -82,11 +82,11 @@ namespace PatternAnalysis.ViewModels
             TransformMatrixCommand = new DelegateCommand(TransformMatrixHandler);
             SendCommand = new DelegateCommand(SendHandler);
             CompareCommand = new DelegateCommand(CompareHandler);
-            ListCommand = new DelegateCommand<int?>(ListHandler);
+            DeleteCommand = new DelegateCommand<int?>(DeleteHandler);
             
         }
 
-        private void ListHandler(int? item)
+        private void DeleteHandler(int? item)
         {
             if (item >= 0)
             {
