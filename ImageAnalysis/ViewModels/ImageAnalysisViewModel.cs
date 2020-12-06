@@ -8,6 +8,7 @@ using Prism.Events;
 using Infrastructure.Prism.Events;
 using ImageAnalysis.Extension;
 using Infrastructure.Helper;
+using System;
 
 namespace ImageAnalysis.ViewModels
 {
@@ -88,6 +89,7 @@ namespace ImageAnalysis.ViewModels
             DeleteCommand = new DelegateCommand<int?>(DeleteHandler);
 
             eventAggregator.GetEvent<PatternSendEvent>().Subscribe(OnPatternMessageReceived);
+            eventAggregator.GetEvent<CameraCalibrationSendEvent>().Subscribe(OnCameraCalibrationMessageReceived);
         }
 
         private void OnPatternMessageReceived(string message)
@@ -96,6 +98,13 @@ namespace ImageAnalysis.ViewModels
             Target = PatternAnalyser.SortList(spots, false).ToObservableCollection();
             CalibMatrix = AffineMatrix.CalculateMatrix(Spots, Target);
         }
+
+        private void OnCameraCalibrationMessageReceived(string message)
+        {
+            Props = CameraCalibrationMessage.Parse(message);
+        }
+
+
         private void OpenImageHandler()
         {
             CalibImg.Add(new CalibrationImage());
