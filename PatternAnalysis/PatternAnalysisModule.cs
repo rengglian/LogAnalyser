@@ -17,6 +17,7 @@ namespace PatternAnalysis
             containerRegistry.RegisterForNavigation<PatternAnalysisView>();
 
             containerRegistry.RegisterDialog<PatternCompareDialog, PatternCompareDialogViewModel>();
+            containerRegistry.RegisterDialog<MovementDialog, MovementDialogViewModel>();
         }
     }
 }

@@ -10,6 +10,7 @@ namespace PatternAnalysis.Views
     ///
     [DependentView(typeof(OpenControlView), RegionNames.ContentRegionTop)]
     [DependentView(typeof(ComparePatternControlView), RegionNames.ContentRegionTop)]
+    [DependentView(typeof(MovementAnalysisControlView), RegionNames.ContentRegionTop)]
     [DependentView(typeof(TranformationControlView), RegionNames.ContentRegionTop)]
     [DependentView(typeof(SendControlView), RegionNames.ContentRegionTop)]
     
