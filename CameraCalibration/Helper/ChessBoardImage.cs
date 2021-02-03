@@ -39,6 +39,7 @@ namespace CameraClibration.Helper
                 Title = Path.GetFileName(filename);
                 Description = "From File";
                 ImageMat = new Mat(filename, ImreadModes.AnyDepth | ImreadModes.AnyColor);
+                Cv2.CvtColor(ImageMat, ImageMat, ColorConversionCodes.BGR2BGRA);
                 return true;
             }
             return false;
