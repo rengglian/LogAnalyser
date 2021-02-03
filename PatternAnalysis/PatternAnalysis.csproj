@@ -16,10 +16,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Page Update="ControlView\SendControlView.xaml">
+    <Page Update="ControlViews\SendControlView.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="ControlView\TranformationControlView.xaml">
+    <Page Update="ControlViews\TranformationControlView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\PatternAnalysisView.xaml">

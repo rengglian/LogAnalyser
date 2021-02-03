@@ -2,6 +2,10 @@
 using PatternAnalysis.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace PatternAnalysis.Helper
 {
@@ -24,7 +28,13 @@ namespace PatternAnalysis.Helper
             {
                 to_[i++] = new Point2f((float)pt.X, (float)pt.Y);
             });
-            Mat affineMatrix = Cv2.EstimateAffine2D(InputArray.Create(from_), InputArray.Create(to_));
+
+            Mat inliers = new Mat();
+
+            Mat affineMatrix = Cv2.EstimateAffine2D(InputArray.Create(from_), InputArray.Create(to_), inliers, RobustEstimationAlgorithms.RANSAC, 300.0, 2000, 0.99, 10);
+
+            PrintMatAsync(inliers);
+        
 
             return TransformToDict(affineMatrix);
         }
@@ -94,6 +104,21 @@ namespace PatternAnalysis.Helper
             });
 
             return calc_points;
+        }
+
+        private static void PrintMatAsync(Mat mat)
+        {
+            int inliers = 0;
+            for (var rowIndex = 0; rowIndex < mat.Rows; rowIndex++)
+            {
+                for (var colIndex = 0; colIndex < mat.Cols; colIndex++)
+                {
+                    if (mat.At<bool>(rowIndex, colIndex)) inliers++;
+                    
+                }
+                
+            }
+            Debug.WriteLine(inliers);
         }
 
     }

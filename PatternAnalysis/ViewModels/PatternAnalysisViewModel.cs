@@ -25,6 +25,7 @@ namespace PatternAnalysis.ViewModels
         public DelegateCommand TransformMatrixCommand { get; set; }
         public DelegateCommand SendCommand { get; set; }
         public DelegateCommand CompareCommand { get; set; }
+        public DelegateCommand MovementCommand { get; set; }
 
         public DelegateCommand<int?> DeleteCommand { get; set; }
 
@@ -83,7 +84,8 @@ namespace PatternAnalysis.ViewModels
             SendCommand = new DelegateCommand(SendHandler);
             CompareCommand = new DelegateCommand(CompareHandler);
             DeleteCommand = new DelegateCommand<int?>(DeleteHandler);
-            
+            MovementCommand = new DelegateCommand(MovementHandler);
+
         }
 
         private void DeleteHandler(int? item)
@@ -101,6 +103,13 @@ namespace PatternAnalysis.ViewModels
             var patternA = JsonSerializer.Serialize(SelectedA.Points);
             var patternB = JsonSerializer.Serialize(SelectedB.Points);
             _dialogService.ShowPatternCompareDialog(patternA, patternB, r =>{ });
+        }
+
+        private void MovementHandler()
+        {
+            var patternA = JsonSerializer.Serialize(SelectedA.Points);
+            var patternB = JsonSerializer.Serialize(SelectedB.Points);
+            _dialogService.ShowMovementDialog(patternA, patternB, r => { });
         }
 
         private void OpenDataSetHandler()
