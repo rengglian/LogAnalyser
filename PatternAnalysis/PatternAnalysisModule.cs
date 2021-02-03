@@ -1,7 +1,9 @@
-﻿using PatternAnalysis.Dialogs;
+﻿using Infrastructure.Prism;
+using PatternAnalysis.Dialogs;
 using PatternAnalysis.Views;
 using Prism.Ioc;
 using Prism.Modularity;
+using Prism.Regions;
 
 namespace PatternAnalysis
 {
@@ -9,7 +11,8 @@ namespace PatternAnalysis
     {
         public void OnInitialized(IContainerProvider containerProvider)
         {
-
+            var regionManager = containerProvider.Resolve<IRegionManager>();
+            regionManager.RequestNavigate(RegionNames.ContentRegion, nameof(PatternAnalysisView));
         }
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
