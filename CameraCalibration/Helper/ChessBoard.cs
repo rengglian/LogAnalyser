@@ -40,7 +40,10 @@ namespace CameraCalibration.Helper
                 var termcrit = new TermCriteria(CriteriaType.Eps | CriteriaType.Count, 30, 0.001);
                 Point2f[] cornerSubPix = Cv2.CornerSubPix(_img_gray, corners, new Size(11, 11), new Size(-1, -1), termcrit);
 
-                Cv2.DrawChessboardCorners(_img_crop, board_sz, cornerSubPix, found);
+                var chessImg = new Mat(_img_crop.Cols, _img_crop.Rows, MatType.CV_8UC3, new Scalar(0.0, 0.0, 0.0, 255.0));
+
+
+                Cv2.DrawChessboardCorners(chessImg, board_sz, cornerSubPix, found);
 
                 var matCorners = new Mat(rows: chessboardCornersPerRow, cols: chessboardCornersPerCol, type: MatType.CV_32FC2, data: cornerSubPix);
 
@@ -75,7 +78,7 @@ namespace CameraCalibration.Helper
                 //CameraCalibration(_img_crop, board_sz, cornerSubPix);
 
                 var roi_img = new Mat(img, roi);
-                _img_crop.CopyTo(roi_img);
+                chessImg.CopyTo(roi_img);
 
             }
 
