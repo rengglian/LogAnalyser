@@ -9,6 +9,10 @@
     <GroupBox Header="Open Sequence" Height="100">
         <StackPanel Margin="10,0,10,0" VerticalAlignment="Center">
             <Button Margin="0,0,0,10" Height="25px" Content="Open" Command="{Binding OpenSequenceCommand}"/>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Hot Zone Radius " /> 
+                <TextBox Width="50" Text="{Binding HotZoneRadius , StringFormat=0}" />
+            </StackPanel>
         </StackPanel>
     </GroupBox>
 </UserControl>

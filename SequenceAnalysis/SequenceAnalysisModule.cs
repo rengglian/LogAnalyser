@@ -1,9 +1,6 @@
 ﻿using Prism.Ioc;
 using Prism.Modularity;
 using SequenceAnalysis.Views;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace SequenceAnalysis
 {

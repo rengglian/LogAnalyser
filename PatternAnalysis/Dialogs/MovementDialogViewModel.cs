@@ -68,7 +68,7 @@ namespace PatternAnalysis.Dialogs
             }
 
             PlotModelPatternA.Series.Add(PlotModelHelper.CreateScatterSerie(centers));
-            PlotModelPatternA.Series.Add(PlotModelHelper.CreateHotZone(centers[0], 1500, OxyColors.Red));
+            //PlotModelPatternA.Series.Add(PlotModelHelper.CreateHotZone(centers[0], 1500, OxyColors.Red));
             PlotModelPatternA.InvalidatePlot(true);
 
         }
