@@ -13,7 +13,7 @@ namespace ImageAnalysis.ImageProcessing
             if (img.Channels() > 1) Cv2.CvtColor(img, gray, ColorConversionCodes.BGR2GRAY);
 
             //Cv2.Flip(gray, gray, FlipMode.Y);
-            var obj = Cv2.HoughCircles(gray, HoughMethods.Gradient, 1, 10, 70, 10, 3, 10);
+            var obj = Cv2.HoughCircles(gray, HoughModes.Gradient, 1, 10, 70, 10, 3, 10);
 
             List<Spot> spots = new List<Spot>();
 

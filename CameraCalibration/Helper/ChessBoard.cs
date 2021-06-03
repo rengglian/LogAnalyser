@@ -37,7 +37,7 @@ namespace CameraCalibration.Helper
 
             if (found)
             {
-                var termcrit = new TermCriteria(CriteriaType.Eps | CriteriaType.Count, 30, 0.001);
+                var termcrit = new TermCriteria(CriteriaTypes.Eps | CriteriaTypes.Count, 30, 0.001);
                 Point2f[] cornerSubPix = Cv2.CornerSubPix(_img_gray, corners, new Size(11, 11), new Size(-1, -1), termcrit);
 
                 var chessImg = new Mat(_img_crop.Cols, _img_crop.Rows, MatType.CV_8UC3, new Scalar(0.0, 0.0, 0.0, 255.0));

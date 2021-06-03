@@ -6,8 +6,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="OpenCvSharp4" Version="4.5.0.20201013" />
-	  <PackageReference Include="Prism.Wpf" Version="8.0.0.1909" />
+	  <PackageReference Include="OpenCvSharp4" Version="4.5.2.20210404" />
+	  <PackageReference Include="Prism.Wpf" Version="8.1.97" />
 	</ItemGroup>
 
   <ItemGroup>
