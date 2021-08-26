@@ -11,6 +11,7 @@ namespace TraceAnalysis.Db
         {
             optionsBuilder.UseSqlServer(
                 "Data Source = (localdb)\\MSSQLLocalDB; Initial Catalog = TraceAnalysisModule");
+
         }
         public void InitDb()
         {

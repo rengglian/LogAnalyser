@@ -23,11 +23,16 @@ namespace PatternGenerator.IO
             string jsonString;
             var rng = new Random();
 
-            pattern = pattern.SelectMany(x => Enumerable.Repeat(x, repeatFactor)).ToList();
-            pattern = randomized ? pattern.OrderBy(a => rng.Next()).ToList(): pattern;
+
+            List<Point> extenedPattern = new();
+            for (int i = 0; i < repeatFactor; i++ )
+            {
+                extenedPattern.AddRange(pattern);
+            }
+            extenedPattern = randomized ? extenedPattern.OrderBy(a => rng.Next()).ToList(): extenedPattern;
 
             List<string> strPattern = new List<string>();
-            pattern.ForEach(pt =>
+            extenedPattern.ForEach(pt =>
            {
                strPattern.Add(new string($"{pt.X},{pt.Y}"));
            });

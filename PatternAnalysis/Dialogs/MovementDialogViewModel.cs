@@ -14,8 +14,6 @@ namespace PatternAnalysis.Dialogs
     {
         public string Title => "Movement Dialog";
 
-        private List<Point> PatternA;
-
         private PlotModel _plotModelPatternA;
         public PlotModel PlotModelPatternA
         {
