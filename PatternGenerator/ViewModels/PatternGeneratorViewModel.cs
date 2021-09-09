@@ -1,5 +1,6 @@
 ﻿using Infrastructure.Oxyplot;
 using OxyPlot;
+using PatternGenerator.Enums;
 using PatternGenerator.Interfaces;
 using PatternGenerator.IO;
 using PatternGenerator.Shapes;
@@ -16,8 +17,12 @@ namespace PatternGenerator.ViewModels
         public DelegateCommand SaveFileCommand { get; set; }
 
         public int RepeatValue { get; set; }
-        public bool RandomizePattern { get; set; }
-
+        private SpotDistributionTypes _spotDistributionTypes;
+        public SpotDistributionTypes SpotDistributionTypes
+        {
+            get { return _spotDistributionTypes; }
+            set { SetProperty(ref _spotDistributionTypes, value); }
+        }
         public string Title { get; set; } = "Pattern Generator";
 
         private IShape shape;
@@ -63,7 +68,7 @@ namespace PatternGenerator.ViewModels
             UpdatePatternHandler();
 
             RepeatValue = 10;
-            RandomizePattern = true;
+            SpotDistributionTypes = SpotDistributionTypes.Random;
 
             UpdatePatternCommand = new DelegateCommand(UpdatePatternHandler);
             SaveFileCommand = new DelegateCommand(SaveFileHandler);
@@ -80,7 +85,7 @@ namespace PatternGenerator.ViewModels
 
         private void SaveFileHandler()
         {
-            JsonWrite.ExportPattern(Shape.Points.ToList(), Shape.ToString(), RepeatValue, RandomizePattern);
+            JsonWrite.ExportPattern(Shape.Points.ToList(), Shape.ToString(), RepeatValue, SpotDistributionTypes);
         }
 
     }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PatternGenerator.Enums;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -10,11 +11,12 @@ namespace PatternGenerator.IO
     public class JsonWrite
     {
 
-        public static void ExportPattern(List<Point> pattern, string description, int repeatFactor, bool randomized)
+        public static void ExportPattern(List<Point> pattern, string description, int repeatFactor, SpotDistributionTypes spotDistributionTypes)
         {
-            description += "_" + pattern.Count + "x" + repeatFactor;
-            description += randomized ? "_randomized" : "";
-            var fileName = DateTime.Now.ToString("HHmmss_") + description + ".json";
+            var fileName = $"{DateTime.Now.ToString("HHmmss")}_" +
+                $"{description}_{ pattern.Count}x{ repeatFactor}_" +
+                $"{ spotDistributionTypes}.json";
+
             var filePath = Path.Combine("./", fileName);
             JsonSerializerOptions options = new JsonSerializerOptions
             {
@@ -23,16 +25,29 @@ namespace PatternGenerator.IO
             string jsonString;
             var rng = new Random();
 
+            List<Point> extendedPattern = new();
 
-            List<Point> extenedPattern = new();
-            for (int i = 0; i < repeatFactor; i++ )
+            switch (spotDistributionTypes)
             {
-                extenedPattern.AddRange(pattern);
+                case SpotDistributionTypes.Static:
+                    {
+                        extendedPattern = pattern.SelectMany(x => Enumerable.Repeat(x, repeatFactor)).ToList();
+                        break;
+                    }
+                default:
+                    {
+                        for (int i = 0; i < repeatFactor; i++)
+                        {
+                            extendedPattern.AddRange(pattern);
+                        }
+                        break;
+                    }
             }
-            extenedPattern = randomized ? extenedPattern.OrderBy(a => rng.Next()).ToList(): extenedPattern;
+
+            extendedPattern = spotDistributionTypes == SpotDistributionTypes.Random ? extendedPattern.OrderBy(a => rng.Next()).ToList(): extendedPattern;
 
             List<string> strPattern = new List<string>();
-            extenedPattern.ForEach(pt =>
+            extendedPattern.ForEach(pt =>
            {
                strPattern.Add(new string($"{pt.X},{pt.Y}"));
            });

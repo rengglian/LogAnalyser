@@ -4,6 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PatternGenerator.ControlViews"
+             xmlns:extensions="clr-namespace:PatternGenerator.Extensions"
+             xmlns:enums="clr-namespace:PatternGenerator.Enums"
              mc:Ignorable="d" 
               d:DesignHeight="100" d:DesignWidth="230">
     <GroupBox Header="Save Options" Height="100">
@@ -23,7 +25,14 @@
                     <Label HorizontalAlignment="Right" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">Repeat: </Label>
                     <TextBox VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Width="30" Text="{Binding RepeatValue, StringFormat=D}"></TextBox>
                 </WrapPanel>
-                <CheckBox Content="Randomize" IsChecked="{Binding RandomizePattern}"/>
+                <ComboBox Grid.Row="0" Grid.Column="1" 
+                          VerticalAlignment="Top" 
+                          Text="Distribution" 
+                          IsEditable="true" 
+                          IsReadOnly="true" 
+                          Width="100" 
+                          ItemsSource="{Binding Source={extensions:EnumBindingSource {x:Type enums:SpotDistributionTypes}}}"
+                          SelectedItem="{Binding SpotDistributionTypes, Mode=TwoWay}"/>
             </StackPanel>
         </Grid>
     </GroupBox>
