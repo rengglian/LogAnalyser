@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PatternGenerator.ControlViews"
              mc:Ignorable="d" 
-              d:DesignHeight="100" d:DesignWidth="230">
+              d:DesignHeight="150" d:DesignWidth="230">
     <GroupBox Header="Shape Editor" Height="100">
         <Grid>
             <Grid.ColumnDefinitions>

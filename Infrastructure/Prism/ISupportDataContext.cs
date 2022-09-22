@@ -1,7 +1,6 @@
-﻿namespace Infrastructure.Prism
+﻿namespace Infrastructure.Prism;
+
+public interface ISupportDataContext
 {
-    public interface ISupportDataContext
-    {
-        object DataContext { get; set; }
-    }
+    object DataContext { get; set; }
 }

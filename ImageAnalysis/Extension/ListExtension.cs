@@ -1,18 +1,16 @@
 ﻿using ImageAnalysis.Helper;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Windows;
 
-namespace ImageAnalysis.Extension
+namespace ImageAnalysis.Extension;
+
+public static class ListExtensions
 {
-    public static class ListExtensions
+    public static ObservableCollection<Spot> ToObservableCollection(this List<Spot> list)
     {
-        public static ObservableCollection<Spot> ToObservableCollection(this List<Spot> list)
-        {
-            var resultList = new ObservableCollection<Spot>();
-            list.ForEach(x => resultList.Add(x));
-            return resultList;
-        }
+        var resultList = new ObservableCollection<Spot>();
+        list.ForEach(x => resultList.Add(x));
+        return resultList;
     }
-
 }
+

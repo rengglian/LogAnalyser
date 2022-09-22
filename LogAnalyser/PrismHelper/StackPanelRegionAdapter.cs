@@ -3,40 +3,39 @@ using System.Windows;
 using System.Windows.Controls;
 using Prism.Regions;
 
-namespace LogAnalyser.PrismHelper
+namespace LogAnalyser.PrismHelper;
+
+public class StackPanelRegionAdapter : RegionAdapterBase<StackPanel>
 {
-    public class StackPanelRegionAdapter : RegionAdapterBase<StackPanel>
+    public StackPanelRegionAdapter(IRegionBehaviorFactory factory)
+        : base(factory)
     {
-        public StackPanelRegionAdapter(IRegionBehaviorFactory factory)
-            : base(factory)
-        {
 
-        }
+    }
 
-        protected override void Adapt(IRegion region, StackPanel regionTarget)
-        {
-            region.Views.CollectionChanged += (s, e) =>
+    protected override void Adapt(IRegion region, StackPanel regionTarget)
+    {
+        region.Views.CollectionChanged += (s, e) =>
+            {
+                if (e.Action == NotifyCollectionChangedAction.Add)
                 {
-                    if (e.Action == NotifyCollectionChangedAction.Add)
+                    foreach (FrameworkElement element in e.NewItems)
                     {
-                        foreach (FrameworkElement element in e.NewItems)
-                        {
-                            regionTarget.Children.Add(element);
-                        }
+                        regionTarget.Children.Add(element);
                     }
-                    else if (e.Action == NotifyCollectionChangedAction.Remove)
+                }
+                else if (e.Action == NotifyCollectionChangedAction.Remove)
+                {
+                    foreach (FrameworkElement element in e.OldItems)
                     {
-                        foreach (FrameworkElement element in e.OldItems)
-                        {
-                            regionTarget.Children.Remove(element);
-                        }
+                        regionTarget.Children.Remove(element);
                     }
-                };
-        }
+                }
+            };
+    }
 
-        protected override IRegion CreateRegion()
-        {
-            return new Region();
-        }
+    protected override IRegion CreateRegion()
+    {
+        return new Region();
     }
 }

@@ -1,10 +1,9 @@
 ﻿using System.Windows;
 
-namespace CameraCalibration.Helper
+namespace CameraCalibration.Helper;
+
+public class CameraProperties : CameraResolution
 {
-    public class CameraProperties : CameraResolution
-    {
-        public double Rotation { get; set; }
-        public Point Center { get; set; }
-    }
+    public double Rotation { get; set; }
+    public Point Center { get; set; }
 }

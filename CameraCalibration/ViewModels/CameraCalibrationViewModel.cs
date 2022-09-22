@@ -1,5 +1,6 @@
 ﻿using CameraCalibration.Helper;
 using CameraClibration.Helper;
+using ImageAnalysis.Helper;
 using Infrastructure.Helper;
 using Infrastructure.Prism.Events;
 using OpenCvSharp.Extensions;
@@ -99,7 +100,7 @@ namespace CameraCalibration.ViewModels
 
         private void AddCrossHandler()
         {
-            OpenCvSharp.Point center = new OpenCvSharp.Point(1000*CrossPosX / Cam["X um / px"], 1000 * CrossPosY / Cam["Y um / px"]);
+            OpenCvSharp.Point center = new(1000*CrossPosX / Cam["X um / px"], 1000 * CrossPosY / Cam["Y um / px"]);
             Crosshair.Draw(chessboardImage.ImageMat, center);
             ImageData = ImageTypeConverter.Convert(chessboardImage.ImageMat.ToBitmap());
         }

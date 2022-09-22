@@ -5,9 +5,31 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PatternAnalysis.ControlViews"
              mc:Ignorable="d">
-    <GroupBox Header="Import Pattern">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <Style x:Key="GroubBoxHeaderEllipse" TargetType="{x:Type Ellipse}">
+                <Setter Property="Height" Value="15" />
+                <Setter Property="Width" Value="15" />
+                <Setter Property="Margin" Value="3" />
+                <Setter Property="HorizontalAlignment" Value="Center" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+        <GroupBox Header="Import Pattern">
         <StackPanel Margin="10,0,10,0" VerticalAlignment="Center">
             <Button Grid.Row="1" Grid.Column="0" Margin="5" Height="25px" Content="Open" Command="{Binding OpenDataSetCommand}"/>
+            <ComboBox Margin="5" ItemsSource="{Binding ColorCodeList}" SelectedItem="{Binding SelectedColorCode}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <Ellipse Style="{StaticResource GroubBoxHeaderEllipse}"
+                                         Fill="{Binding}"/>
+                            <TextBlock VerticalAlignment="Center" Text="{Binding}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
         </StackPanel>
     </GroupBox>
 </UserControl>

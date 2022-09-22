@@ -1,10 +1,9 @@
 ﻿using OpenCvSharp;
 
-namespace ImageAnalysis.IO
+namespace ImageAnalysis.IO;
+
+public class MatFromFile
 {
-    public class MatFromFile
-    {
-        public string FileName { get; set; } = "";
-        public Mat ImageMat { get; set; }
-    }
+    public string FileName { get; set; } = "";
+    public Mat ImageMat { get; set; }
 }

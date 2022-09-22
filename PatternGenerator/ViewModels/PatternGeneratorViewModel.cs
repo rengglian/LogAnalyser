@@ -61,7 +61,8 @@ namespace PatternGenerator.ViewModels
                 new Circle(),
                 new Spiral(),
                 new DotMatrix(),
-                new Cross()
+                new Cross(),
+                new Star()
             };
 
             Shape = ShapeList.First();

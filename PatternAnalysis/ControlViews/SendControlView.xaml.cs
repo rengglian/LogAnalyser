@@ -1,17 +1,16 @@
 ﻿using Infrastructure.Prism;
 using System.Windows.Controls;
 
-namespace PatternAnalysis.ControlViews
+namespace PatternAnalysis.ControlViews;
+
+/// <summary>
+/// Interaction logic for SubstractControlView.xaml
+/// </summary>
+public partial class SendControlView : UserControl, ISupportDataContext
 {
-    /// <summary>
-    /// Interaction logic for SubstractControlView.xaml
-    /// </summary>
-    public partial class SendControlView : UserControl, ISupportDataContext
+    public SendControlView()
     {
-        public SendControlView()
-        {
-            InitializeComponent();
-            SetResourceReference(StyleProperty, typeof(UserControl));
-        }
+        InitializeComponent();
+        SetResourceReference(StyleProperty, typeof(UserControl));
     }
 }

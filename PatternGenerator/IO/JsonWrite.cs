@@ -49,7 +49,7 @@ namespace PatternGenerator.IO
             List<string> strPattern = new List<string>();
             extendedPattern.ForEach(pt =>
            {
-               strPattern.Add(new string($"{pt.X},{pt.Y}"));
+               strPattern.Add(new string($"{(int)pt.X},{(int)pt.Y}"));
            });
 
             jsonString = JsonSerializer.Serialize(strPattern, options);
