@@ -62,7 +62,8 @@ namespace PatternGenerator.ViewModels
                 new Spiral(),
                 new DotMatrix(),
                 new Cross(),
-                new Star()
+                new Star(),
+                new PulsePicking()
             };
 
             Shape = ShapeList.First();
