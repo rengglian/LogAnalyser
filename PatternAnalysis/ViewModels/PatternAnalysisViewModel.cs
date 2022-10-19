@@ -131,7 +131,6 @@ public class PatternAnalysisViewModel : BindableBase
 
     private void OpenDataSetHandler()
     {
-
         OpenFileDialog openFileDialog = new();
         if (openFileDialog.ShowDialog() == true)
         {
